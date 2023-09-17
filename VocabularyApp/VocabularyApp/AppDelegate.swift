@@ -7,6 +7,8 @@
 
 import UIKit
 
+let appColor = UIColor(red: 15/255, green: 100/255, blue: 71/255, alpha: 1.0) /* #0f6447 */
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -18,7 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let NC = UINavigationController(rootViewController: VocabListViewController())
         NC.navigationBar.prefersLargeTitles = true
-        NC.navigationBar.topItem?.title = "카테고리 이름"
+        NC.navigationBar.topItem?.title = "Category"
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .secondarySystemGroupedBackground
+        NC.navigationBar.standardAppearance = appearance
+        NC.navigationBar.scrollEdgeAppearance = appearance
         
         window?.rootViewController = NC
 
