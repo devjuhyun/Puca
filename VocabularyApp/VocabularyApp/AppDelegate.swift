@@ -7,8 +7,6 @@
 
 import UIKit
 
-let appColor = UIColor(red: 15/255, green: 100/255, blue: 71/255, alpha: 1.0) /* #0f6447 */
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -23,11 +21,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NC.navigationBar.topItem?.title = "Category"
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .secondarySystemGroupedBackground
+        appearance.shadowColor = .clear
         NC.navigationBar.standardAppearance = appearance
         NC.navigationBar.scrollEdgeAppearance = appearance
         
-        window?.rootViewController = NC
-
+        let nc = UINavigationController(rootViewController: VocabViewController())
+        nc.navigationBar.topItem?.title = ""
+        nc.navigationBar.standardAppearance = appearance
+        nc.navigationBar.scrollEdgeAppearance = appearance
+        
+        window?.rootViewController = nc
+        
         return true
     }
 }

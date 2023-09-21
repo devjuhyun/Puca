@@ -42,8 +42,9 @@ extension VocabCell {
         contentView.addSubview(meaningLabel)
         
         NSLayoutConstraint.activate([
-            vocabLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
+            vocabLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 4),
             vocabLabel.topAnchor.constraint(equalTo: topAnchor),
+            trailingAnchor.constraint(equalToSystemSpacingAfter: vocabLabel.trailingAnchor, multiplier: 4),
             
             meaningLabel.topAnchor.constraint(equalTo: vocabLabel.bottomAnchor),
             meaningLabel.leadingAnchor.constraint(equalTo: vocabLabel.leadingAnchor),

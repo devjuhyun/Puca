@@ -18,7 +18,6 @@ class VocabListViewController: UIViewController {
         setup()
         layout()
     }
-    
 }
 
 extension VocabListViewController {
@@ -35,22 +34,22 @@ extension VocabListViewController {
         tableView.dataSource = self
         tableView.register(VocabCell.self, forCellReuseIdentifier: VocabCell.reuseID)
         tableView.rowHeight = 80
-        tableView.separatorInset = .init(top: .zero, left: 16, bottom: .zero, right: 16)
+        tableView.separatorInset = .init(top: .zero, left: 24, bottom: .zero, right: 24)
         tableView.backgroundColor = .secondarySystemGroupedBackground
     }
     
     private func setupAddButton() {
         addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.configuration = .filled()
+        addButton.tintColor = UIColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
         addButton.layer.cornerRadius = addButton.frame.height / 2
         addButton.clipsToBounds = true
-        addButton.layer.masksToBounds = false
-        addButton.backgroundColor = UIColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
-        
+
         // shadow effect
         addButton.layer.shadowColor = CGColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
         addButton.layer.shadowOpacity = 1
         addButton.layer.shadowOffset = CGSize(width: 0, height: 0)
-        addButton.layer.shadowRadius = 8
+        addButton.layer.shadowRadius = 4
         
         let image = UIImage(systemName: "plus")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 25, weight: .bold)).withTintColor(.white, renderingMode: .alwaysOriginal)
         addButton.setImage(image, for: .normal)
@@ -69,7 +68,7 @@ extension VocabListViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -87,7 +86,7 @@ extension VocabListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabCell.reuseID, for: indexPath) as! VocabCell
         
-        cell.vocabLabel.text = "apple"
+        cell.vocabLabel.text = "be going to V"
         cell.meaningLabel.text = "사과"
         
         return cell
