@@ -46,15 +46,13 @@ extension VocabListViewController {
         addButton.clipsToBounds = true
 
         // shadow effect
-        addButton.layer.shadowColor = CGColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
-        addButton.layer.shadowOpacity = 1
-        addButton.layer.shadowOffset = CGSize(width: 0, height: 0)
-        addButton.layer.shadowRadius = 4
+//        addButton.layer.shadowColor = CGColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
+//        addButton.layer.shadowOpacity = 1
+//        addButton.layer.shadowOffset = CGSize(width: 0, height: 0)
+//        addButton.layer.shadowRadius = 4
         
         let image = UIImage(systemName: "plus")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 25, weight: .bold)).withTintColor(.white, renderingMode: .alwaysOriginal)
         addButton.setImage(image, for: .normal)
-        
-        
         
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         
@@ -86,8 +84,8 @@ extension VocabListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabCell.reuseID, for: indexPath) as! VocabCell
         
-        cell.vocabLabel.text = "be going to V"
-        cell.meaningLabel.text = "사과"
+        cell.vocabLabel.text = "hi puma"
+        cell.meaningLabel.text = "안녕하세요 푸마씨"
         
         return cell
     }

@@ -13,5 +13,6 @@ class Vocabulary: Object {
     @Persisted var vocab: String = ""
     @Persisted var meaning: String = ""
     @Persisted var example: String?
+    @Persisted var isChecked: Bool
     @Persisted var dateCreated: Date?
 }

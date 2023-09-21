@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nc.navigationBar.standardAppearance = appearance
         nc.navigationBar.scrollEdgeAppearance = appearance
         
-        window?.rootViewController = nc
+        window?.rootViewController = NC
         
         return true
     }
