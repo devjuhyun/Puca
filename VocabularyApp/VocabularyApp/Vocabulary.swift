@@ -9,10 +9,9 @@ import Foundation
 import RealmSwift
 
 class Vocabulary: Object {
-    @Persisted var category: String?
     @Persisted var vocab: String = ""
     @Persisted var meaning: String = ""
     @Persisted var example: String?
-    @Persisted var isChecked: Bool
-    @Persisted var dateCreated: Date?
+    @Persisted var isChecked: Bool = false
+    @Persisted var date: Date?
 }
