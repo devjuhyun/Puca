@@ -12,6 +12,7 @@ class HeaderView: UIView {
     let categoryButton = UIButton()
     let sortButton = UIButton()
     let editButton = UIButton()
+    let separator = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -43,6 +44,9 @@ extension HeaderView {
         
         sortButton.translatesAutoresizingMaskIntoConstraints = false
         sortButton.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+        
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.backgroundColor = .separator
 
     }
 
@@ -50,6 +54,7 @@ extension HeaderView {
         addSubview(categoryButton)
         addSubview(sortButton)
         addSubview(editButton)
+        addSubview(separator)
         
         NSLayoutConstraint.activate([
             bottomAnchor.constraint(equalToSystemSpacingBelow: categoryButton.bottomAnchor, multiplier: 1),
@@ -60,6 +65,10 @@ extension HeaderView {
             
             sortButton.centerYAnchor.constraint(equalTo: categoryButton.centerYAnchor),
             trailingAnchor.constraint(equalToSystemSpacingAfter: sortButton.trailingAnchor, multiplier: 2),
+            
+            separator.heightAnchor.constraint(equalToConstant: 0.5),
+            separator.widthAnchor.constraint(equalTo: widthAnchor),
+            separator.bottomAnchor.constraint(equalTo: bottomAnchor)
             
         ])
     }
