@@ -31,19 +31,19 @@ extension HeaderView {
     
     private func setup() {
         categoryButton.translatesAutoresizingMaskIntoConstraints = false
-        categoryButton.setTitle("모든 단어" + " ", for: .normal)
+        categoryButton.setTitle("일상영단어" + " ", for: .normal)
         categoryButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         categoryButton.setTitleColor(.label, for: .normal)
         
-        categoryButton.setImage(UIImage(systemName: "chevron.down")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration(pointSize: 13, weight: .bold)), for: .normal)
+        categoryButton.setImage(UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration( weight: .bold)), for: .normal)
         categoryButton.adjustsImageWhenHighlighted = false
         categoryButton.semanticContentAttribute = .forceRightToLeft
         
         editButton.translatesAutoresizingMaskIntoConstraints = false
-        editButton.setImage(UIImage(systemName: "line.3.horizontal", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+        editButton.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
         
         sortButton.translatesAutoresizingMaskIntoConstraints = false
-        sortButton.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+        sortButton.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
         
         separator.translatesAutoresizingMaskIntoConstraints = false
         separator.backgroundColor = .separator
@@ -60,10 +60,10 @@ extension HeaderView {
             bottomAnchor.constraint(equalToSystemSpacingBelow: categoryButton.bottomAnchor, multiplier: 1),
             categoryButton.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
             
-            editButton.centerYAnchor.constraint(equalTo: categoryButton.centerYAnchor),
-            sortButton.leadingAnchor.constraint(equalToSystemSpacingAfter: editButton.trailingAnchor, multiplier: 1.5),
+            editButton.bottomAnchor.constraint(equalTo: categoryButton.bottomAnchor),
+            sortButton.leadingAnchor.constraint(equalToSystemSpacingAfter: editButton.trailingAnchor, multiplier: 2),
             
-            sortButton.centerYAnchor.constraint(equalTo: categoryButton.centerYAnchor),
+            sortButton.bottomAnchor.constraint(equalTo: categoryButton.bottomAnchor),
             trailingAnchor.constraint(equalToSystemSpacingAfter: sortButton.trailingAnchor, multiplier: 2),
             
             separator.heightAnchor.constraint(equalToConstant: 0.5),

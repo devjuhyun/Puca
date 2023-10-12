@@ -12,7 +12,7 @@ class VocabCell: UITableViewCell {
     let vocabLabel = UILabel()
     var exampleLabel: UILabel?
     let meaningLabel = UILabel()
-    var checkButton = UIButton(configuration: .plain())
+    let checkButton = UIButton(configuration: .plain())
     
     static let reuseID = "VocabCell"
     
@@ -72,7 +72,7 @@ extension VocabCell {
 extension VocabCell {
     @objc func buttonTapped() {
         if checkButton.tintColor == UIColor.systemGray2 {
-            checkButton.tintColor = UIColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
+            checkButton.tintColor = appColor
             vocabLabel.textColor = .systemGray2
             meaningLabel.textColor = .systemGray2
         } else {

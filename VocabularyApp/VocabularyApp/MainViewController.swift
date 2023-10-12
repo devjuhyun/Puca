@@ -9,9 +9,13 @@ import UIKit
 
 class MainViewController: UITabBarController {
     
+    let vocabListVC = VocabListViewController()
+    let dummyVC1 = UIViewController()
+    let dummyVC2 = UIViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        delegate = self
         setupViews()
         setupTabBar()
     }
@@ -19,13 +23,9 @@ class MainViewController: UITabBarController {
 
 extension MainViewController {
     private func setupViews() {
-        let vocabListVC = VocabListViewController()
-        let dummyVC1 = UIViewController()
-        let dummyVC2 = UIViewController()
-    
-        vocabListVC.setTabBarImage(imageName: "house", pointSize: 17)
-        dummyVC1.setTabBarImage(imageName: "plus", pointSize: 22)
-        dummyVC2.setTabBarImage(imageName: "magnifyingglass", pointSize: 19)
+        vocabListVC.setTabBarImage(imageName: "note.text",title: "단어장")
+        dummyVC1.setTabBarImage(imageName: "plus", title: "새 단어")
+        dummyVC2.setTabBarImage(imageName: "magnifyingglass", title: "검색")
         
         let tabBarList = [vocabListVC, dummyVC1, dummyVC2]
 
@@ -33,8 +33,9 @@ extension MainViewController {
     }
     
     private func setupTabBar() {
-        tabBar.tintColor = UIColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
+        tabBar.tintColor = appColor
         tabBar.backgroundColor = .secondarySystemGroupedBackground
+        tabBar.frame.size.height = 20
         
         let separator = UIView()
         separator.translatesAutoresizingMaskIntoConstraints = false
@@ -43,5 +44,18 @@ extension MainViewController {
         separator.topAnchor.constraint(equalTo: tabBar.topAnchor).isActive = true
         separator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
         separator.widthAnchor.constraint(equalTo: tabBar.widthAnchor).isActive = true
+    }
+}
+
+extension MainViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        if viewController == tabBarController.viewControllers?[1] {
+            let nc1 = UINavigationController(rootViewController: AddVocabViewController())
+            nc1.modalPresentationStyle = .popover
+            present(nc1, animated: true, completion: nil)
+            return false
+        }
+
+        return true
     }
 }

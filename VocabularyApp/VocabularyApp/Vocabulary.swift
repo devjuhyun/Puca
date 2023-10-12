@@ -9,6 +9,14 @@ import Foundation
 import RealmSwift
 
 class Vocabulary: Object {
+    init(vocab: String, meaning: String, example: String? = nil, isChecked: Bool, date: Date? = nil) {
+        self.vocab = vocab
+        self.meaning = meaning
+        self.example = example
+        self.isChecked = isChecked
+        self.date = date
+    }
+    
     @Persisted var vocab: String = ""
     @Persisted var meaning: String = ""
     @Persisted var example: String?

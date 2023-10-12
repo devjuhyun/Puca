@@ -16,9 +16,11 @@ extension UIViewController {
 //        UINavigationBar.appearance().scrollEdgeAppearance = navBarAppearance
 //    }
     
-    func setTabBarImage(imageName: String, pointSize: CGFloat) {
-        let configuration = UIImage.SymbolConfiguration(pointSize: pointSize, weight: .heavy) // sf symbol large size
-        let image = UIImage(systemName: imageName, withConfiguration: configuration)?.withBaselineOffset(fromBottom: 18)
-        tabBarItem = UITabBarItem(title: nil, image: image, tag: 0)
+    func setTabBarImage(imageName: String, title: String) {
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        
+        let image = UIImage(systemName: imageName, withConfiguration: configuration)
+        
+        tabBarItem = UITabBarItem(title: title, image: image, tag: 0)
     }
 }

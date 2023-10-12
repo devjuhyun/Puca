@@ -7,6 +7,8 @@
 
 import UIKit
 
+let appColor = UIColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
@@ -25,12 +27,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NC.navigationBar.standardAppearance = appearance
         NC.navigationBar.scrollEdgeAppearance = appearance
         
-        let nc = UINavigationController(rootViewController: VocabViewController())
+        let nc = UINavigationController(rootViewController: AddVocabViewController())
         nc.navigationBar.topItem?.title = ""
         nc.navigationBar.standardAppearance = appearance
         nc.navigationBar.scrollEdgeAppearance = appearance
         
-        window?.rootViewController = MainViewController()
+        window?.rootViewController = UINavigationController(rootViewController: VocabViewController(vocab: "puma", example: "Puma is the best cat in the world.",meaning: "푸마", isChecked: true))
         
         return true
     }
