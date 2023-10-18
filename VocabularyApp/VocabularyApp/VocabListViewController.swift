@@ -36,7 +36,7 @@ extension VocabListViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(VocabCell.self, forCellReuseIdentifier: VocabCell.reuseID)
+        tableView.register(VocabTableViewCell.self, forCellReuseIdentifier: VocabTableViewCell.identifier)
         tableView.rowHeight = 80
         tableView.separatorInset = .init(top: .zero, left: 24, bottom: .zero, right: 24)
         tableView.backgroundColor = view.backgroundColor
@@ -65,7 +65,7 @@ extension VocabListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: VocabCell.reuseID, for: indexPath) as! VocabCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
         
         cell.vocabLabel.text = "ensue"
         cell.meaningLabel.text = "(어떤 일·결과가) 뒤따르다"

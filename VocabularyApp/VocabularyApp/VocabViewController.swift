@@ -1,130 +1,102 @@
 //
-//  CardVocabViewController.swift
+//  VocabContainerViewController.swift
 //  VocabularyApp
 //
-//  Created by Juhyun Yun on 10/5/23.
+//  Created by Juhyun Yun on 10/12/23.
 //
 
 import UIKit
 
-class VocabViewController: UIViewController, UIGestureRecognizerDelegate {
+class VocabViewController: UIViewController {
     
-    init(vocab: String, example: String? = nil, meaning: String, isChecked: Bool) {
-        super.init(nibName: nil, bundle: nil)
+    private var vocabs = [Vocabulary]()
+    
+    private lazy var collectionView: UICollectionView = {
+       let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         
-        self.vocab = vocab
-        self.example = example
-        self.meaning = meaning
-        self.isChecked = isChecked
-    }
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .secondarySystemGroupedBackground
+        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(VocabCollectionViewCell.self, forCellWithReuseIdentifier: VocabCollectionViewCell.identifier)
+        return collectionView
+    }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let cancelButton: UIBarButtonItem = {
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        
+        return UIBarButtonItem(image: UIImage(systemName: "chevron.left", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: VocabViewController.self, action: nil)
+    }()
     
-    var vocab: String = "find"
-    var example: String?
-    var meaning: String = "찾다[발견하다]"
-    var isChecked: Bool = false
+    private let editButton: UIBarButtonItem = {
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        
+        return UIBarButtonItem(image: UIImage(systemName: "square.and.pencil", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: VocabViewController.self, action: nil)
+    }()
     
-    let card = UIView()
-    let checkButton = UIButton(configuration: .plain())
-    let stackView = UIStackView()
-    let vocabLabel = UILabel()
-    let exampleLabel = UILabel()
-    let meaningLabel = UILabel()
-    let tapGestureRecognizer = UITapGestureRecognizer()
+    private let deleteButton: UIBarButtonItem = {
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        
+        return UIBarButtonItem(image: UIImage(systemName: "trash", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: VocabViewController.self, action: nil)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setup()
         layout()
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        guard touch.view?.isDescendant(of: checkButton) == false else { return false }
-        
-        UIView.transition(with: card, duration: 0.5, options: .transitionFlipFromTop) {
-            self.tapGestureRecognizer.isEnabled = false
-        } completion: { _ in
-            self.tapGestureRecognizer.isEnabled = true
-        }
-        
-        vocabLabel.isHidden.toggle()
-        exampleLabel.isHidden.toggle()
-        meaningLabel.isHidden.toggle()
-        
-        return true
     }
 }
 
 extension VocabViewController {
     private func setup() {
-        view.addGestureRecognizer(tapGestureRecognizer)
-        view.backgroundColor = .secondarySystemGroupedBackground
-        tapGestureRecognizer.delegate = self
-        
-        card.translatesAutoresizingMaskIntoConstraints = false
-        card.layer.cornerRadius = 20
-        card.layer.borderColor = appColor.cgColor
-        card.layer.borderWidth = 5
-        card.isUserInteractionEnabled = true
-        
-        checkButton.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(systemName: "checkmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .black))
-        checkButton.setImage(image, for: .normal)
-        checkButton.tintColor = .systemGray2
-        checkButton.addAction(UIAction(handler: { UIAction in
-            if self.checkButton.tintColor == .systemGray2 {
-                self.checkButton.tintColor = appColor
-            } else {
-                self.checkButton.tintColor = .systemGray2
-            }
-        }), for: .touchUpInside)
-        if isChecked {
-            self.checkButton.tintColor = appColor
-        }
-        
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.spacing = 8
-        
-        vocabLabel.translatesAutoresizingMaskIntoConstraints = false
-        vocabLabel.text = vocab
-        vocabLabel.font = .boldSystemFont(ofSize: 30)
-        
-        exampleLabel.translatesAutoresizingMaskIntoConstraints = false
-        exampleLabel.text = example
-        
-        meaningLabel.translatesAutoresizingMaskIntoConstraints = false
-        meaningLabel.isHidden = true
-        meaningLabel.text = meaning
-        meaningLabel.font = .boldSystemFont(ofSize: 25)
+        navigationItem.leftBarButtonItem = cancelButton
+        navigationItem.rightBarButtonItems = [editButton, deleteButton]
     }
     
     private func layout() {
-        stackView.addArrangedSubview(vocabLabel)
-        stackView.addArrangedSubview(exampleLabel)
-        stackView.addArrangedSubview(meaningLabel)
-        
-        card.addSubview(checkButton)
-        card.addSubview(stackView)
-        
-        view.addSubview(card)
+        view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: card.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: card.centerYAnchor),
-            
-            checkButton.topAnchor.constraint(equalToSystemSpacingBelow: card.topAnchor, multiplier: 2),
-            card.trailingAnchor.constraint(equalToSystemSpacingAfter: checkButton.trailingAnchor, multiplier: 1),
-            
-            card.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 3),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: card.trailingAnchor, multiplier: 3),
-            card.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            card.heightAnchor.constraint(equalToConstant: 200)
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
+    }
+}
+
+extension VocabViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VocabCollectionViewCell.identifier, for: indexPath) as? VocabCollectionViewCell else {
+            fatalError("Failed to dequeue VocabCollectionViewCell")
+        }
+        
+        let vocab = Vocabulary()
+        vocab.word = "puma"
+        vocab.example = "Puma is so cute"
+        vocab.meaning = "푸마"
+        vocab.isChecked = true
+        cell.configure(with: vocab)
+                
+        return cell
+    }
+    
+}
+
+extension VocabViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width, height: view.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }

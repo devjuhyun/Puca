@@ -8,13 +8,13 @@
 import Foundation
 import UIKit
 
-class VocabCell: UITableViewCell {
+class VocabTableViewCell: UITableViewCell {
     let vocabLabel = UILabel()
     var exampleLabel: UILabel?
     let meaningLabel = UILabel()
     let checkButton = UIButton(configuration: .plain())
     
-    static let reuseID = "VocabCell"
+    static let identifier = "VocabTableViewCell"
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,7 +27,7 @@ class VocabCell: UITableViewCell {
     }
 }
 
-extension VocabCell {
+extension VocabTableViewCell {
     private func setup() {
         vocabLabel.translatesAutoresizingMaskIntoConstraints = false
         vocabLabel.font = UIFont.boldSystemFont(ofSize: 20)
@@ -69,7 +69,7 @@ extension VocabCell {
     
 }
 
-extension VocabCell {
+extension VocabTableViewCell {
     @objc func buttonTapped() {
         if checkButton.tintColor == UIColor.systemGray2 {
             checkButton.tintColor = appColor

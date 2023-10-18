@@ -32,7 +32,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nc.navigationBar.standardAppearance = appearance
         nc.navigationBar.scrollEdgeAppearance = appearance
         
-        window?.rootViewController = UINavigationController(rootViewController: VocabViewController(vocab: "puma", example: "Puma is the best cat in the world.",meaning: "푸마", isChecked: true))
+//        window?.rootViewController = UINavigationController(rootViewController: VocabViewController(vocab: "puma", example: "Puma is the best cat in the world.",meaning: "푸마", isChecked: true))
+        
+        window?.rootViewController = UINavigationController(rootViewController: VocabViewController())
+        
         
         return true
     }

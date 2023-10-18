@@ -9,29 +9,29 @@ import UIKit
 
 class AddVocabViewController: UIViewController {
     
-    let categoryLabel = UILabel()
-    let categoryButton = UIButton()
-    let vocabLabel = UILabel()
-    let vocabTextField = UITextField()
-    let meaningLabel = UILabel()
-    let meaningTextField = UITextField()
-    let exampleLabel = UILabel()
-    let textView = UITextView()
-    let placeholderLabel = UILabel()
+    private let categoryLabel = UILabel()
+    private let categoryButton = UIButton()
+    private let vocabLabel = UILabel()
+    private let vocabTextField = UITextField()
+    private let meaningLabel = UILabel()
+    private let meaningTextField = UITextField()
+    private let exampleLabel = UILabel()
+    private let textView = UITextView()
+    private let placeholderLabel = UILabel()
     
-    var cancelButton: UIBarButtonItem {
+    private let cancelButton: UIBarButtonItem = {
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         
-        return UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cancelButtonClicked))
-    }
+        return UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: AddVocabViewController.self, action: #selector(cancelButtonClicked))
+    }()
     
-    var addButton: UIBarButtonItem {
-        let button = UIBarButtonItem(title: "추가", style: .done, target: self, action: #selector(addButtonClicked))
+    private let addButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "추가", style: .done, target: AddVocabViewController.self, action: #selector(addButtonClicked))
         button.tintColor = appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
         return button
-    }
+    }()
     
     
     override func viewDidLoad() {
