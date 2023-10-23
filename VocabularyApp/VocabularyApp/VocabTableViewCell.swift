@@ -5,42 +5,39 @@
 //  Created by Juhyun Yun on 2023/09/08.
 //
 
-import Foundation
 import UIKit
 
 class VocabTableViewCell: UITableViewCell {
-    let vocabLabel = UILabel()
-    var exampleLabel: UILabel?
-    let meaningLabel = UILabel()
-    let checkButton = UIButton(configuration: .plain())
     
     static let identifier = "VocabTableViewCell"
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
-        layout()
-    }
+    public let vocabLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        return label
+    }()
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    public let meaningLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 17)
+        return label
+    }()
+    
+    public lazy var checkButton = {
+        let button = UIButton(configuration: .plain())
+        button.translatesAutoresizingMaskIntoConstraints = false
+        let image = UIImage(systemName: "checkmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .black))
+        button.setImage(image, for: .normal)
+        button.tintColor = .systemGray2
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        return button
+    }()
 }
 
 extension VocabTableViewCell {
     private func setup() {
-        vocabLabel.translatesAutoresizingMaskIntoConstraints = false
-        vocabLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        
-        meaningLabel.translatesAutoresizingMaskIntoConstraints = false
-        meaningLabel.font = UIFont.systemFont(ofSize: 17)
-        
-        checkButton.translatesAutoresizingMaskIntoConstraints = false
-        let image = UIImage(systemName: "checkmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .black))
-        checkButton.setImage(image, for: .normal)
-        checkButton.tintColor = .systemGray2
-        checkButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
         backgroundColor = .secondarySystemGroupedBackground
     }
         
@@ -61,10 +58,28 @@ extension VocabTableViewCell {
             
             checkButton.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
             trailingAnchor.constraint(equalToSystemSpacingAfter: checkButton.trailingAnchor, multiplier: 2),
-            
         ])
+        
         checkButton.setContentCompressionResistancePriority(.required, for: .horizontal)
         checkButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    }
+    
+    public func configure(with vocab: Vocabulary) {
+        setup()
+        layout()
+        
+        vocabLabel.text = vocab.word
+        meaningLabel.text = vocab.meaning
+
+        if vocab.isChecked {
+            checkButton.tintColor = appColor
+            vocabLabel.textColor = .systemGray2
+            meaningLabel.textColor = .systemGray2
+        } else {
+            checkButton.tintColor = .systemGray2
+            vocabLabel.textColor = .label
+            meaningLabel.textColor = .label
+        }
     }
     
 }

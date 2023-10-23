@@ -9,16 +9,30 @@ import UIKit
 
 class MainViewController: UITabBarController {
     
-    let vocabListVC = VocabListViewController()
-    let dummyVC1 = UIViewController()
-    let dummyVC2 = UIViewController()
+    private let vocabListVC = VocabListViewController()
+    private let dummyVC1 = UIViewController()
+    private let dummyVC2 = UIViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
+        vocabListVC.delegate = self
+        
         setupViews()
+        setupNavBar()
         setupTabBar()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
 }
 
 extension MainViewController {
@@ -30,6 +44,12 @@ extension MainViewController {
         let tabBarList = [vocabListVC, dummyVC1, dummyVC2]
 
         viewControllers = tabBarList
+    }
+    
+    private func setupNavBar() {
+        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        button.tintColor = .label
+        navigationItem.backBarButtonItem = button
     }
     
     private func setupTabBar() {
@@ -50,12 +70,20 @@ extension MainViewController {
 extension MainViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController == tabBarController.viewControllers?[1] {
-            let nc1 = UINavigationController(rootViewController: AddVocabViewController())
-            nc1.modalPresentationStyle = .popover
-            present(nc1, animated: true, completion: nil)
+            let nc = UINavigationController(rootViewController: AddVocabViewController())
+            nc.modalPresentationStyle = .popover
+            nc.navigationBar.topItem?.title = "단어 추가"
+            present(nc, animated: true, completion: nil)
             return false
         }
 
         return true
     }
+}
+
+extension MainViewController: VocabListViewControllerDelegate {
+    func didSelectVocab() {
+        navigationController?.pushViewController(VocabViewController(), animated: true)
+    }
+    
 }

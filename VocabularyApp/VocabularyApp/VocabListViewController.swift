@@ -7,10 +7,26 @@
 
 import UIKit
 
+protocol VocabListViewControllerDelegate: AnyObject {
+    func didSelectVocab()
+}
+
 class VocabListViewController: UIViewController {
     
-    let tableView = UITableView()
-    let headerView = HeaderView()
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(VocabTableViewCell.self, forCellReuseIdentifier: VocabTableViewCell.identifier)
+        tableView.rowHeight = 80
+        tableView.separatorInset = .init(top: .zero, left: 24, bottom: .zero, right: 24)
+        tableView.backgroundColor = view.backgroundColor
+        return tableView
+    }()
+    
+    private let headerView = HeaderView()
+    weak var delegate: VocabListViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,24 +38,7 @@ class VocabListViewController: UIViewController {
 
 extension VocabListViewController {
     private func setup() {
-        setupHeaderView()
-        setupTableView()
-        
         view.backgroundColor = .secondarySystemGroupedBackground
-    }
-    
-    private func setupHeaderView() {
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private func setupTableView() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(VocabTableViewCell.self, forCellReuseIdentifier: VocabTableViewCell.identifier)
-        tableView.rowHeight = 80
-        tableView.separatorInset = .init(top: .zero, left: 24, bottom: .zero, right: 24)
-        tableView.backgroundColor = view.backgroundColor
     }
         
     private func layout() {
@@ -47,7 +46,7 @@ extension VocabListViewController {
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            headerView.heightAnchor.constraint(equalToConstant: 40),
+            headerView.heightAnchor.constraint(equalToConstant: 50),
             headerView.widthAnchor.constraint(equalTo: view.widthAnchor),
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 
@@ -67,9 +66,13 @@ extension VocabListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
         
-        cell.vocabLabel.text = "ensue"
-        cell.meaningLabel.text = "(어떤 일·결과가) 뒤따르다"
-        
+        let vocab = Vocabulary()
+        vocab.word = "puma"
+        vocab.example = "Puma is so cute"
+        vocab.meaning = "푸마"
+        vocab.isChecked = true
+        cell.configure(with: vocab)
+
         return cell
     }
     
@@ -77,6 +80,7 @@ extension VocabListViewController: UITableViewDataSource {
 
 extension VocabListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.didSelectVocab()
         let cell = tableView.cellForRow(at: indexPath)
         cell?.isSelected = false
     }

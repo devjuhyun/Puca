@@ -9,10 +9,8 @@ import UIKit
 
 class VocabViewController: UIViewController {
     
-    private var vocabs = [Vocabulary]()
-    
     private lazy var collectionView: UICollectionView = {
-       let layout = UICollectionViewFlowLayout()
+        let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -25,23 +23,17 @@ class VocabViewController: UIViewController {
         collectionView.register(VocabCollectionViewCell.self, forCellWithReuseIdentifier: VocabCollectionViewCell.identifier)
         return collectionView
     }()
-    
-    private let cancelButton: UIBarButtonItem = {
+        
+    private lazy var editButton: UIBarButtonItem = {
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         
-        return UIBarButtonItem(image: UIImage(systemName: "chevron.left", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: VocabViewController.self, action: nil)
+        return UIBarButtonItem(image: UIImage(systemName: "square.and.pencil", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(editButtonClicked))
     }()
     
-    private let editButton: UIBarButtonItem = {
+    private lazy var deleteButton: UIBarButtonItem = {
         let configuration = UIImage.SymbolConfiguration(weight: .bold)
         
-        return UIBarButtonItem(image: UIImage(systemName: "square.and.pencil", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: VocabViewController.self, action: nil)
-    }()
-    
-    private let deleteButton: UIBarButtonItem = {
-        let configuration = UIImage.SymbolConfiguration(weight: .bold)
-        
-        return UIBarButtonItem(image: UIImage(systemName: "trash", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: VocabViewController.self, action: nil)
+        return UIBarButtonItem(image: UIImage(systemName: "trash", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(deleteButtonClicked))
     }()
     
     override func viewDidLoad() {
@@ -49,12 +41,22 @@ class VocabViewController: UIViewController {
         setup()
         layout()
     }
+        
+    // 선택한 단어로 이동
+    override func viewDidAppear(_ animated: Bool) {
+        collectionView.isPagingEnabled = false
+        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .left, animated: false)
+        collectionView.isPagingEnabled = true
+    }
 }
 
 extension VocabViewController {
     private func setup() {
-        navigationItem.leftBarButtonItem = cancelButton
         navigationItem.rightBarButtonItems = [editButton, deleteButton]
+        
+        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        button.tintColor = .label
+        navigationItem.backBarButtonItem = button
     }
     
     private func layout() {
@@ -98,5 +100,20 @@ extension VocabViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension VocabViewController {
+    @objc func editButtonClicked() {
+        let vc = AddVocabViewController()
+        vc.view.backgroundColor = .secondarySystemGroupedBackground
+        vc.textView.backgroundColor = .secondarySystemGroupedBackground
+        vc.navigationItem.leftBarButtonItem = nil
+        vc.navigationItem.title = "단어 수정"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func deleteButtonClicked() {
+        print("delete button clicked!")
     }
 }

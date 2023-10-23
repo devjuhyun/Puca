@@ -9,24 +9,51 @@ import UIKit
 
 class AddVocabViewController: UIViewController {
     
-    private let categoryLabel = UILabel()
-    private let categoryButton = UIButton()
-    private let vocabLabel = UILabel()
-    private let vocabTextField = UITextField()
-    private let meaningLabel = UILabel()
-    private let meaningTextField = UITextField()
-    private let exampleLabel = UILabel()
-    private let textView = UITextView()
-    private let placeholderLabel = UILabel()
+    private let categoryLabel = ReusableLabel(text: "카테고리")
     
-    private let cancelButton: UIBarButtonItem = {
-        let configuration = UIImage.SymbolConfiguration(weight: .bold)
-        
-        return UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: AddVocabViewController.self, action: #selector(cancelButtonClicked))
+    private let categoryButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("영어", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
+        button.setTitleColor(.label, for: .normal)
+        return button
     }()
     
-    private let addButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "추가", style: .done, target: AddVocabViewController.self, action: #selector(addButtonClicked))
+    private let vocabLabel = ReusableLabel(text: "단어")
+    private let vocabTextField = ReusableTextField(placeholder: "단어를 입력하세요.(필수)")
+    private let meaningLabel = ReusableLabel(text: "의미")
+    private let meaningTextField = ReusableTextField(placeholder: "뜻을 입력하세요.(필수)")
+    private let exampleLabel = ReusableLabel(text: "예문")
+    
+    public lazy var textView = {
+        let textView = UITextView()
+        textView.font = UIFont.boldSystemFont(ofSize: 20)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isScrollEnabled = false
+        textView.delegate = self
+        return textView
+    }()
+    
+    private lazy var placeholderLabel = {
+        let label = UILabel()
+        label.text = "예문을 입력하세요."
+        label.font = textView.font
+        label.sizeToFit()
+        label.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
+        label.textColor = .tertiaryLabel
+        label.isHidden = !textView.text.isEmpty
+        return label
+    }()
+    
+    private lazy var cancelButton: UIBarButtonItem = {
+        let configuration = UIImage.SymbolConfiguration(weight: .bold)
+        
+        return UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cancelButtonClicked))
+    }()
+        
+    private lazy var addButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(addButtonClicked))
         button.tintColor = appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -37,10 +64,6 @@ class AddVocabViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.leftBarButtonItem = cancelButton
-        navigationItem.rightBarButtonItem = addButton
-        navigationController?.navigationBar.topItem?.title = "새 단어"
-        
         setup()
         layout()
     }
@@ -48,55 +71,14 @@ class AddVocabViewController: UIViewController {
 
 extension AddVocabViewController {
     private func setup() {
-        categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        categoryLabel.text = "카테고리"
-        categoryLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        categoryLabel.textColor = appColor
-        
-        categoryButton.translatesAutoresizingMaskIntoConstraints = false
-        categoryButton.setTitle("영어", for: .normal)
-        categoryButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
-        categoryButton.setTitleColor(.label, for: .normal)
-        
-        vocabLabel.translatesAutoresizingMaskIntoConstraints = false
-        vocabLabel.text = "단어"
-        vocabLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        vocabLabel.textColor = appColor
-        
-        vocabTextField.translatesAutoresizingMaskIntoConstraints = false
-        vocabTextField.placeholder = "단어를 입력하세요.(필수)"
-        vocabTextField.font = UIFont.boldSystemFont(ofSize: 22)
+        navigationItem.leftItemsSupplementBackButton = true
+        navigationItem.leftBarButtonItem = cancelButton
+        navigationItem.rightBarButtonItem = addButton
+        view.backgroundColor = .systemBackground
+
         vocabTextField.delegate = self
         vocabTextField.becomeFirstResponder()
-        
-        meaningLabel.translatesAutoresizingMaskIntoConstraints = false
-        meaningLabel.text = "의미"
-        meaningLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        meaningLabel.textColor = appColor
-        
-        meaningTextField.translatesAutoresizingMaskIntoConstraints = false
-        meaningTextField.placeholder = "뜻을 입력하세요.(필수)"
-        meaningTextField.font = UIFont.boldSystemFont(ofSize: 22)
         meaningTextField.delegate = self
-
-        exampleLabel.translatesAutoresizingMaskIntoConstraints = false
-        exampleLabel.text = "예문"
-        exampleLabel.font = UIFont.boldSystemFont(ofSize: 17)
-        exampleLabel.textColor = appColor
-        
-        textView.font = UIFont.boldSystemFont(ofSize: 20)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isScrollEnabled = false
-        textView.delegate = self
-        
-        placeholderLabel.text = "예문을 입력하세요."
-        placeholderLabel.font = textView.font
-        placeholderLabel.sizeToFit()
-        placeholderLabel.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
-        placeholderLabel.textColor = .tertiaryLabel
-        placeholderLabel.isHidden = !textView.text.isEmpty
-
-        view.backgroundColor = .systemBackground
     }
     
     private func layout() {
@@ -176,5 +158,6 @@ extension AddVocabViewController {
     
     @objc func addButtonClicked() {
         print("add button clicked!")
+//        dismiss(animated: true)
     }
 }

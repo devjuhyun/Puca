@@ -16,26 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.backgroundColor = .systemBackground
         
-        let NC = UINavigationController(rootViewController: VocabListViewController())
-        NC.navigationBar.prefersLargeTitles = true
-        NC.navigationBar.topItem?.title = "Category"
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = .secondarySystemGroupedBackground
-        appearance.shadowColor = .clear
-        NC.navigationBar.standardAppearance = appearance
-        NC.navigationBar.scrollEdgeAppearance = appearance
-        
-        let nc = UINavigationController(rootViewController: AddVocabViewController())
-        nc.navigationBar.topItem?.title = ""
-        nc.navigationBar.standardAppearance = appearance
-        nc.navigationBar.scrollEdgeAppearance = appearance
-        
-//        window?.rootViewController = UINavigationController(rootViewController: VocabViewController(vocab: "puma", example: "Puma is the best cat in the world.",meaning: "푸마", isChecked: true))
-        
-        window?.rootViewController = UINavigationController(rootViewController: VocabViewController())
-        
+        window?.rootViewController = UINavigationController(rootViewController: MainViewController())
         
         return true
     }

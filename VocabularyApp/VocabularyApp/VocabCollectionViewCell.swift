@@ -59,7 +59,10 @@ class VocabCollectionViewCell: UICollectionViewCell {
         label.isHidden = true
         return label
     }()
-        
+    
+}
+
+extension VocabCollectionViewCell {
     private func setup() {
         let tap = UITapGestureRecognizer()
         addGestureRecognizer(tap)

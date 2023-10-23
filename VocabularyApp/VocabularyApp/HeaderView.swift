@@ -9,10 +9,38 @@ import UIKit
 
 class HeaderView: UIView {
     
-    let categoryButton = UIButton()
-    let sortButton = UIButton()
-    let editButton = UIButton()
-    let separator = UIView()
+    private let categoryButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("일상영단어" + " ", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.setTitleColor(.label, for: .normal)
+        button.setImage(UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration( weight: .bold)), for: .normal)
+        button.adjustsImageWhenHighlighted = false
+        button.semanticContentAttribute = .forceRightToLeft
+        return button
+    }()
+    
+    private let sortButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+        return button
+    }()
+    
+    private let editButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
+        return button
+    }()
+    
+    private let separator: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .separator
+        return view
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,24 +58,7 @@ class HeaderView: UIView {
 extension HeaderView {
     
     private func setup() {
-        categoryButton.translatesAutoresizingMaskIntoConstraints = false
-        categoryButton.setTitle("일상영단어" + " ", for: .normal)
-        categoryButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        categoryButton.setTitleColor(.label, for: .normal)
-        
-        categoryButton.setImage(UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration( weight: .bold)), for: .normal)
-        categoryButton.adjustsImageWhenHighlighted = false
-        categoryButton.semanticContentAttribute = .forceRightToLeft
-        
-        editButton.translatesAutoresizingMaskIntoConstraints = false
-        editButton.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
-        
-        sortButton.translatesAutoresizingMaskIntoConstraints = false
-        sortButton.setImage(UIImage(systemName: "arrow.up.arrow.down", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), for: .normal)
-        
-        separator.translatesAutoresizingMaskIntoConstraints = false
-        separator.backgroundColor = .separator
-
+        translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func layout() {
@@ -57,7 +68,7 @@ extension HeaderView {
         addSubview(separator)
         
         NSLayoutConstraint.activate([
-            bottomAnchor.constraint(equalToSystemSpacingBelow: categoryButton.bottomAnchor, multiplier: 1),
+            bottomAnchor.constraint(equalToSystemSpacingBelow: categoryButton.bottomAnchor, multiplier: 1.5),
             categoryButton.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
             
             editButton.bottomAnchor.constraint(equalTo: categoryButton.bottomAnchor),
