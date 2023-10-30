@@ -106,9 +106,6 @@ extension VocabViewController: UICollectionViewDelegateFlowLayout {
 extension VocabViewController {
     @objc func editButtonClicked() {
         let vc = AddVocabViewController()
-        vc.view.backgroundColor = .secondarySystemGroupedBackground
-        vc.textView.backgroundColor = .secondarySystemGroupedBackground
-        vc.navigationItem.leftBarButtonItem = nil
         vc.navigationItem.title = "단어 수정"
         navigationController?.pushViewController(vc, animated: true)
     }

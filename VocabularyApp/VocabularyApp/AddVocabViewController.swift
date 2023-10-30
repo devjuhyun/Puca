@@ -11,12 +11,18 @@ class AddVocabViewController: UIViewController {
     
     private let categoryLabel = ReusableLabel(text: "카테고리")
     
-    private let categoryButton = {
+    private lazy var categoryButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("영어", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
         button.setTitleColor(.label, for: .normal)
+        button.addAction(UIAction(handler: { UIAction in
+            let vc = CategoryListViewController()
+            vc.view.backgroundColor = .secondarySystemGroupedBackground
+            vc.navigationItem.title = "카테고리 선택"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }), for: .touchUpInside)
         return button
     }()
     
@@ -32,6 +38,7 @@ class AddVocabViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.delegate = self
+        textView.backgroundColor = view.backgroundColor
         return textView
     }()
     
@@ -46,14 +53,8 @@ class AddVocabViewController: UIViewController {
         return label
     }()
     
-    private lazy var cancelButton: UIBarButtonItem = {
-        let configuration = UIImage.SymbolConfiguration(weight: .bold)
-        
-        return UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cancelButtonClicked))
-    }()
-        
-    private lazy var addButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(addButtonClicked))
+    private lazy var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
         button.tintColor = appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -71,11 +72,18 @@ class AddVocabViewController: UIViewController {
 
 extension AddVocabViewController {
     private func setup() {
-        navigationItem.leftItemsSupplementBackButton = true
-        navigationItem.leftBarButtonItem = cancelButton
-        navigationItem.rightBarButtonItem = addButton
-        view.backgroundColor = .systemBackground
-
+        if navigationItem.title == "단어 추가" {
+            let cancelButton = UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cancelButtonClicked))
+            navigationItem.leftBarButtonItem = cancelButton
+        }
+        
+        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        button.tintColor = .label
+        navigationItem.backBarButtonItem = button
+        navigationItem.rightBarButtonItem = doneButton
+        
+        view.backgroundColor = .secondarySystemGroupedBackground
+        
         vocabTextField.delegate = self
         vocabTextField.becomeFirstResponder()
         meaningTextField.delegate = self
@@ -101,21 +109,21 @@ extension AddVocabViewController {
             
             vocabLabel.topAnchor.constraint(equalToSystemSpacingBelow: categoryButton.bottomAnchor, multiplier: 1),
             vocabLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-
+            
             vocabTextField.topAnchor.constraint(equalToSystemSpacingBelow: vocabLabel.bottomAnchor, multiplier: 1),
             vocabTextField.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: vocabTextField.trailingAnchor, multiplier: 2),
-
+            
             meaningLabel.topAnchor.constraint(equalToSystemSpacingBelow: vocabTextField.bottomAnchor, multiplier: 2),
             meaningLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-
+            
             meaningTextField.topAnchor.constraint(equalToSystemSpacingBelow: meaningLabel.bottomAnchor, multiplier: 1),
             meaningTextField.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: meaningTextField.trailingAnchor, multiplier: 2),
             
             exampleLabel.topAnchor.constraint(equalToSystemSpacingBelow: meaningTextField.bottomAnchor, multiplier: 2),
             exampleLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-
+            
             textView.topAnchor.constraint(equalTo: exampleLabel.bottomAnchor),
             textView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1.5),
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: textView.trailingAnchor, multiplier: 1),
@@ -156,8 +164,8 @@ extension AddVocabViewController {
         dismiss(animated: true)
     }
     
-    @objc func addButtonClicked() {
-        print("add button clicked!")
-//        dismiss(animated: true)
+    @objc func doneButtonClicked() {
+        print(navigationItem.title!)
+        //        dismiss(animated: true)
     }
 }

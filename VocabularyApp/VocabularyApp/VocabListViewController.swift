@@ -58,7 +58,7 @@ extension VocabListViewController {
     }
 }
 
-extension VocabListViewController: UITableViewDataSource {
+extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 30
     }
@@ -70,18 +70,16 @@ extension VocabListViewController: UITableViewDataSource {
         vocab.word = "puma"
         vocab.example = "Puma is so cute"
         vocab.meaning = "푸마"
-        vocab.isChecked = true
+        vocab.isChecked = false
         cell.configure(with: vocab)
 
         return cell
     }
     
-}
-
-extension VocabListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.didSelectVocab()
         let cell = tableView.cellForRow(at: indexPath)
         cell?.isSelected = false
     }
+    
 }

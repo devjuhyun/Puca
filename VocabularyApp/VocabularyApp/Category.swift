@@ -10,6 +10,7 @@ import RealmSwift
 
 class Category: Object {
     @Persisted var name: String = ""
+    @Persisted var date: Date = Date()
     
     @Persisted var vocabularies: List<Vocabulary>
 }

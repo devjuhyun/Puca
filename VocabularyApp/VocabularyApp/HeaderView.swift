@@ -9,7 +9,7 @@ import UIKit
 
 class HeaderView: UIView {
     
-    private let categoryButton: UIButton = {
+    private lazy var categoryButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("일상영단어" + " ", for: .normal)
@@ -18,6 +18,9 @@ class HeaderView: UIView {
         button.setImage(UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration( weight: .bold)), for: .normal)
         button.adjustsImageWhenHighlighted = false
         button.semanticContentAttribute = .forceRightToLeft
+        button.addAction(UIAction(handler: { UIAction in
+            NotificationCenter.default.post(name: .category, object: nil)
+        }), for: .touchUpInside)
         return button
     }()
     

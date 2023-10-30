@@ -15,9 +15,7 @@ class MainViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        delegate = self
-        vocabListVC.delegate = self
-        
+        setup()
         setupViews()
         setupNavBar()
         setupTabBar()
@@ -36,6 +34,13 @@ class MainViewController: UITabBarController {
 }
 
 extension MainViewController {
+    private func setup() {
+        delegate = self // tab bar controller delegate
+        vocabListVC.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(categoryClicked), name: .category, object: nil)
+        self.popoverPresentationController?.backgroundColor = self.view.backgroundColor
+    }
+    
     private func setupViews() {
         vocabListVC.setTabBarImage(imageName: "note.text",title: "단어장")
         dummyVC1.setTabBarImage(imageName: "plus", title: "새 단어")
@@ -71,7 +76,7 @@ extension MainViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         if viewController == tabBarController.viewControllers?[1] {
             let nc = UINavigationController(rootViewController: AddVocabViewController())
-            nc.modalPresentationStyle = .popover
+            nc.modalPresentationStyle = .fullScreen
             nc.navigationBar.topItem?.title = "단어 추가"
             present(nc, animated: true, completion: nil)
             return false
@@ -86,4 +91,12 @@ extension MainViewController: VocabListViewControllerDelegate {
         navigationController?.pushViewController(VocabViewController(), animated: true)
     }
     
+}
+
+extension MainViewController {
+    @objc func categoryClicked() {
+        let vc = CategoryListViewController()
+        vc.navigationItem.title = "카테고리 선택"
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
