@@ -96,7 +96,7 @@ extension MainViewController: VocabListViewControllerDelegate {
 extension MainViewController {
     @objc func categoryClicked() {
         let vc = CategoryListViewController()
-        vc.navigationItem.title = "카테고리 선택"
+        vc.navigationItem.title = "단어장 선택"
         navigationController?.pushViewController(vc, animated: true)
     }
 }

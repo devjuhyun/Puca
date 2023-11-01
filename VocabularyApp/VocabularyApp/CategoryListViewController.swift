@@ -12,19 +12,19 @@ class CategoryListViewController: UIViewController {
     let titles = ["모든 단어", "영어", "일본어", "스페인어", "포르투갈어", "중국어"]
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.rowHeight = 70
-        tableView.separatorStyle = .none
+        tableView.rowHeight = 60
+        tableView.allowsSelectionDuringEditing = true
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.identifier)
         tableView.backgroundColor = view.backgroundColor
         return tableView
     }()
     
-    private lazy var editButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "편집", style: .done, target: self, action: #selector(editButtonClicked))
+    private lazy var addButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "추가", style: .done, target: self, action: #selector(addButtonClicked))
         button.tintColor = appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -37,21 +37,15 @@ class CategoryListViewController: UIViewController {
         setup()
         layout()
     }
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
-        let path = IndexPath(row: 0, section: 0)
-        tableView.selectRow(at: path, animated: false, scrollPosition: .none)
-    }
-
 }
 
 extension CategoryListViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
-        navigationItem.rightBarButtonItem = editButton
+        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
+        button.tintColor = .label
+        navigationItem.backBarButtonItem = button
+        navigationItem.rightBarButtonItem = addButton
     }
     
     private func layout() {
@@ -78,6 +72,30 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         
         return cell
     }
+        
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            print("delete")
+            
+            success(true)
+        }
+        
+        let edit = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            self.pushVC(title: "단어장 편집")
+            success(true)
+        }
+        
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash.fill")
+        
+        edit.backgroundColor = .systemOrange
+        edit.image = UIImage(systemName: "pencil")
+        
+        let swipeAction = UISwipeActionsConfiguration(actions:[delete, edit])
+        swipeAction.performsFirstActionWithFullSwipe = false
+        
+        return swipeAction
+    }    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigationController?.popViewController(animated: true)
@@ -85,7 +103,15 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
 }
 
 extension CategoryListViewController {
-    @objc func editButtonClicked() {
-        print("편집")
+    private func pushVC(title: String) {
+        let vc = AddCategoryViewController()
+        vc.navigationItem.title = title
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension CategoryListViewController {
+    @objc func addButtonClicked() {
+        pushVC(title: "단어장 추가")
     }
 }

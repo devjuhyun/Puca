@@ -18,11 +18,9 @@ class CategoryTableViewCell: UITableViewCell {
         return label
     }()
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
-    }
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//    }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -32,14 +30,7 @@ class CategoryTableViewCell: UITableViewCell {
             contentView.backgroundColor = .tertiarySystemFill
         }
     }
-    
-    private func setup() {
-        backgroundColor = .secondarySystemGroupedBackground
-        contentView.backgroundColor = .tertiarySystemFill
-        contentView.layer.cornerRadius = 8
-        selectionStyle = .none
-    }
-    
+        
     private func layout() {
         contentView.addSubview(label)
         
@@ -54,7 +45,6 @@ class CategoryTableViewCell: UITableViewCell {
         label.textColor = .label
         isSelected = false
         
-        setup()
         layout()
     }
 

@@ -26,6 +26,7 @@
 		6BD6AE822AE8E7300009CB57 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE812AE8E7300009CB57 /* CategoryListViewController.swift */; };
 		6BD6AE842AE8E8230009CB57 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE832AE8E8230009CB57 /* CategoryTableViewCell.swift */; };
 		6BD6AE862AEA44F50009CB57 /* NSNotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE852AEA44F50009CB57 /* NSNotificationName.swift */; };
+		6BD6AE8A2AEF491B0009CB57 /* AddCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE892AEF491B0009CB57 /* AddCategoryViewController.swift */; };
 		6BEB5AAC2AB7DBC60013575B /* AddVocabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB5AAB2AB7DBC60013575B /* AddVocabViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		6BD6AE812AE8E7300009CB57 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		6BD6AE832AE8E8230009CB57 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		6BD6AE852AEA44F50009CB57 /* NSNotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSNotificationName.swift; sourceTree = "<group>"; };
+		6BD6AE892AEF491B0009CB57 /* AddCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryViewController.swift; sourceTree = "<group>"; };
 		6BEB5AAB2AB7DBC60013575B /* AddVocabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVocabViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,7 +128,7 @@
 				6B3ECB8A2AC27B1B0011C75D /* VocabList */,
 				6B3ECB8B2AC27B780011C75D /* Vocab */,
 				6BD6AE802AE8E70C0009CB57 /* Category */,
-				6BD6AE7F2AE66B960009CB57 /* View */,
+				6BD6AE7F2AE66B960009CB57 /* Views */,
 				6B3ECB832ABEC7140011C75D /* Models */,
 				6B3ECB8E2AC27DBB0011C75D /* Utils */,
 				6BCFC9AE2AA99DD1005F0E53 /* Files */,
@@ -144,14 +146,14 @@
 			name = Files;
 			sourceTree = "<group>";
 		};
-		6BD6AE7F2AE66B960009CB57 /* View */ = {
+		6BD6AE7F2AE66B960009CB57 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				6B3ECB882AC278F30011C75D /* HeaderView.swift */,
 				6BD6AE7B2AE665170009CB57 /* ReusableLabel.swift */,
 				6BD6AE7D2AE668200009CB57 /* ReusableTextField.swift */,
 			);
-			name = View;
+			name = Views;
 			sourceTree = "<group>";
 		};
 		6BD6AE802AE8E70C0009CB57 /* Category */ = {
@@ -159,6 +161,7 @@
 			children = (
 				6BD6AE812AE8E7300009CB57 /* CategoryListViewController.swift */,
 				6BD6AE832AE8E8230009CB57 /* CategoryTableViewCell.swift */,
+				6BD6AE892AEF491B0009CB57 /* AddCategoryViewController.swift */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				6B904CCD2AAAB1F3002A8D37 /* VocabTableViewCell.swift in Sources */,
 				6BD6AE7E2AE668200009CB57 /* ReusableTextField.swift in Sources */,
 				6BD6AE862AEA44F50009CB57 /* NSNotificationName.swift in Sources */,
+				6BD6AE8A2AEF491B0009CB57 /* AddCategoryViewController.swift in Sources */,
 				6B3ECB822ABEC7060011C75D /* Category.swift in Sources */,
 				6B3ECB892AC278F30011C75D /* HeaderView.swift in Sources */,
 				6B3ECB8D2AC27CC90011C75D /* MainViewController.swift in Sources */,
@@ -324,7 +328,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -379,7 +383,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

@@ -9,7 +9,7 @@ import UIKit
 
 class AddVocabViewController: UIViewController {
     
-    private let categoryLabel = ReusableLabel(text: "카테고리")
+    private let categoryLabel = ReusableLabel(text: "단어장")
     
     private lazy var categoryButton = {
         let button = UIButton()
@@ -20,7 +20,7 @@ class AddVocabViewController: UIViewController {
         button.addAction(UIAction(handler: { UIAction in
             let vc = CategoryListViewController()
             vc.view.backgroundColor = .secondarySystemGroupedBackground
-            vc.navigationItem.title = "카테고리 선택"
+            vc.navigationItem.title = "단어장 선택"
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
         return button
