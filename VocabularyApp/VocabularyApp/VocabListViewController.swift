@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol VocabListViewControllerDelegate: AnyObject {
-    func didSelectVocab()
-}
-
 class VocabListViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
@@ -22,38 +18,161 @@ class VocabListViewController: UIViewController {
         tableView.rowHeight = 80
         tableView.separatorInset = .init(top: .zero, left: 24, bottom: .zero, right: 24)
         tableView.backgroundColor = view.backgroundColor
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.allowsSelectionDuringEditing = true
+        tableView.tableHeaderView = UIView()
         return tableView
     }()
     
-    private let headerView = HeaderView()
-    weak var delegate: VocabListViewControllerDelegate?
-
+    private lazy var addButton: UIButton = {
+        let button = FloatingBtn(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
+        button.isHidden = tableView.isEditing
+        button.addAction(UIAction(handler: { UIAction in
+            
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            
+            let vc = AddVocabViewController()
+            vc.navigationItem.title = "단어 추가"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var categoryButton: UIButton = {
+        let button = CategoryBtn()
+        button.addAction(UIAction(handler: { UIAction in
+            let vc = CategoryListViewController()
+            vc.navigationItem.title = "카테고리 선택"
+            self.navigationController?.pushViewController(vc, animated: true)
+        }), for: .touchUpInside)
+        return button
+    }()
+    
+    private let searchController: UISearchController = {
+        let searchController = UISearchController()
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.tintColor = appColor
+        searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
+        searchController.searchBar.placeholder = "검색할 단어를 입력하세요."
+        searchController.searchBar.autocapitalizationType = .none
+        return searchController
+    }()
+    
+    private lazy var searchButton: UIBarButtonItem = {
+        let image = UIImage(systemName: "magnifyingglass")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let button = UIBarButtonItem(image: image, primaryAction: UIAction(handler: { _ in
+            self.navigationItem.searchController = self.searchController
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+                self.searchController.searchBar.searchTextField.becomeFirstResponder()
+            }
+            
+        }))
+        
+        return button
+    }()
+    
+    private lazy var editButton: UIBarButtonItem = {
+        let image = UIImage(systemName: "ellipsis")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        
+        let items = [
+            UIAction(title: "단어 정렬", image: UIImage(systemName: "arrow.up.arrow.down"), handler: { UIAction in
+                
+            }),
+            UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { UIAction in
+                self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+                self.updateUI()
+            }),
+        ]
+        
+        let button = UIBarButtonItem(image: image, menu: UIMenu(children: items))
+        button.title = "완료"
+        button.tintColor = appColor
+        
+        return button
+    }()
+    
+    private lazy var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "완료", primaryAction: UIAction(handler: { _ in
+            self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+            self.updateUI()
+        }))
+        button.tintColor = appColor
+        
+        return button
+    }()
+        
+    private lazy var toolbarButtons: [UIBarButtonItem] = [
+        UIBarButtonItem(image: UIImage(systemName: "checkmark.circle")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(selectAllButtonClicked)),
+        .flexibleSpace(),
+        UIBarButtonItem(image: UIImage(systemName: "folder")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(categoryMoveButtonClicked)),
+        .flexibleSpace(),
+        UIBarButtonItem(image: UIImage(systemName: "trash")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(deleteButtonClicked)),
+        .flexibleSpace(),
+        UIBarButtonItem(image: UIImage(systemName: "checkmark")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(checkAllButtonClicked)),
+    ]
+                
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         layout()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationItem.searchController = nil
+        if tableView.isEditing {
+            tableView.setEditing(!tableView.isEditing, animated: true)
+            updateUI()
+        }
+    }
 }
 
 extension VocabListViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
+        setupNavBar()
+        setupToolBar()
+        setupSearchBar()
     }
-        
+    
+    private func setupNavBar() {
+        navigationItem.setBackBarButtonItem()
+        navigationItem.leftBarButtonItems = [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
+        navigationItem.rightBarButtonItems = [editButton, searchButton]
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    }
+    
+    private func setupToolBar() {
+        let apperance = UIToolbarAppearance()
+        apperance.backgroundColor = appColor
+        navigationController?.toolbar.standardAppearance = apperance
+        navigationController?.toolbar.scrollEdgeAppearance = apperance
+        toolbarItems = toolbarButtons
+    }
+    
+    private func setupSearchBar() {
+        navigationItem.hidesSearchBarWhenScrolling = false // always show search controller
+        searchController.searchBar.delegate = self
+    }
+    
     private func layout() {
-        view.addSubview(headerView)
         view.addSubview(tableView)
+        view.addSubview(addButton)
         
-        NSLayoutConstraint.activate([
-            headerView.heightAnchor.constraint(equalToConstant: 50),
-            headerView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-
-            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
+        NSLayoutConstraint.activate([            
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            addButton.widthAnchor.constraint(equalToConstant: 56),
+            addButton.heightAnchor.constraint(equalToConstant: 56)
         ])
     }
 }
@@ -65,21 +184,60 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
-        
+                
         let vocab = Vocabulary()
-        vocab.word = "puma"
-        vocab.example = "Puma is so cute"
-        vocab.meaning = "푸마"
+        vocab.word = "invest"
+        vocab.example = "the company is to invest $12 million in its new manufacturing site"
+        vocab.meaning = "투자하다"
         vocab.isChecked = false
         cell.configure(with: vocab)
-
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSelectVocab()
-        let cell = tableView.cellForRow(at: indexPath)
-        cell?.isSelected = false
+        if tableView.isEditing {
+            
+        } else {
+            navigationController?.pushViewController(VocabViewController(), animated: true)
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.isSelected = false
+        }
     }
     
+    func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+}
+
+extension VocabListViewController {
+    @objc private func selectAllButtonClicked() {
+    }
+    
+    @objc private func categoryMoveButtonClicked() {
+    }
+    
+    @objc private func deleteButtonClicked() {
+    }
+    
+    @objc private func checkAllButtonClicked() {
+    }
+    
+    private func updateUI() {
+        addButton.isHidden.toggle()
+        navigationController?.isToolbarHidden.toggle()
+        navigationItem.rightBarButtonItems = tableView.isEditing ? [doneButton] : [editButton, searchButton]
+        navigationItem.leftBarButtonItems = tableView.isEditing ? nil : [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
+        navigationItem.searchController?.isActive = false // 검색하는 도중 편집할때 타이틀 안보이는 문제 해결
+        navigationItem.searchController = tableView.isEditing ? self.searchController : nil
+        navigationItem.title = self.tableView.isEditing ? "0/30" : nil
+    }
+}
+extension VocabListViewController: UISearchBarDelegate {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        if !tableView.isEditing {
+            self.navigationItem.searchController = nil
+        }
+    }
 }

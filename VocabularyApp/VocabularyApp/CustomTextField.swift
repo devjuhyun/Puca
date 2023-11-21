@@ -1,5 +1,5 @@
 //
-//  ReusableTextField.swift
+//  CustomTextField.swift
 //  VocabularyApp
 //
 //  Created by Juhyun Yun on 10/23/23.
@@ -7,13 +7,14 @@
 
 import UIKit
 
-class ReusableTextField: UITextField {
+class CustomTextField: UITextField {
     init(placeholder: String) {
         super.init(frame: .zero)
         self.placeholder = placeholder
         
         translatesAutoresizingMaskIntoConstraints = false
         font = UIFont.boldSystemFont(ofSize: 22)
+        autocapitalizationType = .none
     }
     
     required init?(coder: NSCoder) {

@@ -1,5 +1,5 @@
 //
-//  ReusableLabel.swift
+//  CustomLabel.swift
 //  VocabularyApp
 //
 //  Created by Juhyun Yun on 10/23/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ReusableLabel: UILabel {
+class CustomLabel: UILabel {
     init(text: String) {
         super.init(frame: .zero)
         self.text = text

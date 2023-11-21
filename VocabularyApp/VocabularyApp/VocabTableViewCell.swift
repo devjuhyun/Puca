@@ -1,5 +1,5 @@
 //
-//  VocabCell.swift
+//  VocabTableViewCell.swift
 //  VocabularyApp
 //
 //  Created by Juhyun Yun on 2023/09/08.
@@ -39,6 +39,7 @@ class VocabTableViewCell: UITableViewCell {
 extension VocabTableViewCell {
     private func setup() {
         backgroundColor = .secondarySystemGroupedBackground
+        tintColor = appColor
     }
         
     private func layout() {
@@ -47,17 +48,17 @@ extension VocabTableViewCell {
         contentView.addSubview(checkButton)
         
         NSLayoutConstraint.activate([
-            vocabLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 4),
-            vocabLabel.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
+            vocabLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 4),
+            vocabLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1),
             vocabLabel.trailingAnchor.constraint(equalTo: checkButton.leadingAnchor),
             
             meaningLabel.topAnchor.constraint(equalTo: vocabLabel.bottomAnchor),
             meaningLabel.leadingAnchor.constraint(equalTo: vocabLabel.leadingAnchor),
-            bottomAnchor.constraint(equalToSystemSpacingBelow: meaningLabel.bottomAnchor, multiplier: 2),
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: meaningLabel.bottomAnchor, multiplier: 2),
             meaningLabel.trailingAnchor.constraint(equalTo: checkButton.leadingAnchor),
             
-            checkButton.topAnchor.constraint(equalToSystemSpacingBelow: topAnchor, multiplier: 1),
-            trailingAnchor.constraint(equalToSystemSpacingAfter: checkButton.trailingAnchor, multiplier: 2),
+            checkButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: checkButton.trailingAnchor, multiplier: 2),
         ])
         
         checkButton.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -70,31 +71,29 @@ extension VocabTableViewCell {
         
         vocabLabel.text = vocab.word
         meaningLabel.text = vocab.meaning
-
-        if vocab.isChecked {
-            checkButton.tintColor = appColor
-            vocabLabel.textColor = .systemGray2
-            meaningLabel.textColor = .systemGray2
-        } else {
-            checkButton.tintColor = .systemGray2
-            vocabLabel.textColor = .label
-            meaningLabel.textColor = .label
-        }
+        updateUI(isChecked: vocab.isChecked)
+    }
+    
+    override func willTransition(to state: UITableViewCell.StateMask) {
+        checkButton.isHidden.toggle()
     }
     
 }
 
 extension VocabTableViewCell {
     @objc func buttonTapped() {
-        if checkButton.tintColor == UIColor.systemGray2 {
-            checkButton.tintColor = appColor
-            vocabLabel.textColor = .systemGray2
-            meaningLabel.textColor = .systemGray2
-        } else {
-            checkButton.tintColor = .systemGray2
-            vocabLabel.textColor = .label
-            meaningLabel.textColor = .label
-        }
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
         
+        if checkButton.tintColor == UIColor.systemGray2 {
+            updateUI(isChecked: true)
+        } else {
+            updateUI(isChecked: false)
+        }
+    }
+    
+    private func updateUI(isChecked: Bool) {
+        checkButton.tintColor = isChecked ? appColor : .systemGray2
+        vocabLabel.textColor = isChecked ? .systemGray2 : .label
+        meaningLabel.textColor = isChecked ? .systemGray2 : .label
     }
 }

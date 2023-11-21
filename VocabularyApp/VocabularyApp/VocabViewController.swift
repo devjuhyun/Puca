@@ -1,5 +1,5 @@
 //
-//  VocabContainerViewController.swift
+//  VocabViewController.swift
 //  VocabularyApp
 //
 //  Created by Juhyun Yun on 10/12/23.
@@ -53,10 +53,7 @@ class VocabViewController: UIViewController {
 extension VocabViewController {
     private func setup() {
         navigationItem.rightBarButtonItems = [editButton, deleteButton]
-        
-        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        button.tintColor = .label
-        navigationItem.backBarButtonItem = button
+        navigationItem.setBackBarButtonItem()
     }
     
     private func layout() {

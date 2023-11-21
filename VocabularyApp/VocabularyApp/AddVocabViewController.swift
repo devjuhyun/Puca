@@ -7,30 +7,35 @@
 
 import UIKit
 
-class AddVocabViewController: UIViewController {
+class AddVocabViewController: UIViewController {        
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
     
-    private let categoryLabel = ReusableLabel(text: "단어장")
+    private let categoryLabel = CustomLabel(text: "단어장")
     
-    private lazy var categoryButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("영어", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 22)
-        button.setTitleColor(.label, for: .normal)
+    private lazy var categoryButton: UIButton = {
+        let button = CategoryBtn()
+        button.setTitle("단어장 선택" + " ", for: .normal)
         button.addAction(UIAction(handler: { UIAction in
             let vc = CategoryListViewController()
-            vc.view.backgroundColor = .secondarySystemGroupedBackground
             vc.navigationItem.title = "단어장 선택"
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
         return button
     }()
-    
-    private let vocabLabel = ReusableLabel(text: "단어")
-    private let vocabTextField = ReusableTextField(placeholder: "단어를 입력하세요.(필수)")
-    private let meaningLabel = ReusableLabel(text: "의미")
-    private let meaningTextField = ReusableTextField(placeholder: "뜻을 입력하세요.(필수)")
-    private let exampleLabel = ReusableLabel(text: "예문")
+        
+    private let vocabLabel = CustomLabel(text: "단어")
+    private let vocabTextField = CustomTextField(placeholder: "단어를 입력하세요.(필수)")
+    private let meaningLabel = CustomLabel(text: "의미")
+    private let meaningTextField = CustomTextField(placeholder: "뜻을 입력하세요.(필수)")
+    private let exampleLabel = CustomLabel(text: "예문")
     
     public lazy var textView = {
         let textView = UITextView()
@@ -72,14 +77,7 @@ class AddVocabViewController: UIViewController {
 
 extension AddVocabViewController {
     private func setup() {
-        if navigationItem.title == "단어 추가" {
-            let cancelButton = UIBarButtonItem(image: UIImage(systemName: "multiply", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(cancelButtonClicked))
-            navigationItem.leftBarButtonItem = cancelButton
-        }
-        
-        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        button.tintColor = .label
-        navigationItem.backBarButtonItem = button
+        navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = doneButton
         
         view.backgroundColor = .secondarySystemGroupedBackground
@@ -90,44 +88,26 @@ extension AddVocabViewController {
     }
     
     private func layout() {
-        view.addSubview(categoryLabel)
-        view.addSubview(categoryButton)
-        view.addSubview(vocabLabel)
-        view.addSubview(vocabTextField)
-        view.addSubview(meaningLabel)
-        view.addSubview(meaningTextField)
-        view.addSubview(exampleLabel)
-        view.addSubview(textView)
+        stackView.addArrangedSubview(categoryLabel)
+        stackView.addArrangedSubview(categoryButton)
+        stackView.addArrangedSubview(vocabLabel)
+        stackView.addArrangedSubview(vocabTextField)
+        stackView.addArrangedSubview(meaningLabel)
+        stackView.addArrangedSubview(meaningTextField)
+        stackView.addArrangedSubview(exampleLabel)
         textView.addSubview(placeholderLabel)
         
+        view.addSubview(stackView)
+        view.addSubview(textView)
+        
         NSLayoutConstraint.activate([
-            categoryLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4),
-            categoryLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 5),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2),
             
-            categoryButton.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor),
-            categoryButton.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-            
-            vocabLabel.topAnchor.constraint(equalToSystemSpacingBelow: categoryButton.bottomAnchor, multiplier: 1),
-            vocabLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-            
-            vocabTextField.topAnchor.constraint(equalToSystemSpacingBelow: vocabLabel.bottomAnchor, multiplier: 1),
-            vocabTextField.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: vocabTextField.trailingAnchor, multiplier: 2),
-            
-            meaningLabel.topAnchor.constraint(equalToSystemSpacingBelow: vocabTextField.bottomAnchor, multiplier: 2),
-            meaningLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-            
-            meaningTextField.topAnchor.constraint(equalToSystemSpacingBelow: meaningLabel.bottomAnchor, multiplier: 1),
-            meaningTextField.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: meaningTextField.trailingAnchor, multiplier: 2),
-            
-            exampleLabel.topAnchor.constraint(equalToSystemSpacingBelow: meaningTextField.bottomAnchor, multiplier: 2),
-            exampleLabel.leadingAnchor.constraint(equalTo: categoryLabel.leadingAnchor),
-            
-            textView.topAnchor.constraint(equalTo: exampleLabel.bottomAnchor),
+            textView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
             textView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1.5),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: textView.trailingAnchor, multiplier: 1),
-            
+            textView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
         ])
     }
 }
@@ -160,12 +140,8 @@ extension AddVocabViewController: UITextViewDelegate {
 }
 
 extension AddVocabViewController {
-    @objc func cancelButtonClicked() {
-        dismiss(animated: true)
+    @objc func doneButtonClicked() {
+        showToast(message: "추가 완료!", color: .systemGreen)
     }
     
-    @objc func doneButtonClicked() {
-        print(navigationItem.title!)
-        //        dismiss(animated: true)
-    }
 }

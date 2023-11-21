@@ -9,7 +9,7 @@ import UIKit
 
 class CategoryListViewController: UIViewController {
     
-    let titles = ["모든 단어", "영어", "일본어", "스페인어", "포르투갈어", "중국어"]
+    let titles = ["영어", "일본어", "스페인어", "포르투갈어", "중국어"]
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -17,7 +17,6 @@ class CategoryListViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 60
-        tableView.allowsSelectionDuringEditing = true
         tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.identifier)
         tableView.backgroundColor = view.backgroundColor
         return tableView
@@ -42,9 +41,7 @@ class CategoryListViewController: UIViewController {
 extension CategoryListViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
-        let button = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)
-        button.tintColor = .label
-        navigationItem.backBarButtonItem = button
+        navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = addButton
     }
     
@@ -81,7 +78,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         }
         
         let edit = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            self.pushVC(title: "단어장 편집")
+            self.pushVC(title: "단어장 수정")
             success(true)
         }
         

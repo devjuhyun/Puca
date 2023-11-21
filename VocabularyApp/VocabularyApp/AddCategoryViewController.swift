@@ -8,8 +8,8 @@
 import UIKit
 
 class AddCategoryViewController: UIViewController {
-    private let nameLabel = ReusableLabel(text: "단어장 이름")
-    private let nameTextField = ReusableTextField(placeholder: "단어장 이름을 입력하세요.")
+    private let nameLabel = CustomLabel(text: "단어장 이름")
+    private let nameTextField = CustomTextField(placeholder: "단어장 이름을 입력하세요.")
     
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
