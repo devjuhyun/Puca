@@ -108,7 +108,7 @@ extension CategoryListViewController {
 }
 
 extension CategoryListViewController {
-    @objc func addButtonClicked() {
+    @objc private func addButtonClicked() {
         pushVC(title: "단어장 추가")
     }
 }

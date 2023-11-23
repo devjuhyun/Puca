@@ -7,7 +7,20 @@
 
 import UIKit
 
-class AddVocabViewController: UIViewController {        
+class AddVocabViewController: UIViewController {      
+
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    private let contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +50,7 @@ class AddVocabViewController: UIViewController {
     private let meaningTextField = CustomTextField(placeholder: "뜻을 입력하세요.(필수)")
     private let exampleLabel = CustomLabel(text: "예문")
     
-    public lazy var textView = {
+    private lazy var textView = {
         let textView = UITextView()
         textView.font = UIFont.boldSystemFont(ofSize: 20)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,12 +79,12 @@ class AddVocabViewController: UIViewController {
         return button
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setup()
         layout()
+        addKeyboardObservers()
     }
 }
 
@@ -96,19 +109,48 @@ extension AddVocabViewController {
         stackView.addArrangedSubview(meaningTextField)
         stackView.addArrangedSubview(exampleLabel)
         textView.addSubview(placeholderLabel)
+
+        contentView.addSubview(stackView)
+        contentView.addSubview(textView)
         
-        view.addSubview(stackView)
-        view.addSubview(textView)
+        scrollView.addSubview(contentView)
+        
+        view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 5),
-            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            stackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 5),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2),
+            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2),
+
             textView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
-            textView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 1.5),
+            textView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.5),
             textView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
+            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
+    }
+    
+    private func addKeyboardObservers() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
 }
 
@@ -140,8 +182,23 @@ extension AddVocabViewController: UITextViewDelegate {
 }
 
 extension AddVocabViewController {
-    @objc func doneButtonClicked() {
+    @objc private func doneButtonClicked() {
         showToast(message: "추가 완료!", color: .systemGreen)
     }
     
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+                return
+        }
+
+        scrollView.contentInset.bottom = keyboardFrame.size.height
+        scrollView.verticalScrollIndicatorInsets.bottom = keyboardFrame.size.height
+    }
+    
+    @objc private func keyboardWillHide() {
+        scrollView.contentInset = .zero
+        scrollView.verticalScrollIndicatorInsets = .zero
+    }
+
 }

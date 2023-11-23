@@ -50,7 +50,7 @@ extension AddCategoryViewController {
 }
 
 extension AddCategoryViewController {
-    @objc func doneButtonClicked() {
+    @objc private func doneButtonClicked() {
         navigationController?.popViewController(animated: true)
     }
 }

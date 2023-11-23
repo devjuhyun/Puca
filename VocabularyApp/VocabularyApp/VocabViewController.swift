@@ -101,13 +101,13 @@ extension VocabViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension VocabViewController {
-    @objc func editButtonClicked() {
+    @objc private func editButtonClicked() {
         let vc = AddVocabViewController()
         vc.navigationItem.title = "단어 수정"
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func deleteButtonClicked() {
+    @objc private func deleteButtonClicked() {
         print("delete button clicked!")
     }
 }

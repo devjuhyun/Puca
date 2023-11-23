@@ -81,7 +81,7 @@ extension VocabTableViewCell {
 }
 
 extension VocabTableViewCell {
-    @objc func buttonTapped() {
+    @objc private func buttonTapped() {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
         
         if checkButton.tintColor == UIColor.systemGray2 {
