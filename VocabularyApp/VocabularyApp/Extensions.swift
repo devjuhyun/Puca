@@ -15,7 +15,7 @@ extension UIViewController {
         toastView.layer.cornerRadius = 5
         toastView.clipsToBounds = true
         
-        let toastImageView = UIImageView(image: UIImage(systemName: "checkmark.circle.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal))
+        let toastImageView = UIImageView(image: UIImage(systemName: "x.circle")?.withTintColor(.white, renderingMode: .alwaysOriginal))
         toastImageView.translatesAutoresizingMaskIntoConstraints = false
         let toastLabel = UILabel()
         toastLabel.translatesAutoresizingMaskIntoConstraints = false

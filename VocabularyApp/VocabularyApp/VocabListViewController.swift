@@ -77,9 +77,25 @@ class VocabListViewController: UIViewController {
         let image = UIImage(systemName: "ellipsis")?.withTintColor(.label, renderingMode: .alwaysOriginal)
         
         let items = [
-            UIAction(title: "단어 정렬", image: UIImage(systemName: "arrow.up.arrow.down"), handler: { UIAction in
-                
-            }),
+            UIMenu(title: "단어 정렬", subtitle: "최신순", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
+                UIAction(title: "최신순", handler: { UIAction in
+                    
+                }),
+                UIAction(title: "오래된순", handler: { UIAction in
+                    
+                })
+            ]),
+            UIMenu(title: "단어 보기", subtitle: "모든 단어", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
+                UIAction(title: "모든 단어", state: .on, handler: { UIAction in
+                    
+                }),
+                UIAction(title: "체크한 단어", handler: { UIAction in
+                    
+                }),
+                UIAction(title: "미체크한 단어", handler: { UIAction in
+                    
+                })
+            ]),
             UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { UIAction in
                 self.tableView.setEditing(!self.tableView.isEditing, animated: true)
                 self.updateUI()

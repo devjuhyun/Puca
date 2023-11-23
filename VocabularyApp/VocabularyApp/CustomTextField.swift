@@ -13,7 +13,7 @@ class CustomTextField: UITextField {
         self.placeholder = placeholder
         
         translatesAutoresizingMaskIntoConstraints = false
-        font = UIFont.boldSystemFont(ofSize: 22)
+        font = UIFont.boldSystemFont(ofSize: 20)
         autocapitalizationType = .none
     }
     

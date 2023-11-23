@@ -183,7 +183,7 @@ extension AddVocabViewController: UITextViewDelegate {
 
 extension AddVocabViewController {
     @objc private func doneButtonClicked() {
-        showToast(message: "추가 완료!", color: .systemGreen)
+        showToast(message: "단어장을 선택하세요.", color: .systemRed)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
