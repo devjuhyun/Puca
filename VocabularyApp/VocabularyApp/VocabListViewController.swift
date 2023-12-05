@@ -43,7 +43,7 @@ class VocabListViewController: UIViewController {
         let button = CategoryBtn()
         button.addAction(UIAction(handler: { UIAction in
             let vc = CategoryListViewController()
-            vc.navigationItem.title = "카테고리 선택"
+            vc.navigationItem.title = "단어장 선택"
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
         return button

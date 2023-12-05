@@ -8,6 +8,17 @@
 import UIKit
 
 class AddCategoryViewController: UIViewController {
+    
+    private let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.axis = .vertical
+        stackView.spacing = 8
+        return stackView
+    }()
+    
     private let nameLabel = CustomLabel(text: "단어장 이름")
     private let nameTextField = CustomTextField(placeholder: "단어장 이름을 입력하세요.")
     
@@ -34,16 +45,15 @@ extension AddCategoryViewController {
     }
     
     private func layout() {
-        view.addSubview(nameLabel)
-        view.addSubview(nameTextField)
+        stackView.addArrangedSubview(nameLabel)
+        stackView.addArrangedSubview(nameTextField)
+        
+        view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 4),
-            nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
-            
-            nameTextField.topAnchor.constraint(equalToSystemSpacingBelow: nameLabel.bottomAnchor, multiplier: 1),
-            nameTextField.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            view.trailingAnchor.constraint(equalToSystemSpacingAfter: nameTextField.trailingAnchor, multiplier: 2),
+            stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.topAnchor, multiplier: 5),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2),
 
         ])
     }
@@ -51,6 +61,6 @@ extension AddCategoryViewController {
 
 extension AddCategoryViewController {
     @objc private func doneButtonClicked() {
-        navigationController?.popViewController(animated: true)
+        showToast(message: "단어장 이름을 입력하세요.", color: .red)
     }
 }
