@@ -39,7 +39,7 @@ class VocabTableViewCell: UITableViewCell {
 extension VocabTableViewCell {
     private func setup() {
         backgroundColor = .secondarySystemGroupedBackground
-        tintColor = appColor
+        tintColor = .appColor
     }
         
     private func layout() {
@@ -92,7 +92,7 @@ extension VocabTableViewCell {
     }
     
     private func updateUI(isChecked: Bool) {
-        checkButton.tintColor = isChecked ? appColor : .systemGray2
+        checkButton.tintColor = isChecked ? .appColor : .systemGray2
         vocabLabel.textColor = isChecked ? .systemGray2 : .label
         meaningLabel.textColor = isChecked ? .systemGray2 : .label
     }

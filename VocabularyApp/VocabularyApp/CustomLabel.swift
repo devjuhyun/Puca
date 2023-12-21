@@ -14,7 +14,7 @@ class CustomLabel: UILabel {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         self.font = UIFont.boldSystemFont(ofSize: 17)
-        self.textColor = appColor
+        self.textColor = .appColor
     }
     
     required init?(coder: NSCoder) {

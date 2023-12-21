@@ -27,7 +27,7 @@ class CategoryListViewController: UIViewController {
     
     private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "추가", style: .done, target: self, action: #selector(addButtonClicked))
-        button.tintColor = appColor
+        button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
         return button

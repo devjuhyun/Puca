@@ -25,7 +25,7 @@ class CategoryTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
-            contentView.backgroundColor = appColor
+            contentView.backgroundColor = .appColor
         } else {
             contentView.backgroundColor = .tertiarySystemFill
         }

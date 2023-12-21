@@ -14,7 +14,7 @@ class FloatingBtn: UIButton {
         
         translatesAutoresizingMaskIntoConstraints = false
         configuration = .filled()
-        tintColor = appColor
+        tintColor = .appColor
         layer.cornerRadius = frame.height / 2
         clipsToBounds = true
         

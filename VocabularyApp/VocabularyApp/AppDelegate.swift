@@ -7,8 +7,6 @@
 
 import UIKit
 
-let appColor = UIColor(red: 0.95, green: 0.63, blue: 0.62, alpha: 1.00)
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?

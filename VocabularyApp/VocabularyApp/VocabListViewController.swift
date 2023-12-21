@@ -52,7 +52,7 @@ class VocabListViewController: UIViewController {
     private let searchController: UISearchController = {
         let searchController = UISearchController()
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.searchBar.tintColor = appColor
+        searchController.searchBar.tintColor = .appColor
         searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
         searchController.searchBar.placeholder = "검색할 단어를 입력하세요."
         searchController.searchBar.autocapitalizationType = .none
@@ -104,7 +104,7 @@ class VocabListViewController: UIViewController {
         
         let button = UIBarButtonItem(image: image, menu: UIMenu(children: items))
         button.title = "완료"
-        button.tintColor = appColor
+        button.tintColor = .appColor
         
         return button
     }()
@@ -114,7 +114,7 @@ class VocabListViewController: UIViewController {
             self.tableView.setEditing(!self.tableView.isEditing, animated: true)
             self.updateUI()
         }))
-        button.tintColor = appColor
+        button.tintColor = .appColor
         
         return button
     }()
@@ -164,7 +164,7 @@ extension VocabListViewController {
     
     private func setupToolBar() {
         let apperance = UIToolbarAppearance()
-        apperance.backgroundColor = appColor
+        apperance.backgroundColor = .appColor
         navigationController?.toolbar.standardAppearance = apperance
         navigationController?.toolbar.scrollEdgeAppearance = apperance
         toolbarItems = toolbarButtons
@@ -215,7 +215,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
         if tableView.isEditing {
             
         } else {
-            navigationController?.pushViewController(VocabViewController(), animated: true)
+            navigationController?.pushViewController(VocabCollectionViewController(), animated: true)
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
         }

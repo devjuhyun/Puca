@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VocabViewController: UIViewController {
+class VocabCollectionViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -50,7 +50,7 @@ class VocabViewController: UIViewController {
     }
 }
 
-extension VocabViewController {
+extension VocabCollectionViewController {
     private func setup() {
         navigationItem.rightBarButtonItems = [editButton, deleteButton]
         navigationItem.setBackBarButtonItem()
@@ -68,7 +68,7 @@ extension VocabViewController {
     }
 }
 
-extension VocabViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension VocabCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
     }
@@ -90,7 +90,7 @@ extension VocabViewController: UICollectionViewDelegate, UICollectionViewDataSou
     
 }
 
-extension VocabViewController: UICollectionViewDelegateFlowLayout {
+extension VocabCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: view.frame.height)
     }
@@ -100,7 +100,7 @@ extension VocabViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension VocabViewController {
+extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
         let vc = AddVocabViewController()
         vc.navigationItem.title = "단어 수정"

@@ -73,7 +73,7 @@ class AddVocabViewController: UIViewController {
     
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
-        button.tintColor = appColor
+        button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
         return button
@@ -183,7 +183,7 @@ extension AddVocabViewController: UITextViewDelegate {
 
 extension AddVocabViewController {
     @objc private func doneButtonClicked() {
-        showToast(message: "단어장을 선택하세요.", color: .systemRed)
+        AlertService.showToast(in: self, message: "단어장을 선택하세요", color: .systemRed, imageName: "x.circle")
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

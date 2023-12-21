@@ -15,7 +15,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 20
-        view.layer.borderColor = appColor.cgColor
+        view.layer.borderColor = UIColor.appColor.cgColor
         view.layer.borderWidth = 5
         //        card.isUserInteractionEnabled = true
         return view
@@ -28,7 +28,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
         button.setImage(image, for: .normal)
         button.addAction(UIAction(handler: { UIAction in
             if button.tintColor == .systemGray2 {
-                button.tintColor = appColor
+                button.tintColor = .appColor
             } else {
                 button.tintColor = .systemGray2
             }
@@ -111,7 +111,7 @@ extension VocabCollectionViewCell {
         exampleLabel.text = vocab.example
         meaningLabel.text = vocab.meaning
         meaningLabel.isHidden = true
-        checkButton.tintColor = vocab.isChecked ? appColor : UIColor.systemGray2
+        checkButton.tintColor = vocab.isChecked ? .appColor : UIColor.systemGray2
     }
 }
 
