@@ -10,7 +10,6 @@ import UIKit
 class CategoryListViewController: UIViewController {
     
     // MARK: - Properties
-    // TODO: - Add View Model
     private let vm = CategoryListViewModel()
     
     // MARK: - UI Components
@@ -95,7 +94,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            print("delete")
+            self.vm.deleteCategory(at: indexPath.row)
             
             success(true)
         }

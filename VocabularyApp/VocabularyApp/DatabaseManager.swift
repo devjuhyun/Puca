@@ -10,6 +10,7 @@ import RealmSwift
 protocol DataBase {
     func create<T: Object>(_ object: T)
     func read<T: Object>(_ object: T.Type) -> Results<T>
+    func delete<T: Object>(_ object: T)
 }
 
 class DatabaseManager: DataBase {
@@ -36,6 +37,16 @@ class DatabaseManager: DataBase {
     
     func read<T: Object>(_ object: T.Type) -> Results<T> {
         return realm.objects(object)
+    }
+    
+    func delete<T: Object>(_ object: T) {
+        do {
+            try realm.write {
+                realm.delete(object)
+            }
+        } catch let error {
+            print("Error deleting an object: \(error)")
+        }
     }
     
     

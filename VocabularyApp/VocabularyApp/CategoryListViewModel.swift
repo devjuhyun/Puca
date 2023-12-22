@@ -10,8 +10,8 @@ import RealmSwift
 class CategoryListViewModel {
     
     var onCategoriesUpdated: (()->Void)?
-    var token: NotificationToken?
-    
+    private var token: NotificationToken?
+
     private(set) var categories: Results<Category> {
         didSet {
             onCategoriesUpdated?()
@@ -24,4 +24,10 @@ class CategoryListViewModel {
             self.onCategoriesUpdated?()
         }
     }
+    
+    func deleteCategory(at index: Int) {
+        DatabaseManager.shared.delete(categories[index])
+    }
+    
+    
 }
