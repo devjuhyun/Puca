@@ -9,8 +9,10 @@ import UIKit
 
 class VocabTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
     static let identifier = "VocabTableViewCell"
     
+    // MARK: - UI Components
     public let vocabLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,6 +38,7 @@ class VocabTableViewCell: UITableViewCell {
     }()
 }
 
+// MARK: - Helpers
 extension VocabTableViewCell {
     private func setup() {
         backgroundColor = .secondarySystemGroupedBackground
@@ -78,8 +81,14 @@ extension VocabTableViewCell {
         checkButton.isHidden.toggle()
     }
     
+    private func updateUI(isChecked: Bool) {
+        checkButton.tintColor = isChecked ? .appColor : .systemGray2
+        vocabLabel.textColor = isChecked ? .systemGray2 : .label
+        meaningLabel.textColor = isChecked ? .systemGray2 : .label
+    }
 }
 
+// MARK: - Selectors
 extension VocabTableViewCell {
     @objc private func buttonTapped() {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
@@ -89,11 +98,5 @@ extension VocabTableViewCell {
         } else {
             updateUI(isChecked: false)
         }
-    }
-    
-    private func updateUI(isChecked: Bool) {
-        checkButton.tintColor = isChecked ? .appColor : .systemGray2
-        vocabLabel.textColor = isChecked ? .systemGray2 : .label
-        meaningLabel.textColor = isChecked ? .systemGray2 : .label
     }
 }

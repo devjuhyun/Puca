@@ -7,13 +7,31 @@
 
 import RealmSwift
 
-class DatabaseManager {
-    static let shared = DatabaseManager()
+protocol DataBase {
+    func create<T: Object>(_ object: T)
+}
+
+class DatabaseManager: DataBase {
     
+    static let shared = DatabaseManager()
     private let realm = try! Realm()
     
-    // MARK: - Lifecycle
-    
     private init() {}
+    
+    func getLocationOfDefaultRealm() {
+        print("Realm is located at:", realm.configuration.fileURL!)
+    }
+    
+    // TODO: - Add CRUD Methods
+    func create<T: Object>(_ object: T) {
+        do {
+            try realm.write {
+                realm.add(object)
+            }
+        } catch {
+            print("Error creating new object: \(error)")
+        }
+    }
+    
     
 }

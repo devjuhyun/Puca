@@ -9,6 +9,7 @@ import UIKit
 
 class VocabListViewController: UIViewController {
     
+    // MARK: - UI Components
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -128,9 +129,11 @@ class VocabListViewController: UIViewController {
         .flexibleSpace(),
         UIBarButtonItem(image: UIImage(systemName: "checkmark")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(checkAllButtonClicked)),
     ]
-                
+            
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        DatabaseManager.shared.getLocationOfDefaultRealm()
         
         setup()
         layout()
@@ -147,6 +150,7 @@ class VocabListViewController: UIViewController {
     }
 }
 
+// MARK: - Helpers
 extension VocabListViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
@@ -191,8 +195,19 @@ extension VocabListViewController {
             addButton.heightAnchor.constraint(equalToConstant: 56)
         ])
     }
+    
+    private func updateUI() {
+        addButton.isHidden.toggle()
+        navigationController?.isToolbarHidden.toggle()
+        navigationItem.rightBarButtonItems = tableView.isEditing ? [doneButton] : [editButton, searchButton]
+        navigationItem.leftBarButtonItems = tableView.isEditing ? nil : [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
+        navigationItem.searchController?.isActive = false // 검색하는 도중 편집할때 타이틀 안보이는 문제 해결
+        navigationItem.searchController = tableView.isEditing ? self.searchController : nil
+        navigationItem.title = self.tableView.isEditing ? "0/30" : nil
+    }
 }
 
+// MARK: - TableView Delegate Methods
 extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 30
@@ -227,6 +242,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+// MARK: - Selectors
 extension VocabListViewController {
     @objc private func selectAllButtonClicked() {
     }
@@ -239,17 +255,9 @@ extension VocabListViewController {
     
     @objc private func checkAllButtonClicked() {
     }
-    
-    private func updateUI() {
-        addButton.isHidden.toggle()
-        navigationController?.isToolbarHidden.toggle()
-        navigationItem.rightBarButtonItems = tableView.isEditing ? [doneButton] : [editButton, searchButton]
-        navigationItem.leftBarButtonItems = tableView.isEditing ? nil : [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
-        navigationItem.searchController?.isActive = false // 검색하는 도중 편집할때 타이틀 안보이는 문제 해결
-        navigationItem.searchController = tableView.isEditing ? self.searchController : nil
-        navigationItem.title = self.tableView.isEditing ? "0/30" : nil
-    }
 }
+
+// MARK: - Search Controller Funtions
 extension VocabListViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         if !tableView.isEditing {

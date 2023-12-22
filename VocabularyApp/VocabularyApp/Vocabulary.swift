@@ -11,7 +11,7 @@ import RealmSwift
 class Vocabulary: Object {
     @Persisted var word: String = ""
     @Persisted var meaning: String = ""
-    @Persisted var example: String?
+    @Persisted var example: String = ""
     @Persisted var isChecked: Bool = false
     @Persisted var date: Date = Date()
 }

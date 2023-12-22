@@ -9,8 +9,10 @@ import UIKit
 
 class CategoryTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
     static let identifier = "CategoryTableViewCell"
     
+    // MARK: - UI Components
     public let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -18,6 +20,7 @@ class CategoryTableViewCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Helpers
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
 //    }

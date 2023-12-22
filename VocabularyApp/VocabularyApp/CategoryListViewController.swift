@@ -9,8 +9,11 @@ import UIKit
 
 class CategoryListViewController: UIViewController {
     
+    // MARK: - Properties
+    // TODO: - Add View Model
     var titles = ["영어", "일본어", "스페인어", "포르투갈어", "중국어"]
     
+    // MARK: - UI Components
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,6 +36,7 @@ class CategoryListViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,6 +45,7 @@ class CategoryListViewController: UIViewController {
     }
 }
 
+// MARK: - Helpers
 extension CategoryListViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
@@ -58,8 +63,15 @@ extension CategoryListViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
+    
+    private func pushVC(title: String) {
+        let vc = AddCategoryViewController()
+        vc.navigationItem.title = title
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
+// MARK: - UITableView Delegate Methods
 extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return titles.count
@@ -126,14 +138,7 @@ extension CategoryListViewController: UITableViewDragDelegate, UITableViewDropDe
     
 }
 
-extension CategoryListViewController {
-    private func pushVC(title: String) {
-        let vc = AddCategoryViewController()
-        vc.navigationItem.title = title
-        navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
+// MARK: - Selectors
 extension CategoryListViewController {
     @objc private func addButtonClicked() {
         pushVC(title: "단어장 추가")

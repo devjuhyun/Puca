@@ -9,6 +9,7 @@ import UIKit
 
 class AddVocabViewController: UIViewController {      
 
+    // MARK: - UI Components
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +80,7 @@ class AddVocabViewController: UIViewController {
         return button
     }()
     
+    // MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -89,6 +91,7 @@ class AddVocabViewController: UIViewController {
 }
 
 extension AddVocabViewController {
+    // MARK: - Helpers
     private func setup() {
         navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = doneButton
@@ -154,6 +157,7 @@ extension AddVocabViewController {
     }
 }
 
+// MARK: - UITextField Delegate Methods
 extension AddVocabViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == vocabTextField {
@@ -166,6 +170,7 @@ extension AddVocabViewController: UITextFieldDelegate {
     }
 }
 
+// MARK: - UITextView Delegate Methods
 extension AddVocabViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         placeholderLabel.isHidden = !textView.text.isEmpty
@@ -181,6 +186,7 @@ extension AddVocabViewController: UITextViewDelegate {
     
 }
 
+// MARK: - Selectors
 extension AddVocabViewController {
     @objc private func doneButtonClicked() {
         AlertService.showToast(in: self, message: "단어장을 선택하세요", color: .systemRed, imageName: "x.circle")

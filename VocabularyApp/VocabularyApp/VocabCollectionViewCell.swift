@@ -9,8 +9,10 @@ import UIKit
 
 class VocabCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Properties
     static let identifier = "VocabCollectionViewCell"
     
+    // MARK: - UI Components
     private let card: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +64,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
     
 }
 
+// MARK: - Helpers
 extension VocabCollectionViewCell {
     private func setup() {
         let tap = UITapGestureRecognizer()
@@ -115,6 +118,7 @@ extension VocabCollectionViewCell {
     }
 }
 
+// MARK: - Selectors
 extension VocabCollectionViewCell {
     @objc private func flip() {
         UIView.transition(with: card, duration: 0.5, options: .transitionFlipFromBottom) {

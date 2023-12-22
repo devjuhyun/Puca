@@ -9,6 +9,7 @@ import UIKit
 
 class VocabCollectionViewController: UIViewController {
     
+    // MARK: - UI Components
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -36,6 +37,7 @@ class VocabCollectionViewController: UIViewController {
         return UIBarButtonItem(image: UIImage(systemName: "trash", withConfiguration: configuration)?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(deleteButtonClicked))
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -50,6 +52,7 @@ class VocabCollectionViewController: UIViewController {
     }
 }
 
+// MARK: - Helpers
 extension VocabCollectionViewController {
     private func setup() {
         navigationItem.rightBarButtonItems = [editButton, deleteButton]
@@ -68,6 +71,7 @@ extension VocabCollectionViewController {
     }
 }
 
+// MARK: - CollectionView Delegate Methods
 extension VocabCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5
@@ -100,6 +104,7 @@ extension VocabCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - Selectors
 extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
         let vc = AddVocabViewController()
