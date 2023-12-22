@@ -43,8 +43,8 @@ class CategoryTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(_ text: String) {
-        label.text = text
+    public func configure(with category: Category) {
+        label.text = category.name
         label.textColor = .label
         isSelected = false
         

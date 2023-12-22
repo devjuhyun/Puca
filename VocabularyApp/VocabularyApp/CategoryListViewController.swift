@@ -11,7 +11,7 @@ class CategoryListViewController: UIViewController {
     
     // MARK: - Properties
     // TODO: - Add View Model
-    var titles = ["영어", "일본어", "스페인어", "포르투갈어", "중국어"]
+    private let vm = CategoryListViewModel()
     
     // MARK: - UI Components
     private lazy var tableView: UITableView = {
@@ -42,6 +42,13 @@ class CategoryListViewController: UIViewController {
         
         setup()
         layout()
+        
+        vm.onCategoriesUpdated = { [weak self] in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+            
+        }
     }
 }
 
@@ -74,13 +81,14 @@ extension CategoryListViewController {
 // MARK: - UITableView Delegate Methods
 extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return vm.categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
-                
-        cell.configure(titles[indexPath.row])
+        
+        let category = vm.categories[indexPath.row]
+        cell.configure(with: category)
         
         return cell
     }
@@ -114,9 +122,9 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        let moveCell = titles[sourceIndexPath.row]
-        titles.remove(at: sourceIndexPath.row)
-        titles.insert(moveCell, at: destinationIndexPath.row)
+//        let moveCell = titles[sourceIndexPath.row]
+//        titles.remove(at: sourceIndexPath.row)
+//        titles.insert(moveCell, at: destinationIndexPath.row)
     }
 }
 

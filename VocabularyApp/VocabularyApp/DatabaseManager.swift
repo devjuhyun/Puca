@@ -9,6 +9,7 @@ import RealmSwift
 
 protocol DataBase {
     func create<T: Object>(_ object: T)
+    func read<T: Object>(_ object: T.Type) -> Results<T>
 }
 
 class DatabaseManager: DataBase {
@@ -31,6 +32,10 @@ class DatabaseManager: DataBase {
         } catch {
             print("Error creating new object: \(error)")
         }
+    }
+    
+    func read<T: Object>(_ object: T.Type) -> Results<T> {
+        return realm.objects(object)
     }
     
     

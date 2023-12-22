@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6B025DBF2AFF6ED40001F889 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B025DBE2AFF6ED40001F889 /* Extensions.swift */; };
 		6B30CD912AFCB8900047AB00 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30CD902AFCB8900047AB00 /* CustomButton.swift */; };
+		6B3546302B355464006152BA /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35462F2B355464006152BA /* CategoryListViewModel.swift */; };
 		6B3ECB822ABEC7060011C75D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3ECB812ABEC7060011C75D /* Category.swift */; };
 		6B4532A52ADD3F3E0080A278 /* VocabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */; };
 		6B66447C2ABC02410064D8DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447B2ABC02410064D8DE /* Realm */; };
@@ -33,6 +34,7 @@
 /* Begin PBXFileReference section */
 		6B025DBE2AFF6ED40001F889 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		6B30CD902AFCB8900047AB00 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		6B35462F2B355464006152BA /* CategoryListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		6B3ECB812ABEC7060011C75D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabCollectionViewCell.swift; sourceTree = "<group>"; };
 		6B66447F2ABC028F0064D8DE /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		6BA4C6502B34192700DD549F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				6B35462F2B355464006152BA /* CategoryListViewModel.swift */,
 			);
 			name = ViewModels;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				6BCFC99B2AA99CFF005F0E53 /* AppDelegate.swift in Sources */,
 				6BD6AE842AE8E8230009CB57 /* CategoryTableViewCell.swift in Sources */,
 				6BA4C6532B34195700DD549F /* AlertService.swift in Sources */,
+				6B3546302B355464006152BA /* CategoryListViewModel.swift in Sources */,
 				6BD6AE7C2AE665170009CB57 /* CustomLabel.swift in Sources */,
 				6BEB5AAC2AB7DBC60013575B /* AddVocabViewController.swift in Sources */,
 				6B4532A52ADD3F3E0080A278 /* VocabCollectionViewCell.swift in Sources */,
