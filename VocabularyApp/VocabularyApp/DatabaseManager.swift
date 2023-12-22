@@ -13,7 +13,7 @@ protocol DataBase {
     func delete<T: Object>(_ object: T)
 }
 
-class DatabaseManager: DataBase {
+final class DatabaseManager: DataBase {
     
     static let shared = DatabaseManager()
     private let realm = try! Realm()
@@ -24,7 +24,6 @@ class DatabaseManager: DataBase {
         print("Realm is located at:", realm.configuration.fileURL!)
     }
     
-    // TODO: - Add CRUD Methods
     func create<T: Object>(_ object: T) {
         do {
             try realm.write {
@@ -39,12 +38,22 @@ class DatabaseManager: DataBase {
         return realm.objects(object)
     }
     
+    func update<T: Object>(_ object: T, completion: @escaping ((T) -> ())) {
+        do {
+            try realm.write {
+                completion(object)
+            }
+        } catch {
+            print(error)
+        }
+    }
+    
     func delete<T: Object>(_ object: T) {
         do {
             try realm.write {
                 realm.delete(object)
             }
-        } catch let error {
+        } catch {
             print("Error deleting an object: \(error)")
         }
     }

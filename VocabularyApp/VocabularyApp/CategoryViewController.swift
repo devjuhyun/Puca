@@ -7,7 +7,10 @@
 
 import UIKit
 
-class AddCategoryViewController: UIViewController {
+class CategoryViewController: UIViewController {
+    
+    // MARK: - Properties
+    private let vm: CategoryViewModel
     
     // MARK: - UI Components
     private let stackView: UIStackView = {
@@ -32,6 +35,15 @@ class AddCategoryViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
+    init(viewModel: CategoryViewModel) {
+        self.vm = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -41,12 +53,13 @@ class AddCategoryViewController: UIViewController {
 }
 
 // MARK: - Helpers
-extension AddCategoryViewController {
+extension CategoryViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.rightBarButtonItem = doneButton
         nameTextField.becomeFirstResponder()
         nameTextField.delegate = self
+        nameTextField.text = vm.category?.name
     }
     
     private func layout() {
@@ -67,14 +80,13 @@ extension AddCategoryViewController {
         if nameTextField.text!.isEmpty {
             AlertService.showToast(in: self, message: "단어장 이름을 입력하세요.", color: .systemRed, imageName: "x.circle")
         } else {
-            let newCategory = Category(name: nameTextField.text!)
-            DatabaseManager.shared.create(newCategory)
+            vm.updateCategory(name: nameTextField.text!)
             navigationController?.popViewController(animated: true)
         }
     }
 }
 
-extension AddCategoryViewController: UITextFieldDelegate {
+extension CategoryViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         saveCategory()
         return true
@@ -82,7 +94,7 @@ extension AddCategoryViewController: UITextFieldDelegate {
 }
 
 // MARK: - Selectors
-extension AddCategoryViewController {
+extension CategoryViewController {
     @objc private func doneButtonClicked() {
         saveCategory()
     }

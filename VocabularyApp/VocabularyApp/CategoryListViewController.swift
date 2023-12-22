@@ -70,8 +70,9 @@ extension CategoryListViewController {
         ])
     }
     
-    private func pushVC(title: String) {
-        let vc = AddCategoryViewController()
+    private func pushVC(title: String, category: Category?) {
+        let vm = CategoryViewModel(category: category)
+        let vc = CategoryViewController(viewModel: vm)
         vc.navigationItem.title = title
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -100,7 +101,8 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         }
         
         let edit = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            self.pushVC(title: "단어장 수정")
+            let category = self.vm.categories[indexPath.row]
+            self.pushVC(title: "단어장 수정", category: category)
             success(true)
         }
         
@@ -148,6 +150,6 @@ extension CategoryListViewController: UITableViewDragDelegate, UITableViewDropDe
 // MARK: - Selectors
 extension CategoryListViewController {
     @objc private func addButtonClicked() {
-        pushVC(title: "단어장 추가")
+        pushVC(title: "단어장 추가", category: nil)
     }
 }

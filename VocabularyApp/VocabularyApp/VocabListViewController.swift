@@ -32,7 +32,7 @@ class VocabListViewController: UIViewController {
             
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             
-            let vc = AddVocabViewController()
+            let vc = VocabViewController()
             vc.navigationItem.title = "단어 추가"
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
