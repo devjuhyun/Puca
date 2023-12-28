@@ -7,15 +7,9 @@
 
 import RealmSwift
 
-protocol DataBase {
-    func create<T: Object>(_ object: T)
-    func read<T: Object>(_ object: T.Type) -> Results<T>
-    func delete<T: Object>(_ object: T)
-}
-
-final class DatabaseManager: DataBase {
+final class DBManager {
     
-    static let shared = DatabaseManager()
+    static let shared = DBManager()
     private let realm = try! Realm()
     
     private init() {}
@@ -38,13 +32,13 @@ final class DatabaseManager: DataBase {
         return realm.objects(object)
     }
     
-    func update<T: Object>(_ object: T, completion: @escaping ((T) -> ())) {
+    func update(completion: () -> Void) {
         do {
             try realm.write {
-                completion(object)
+                completion()
             }
         } catch {
-            print(error)
+            print("Error updating object: \(error)")
         }
     }
     
@@ -58,5 +52,8 @@ final class DatabaseManager: DataBase {
         }
     }
     
-    
+    func fetchCategories() -> List<Category> {
+        guard let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0) else { fatalError("Error: no categoryList") }
+        return categoryList.categories
+    }
 }

@@ -46,7 +46,6 @@ class CategoryListViewController: UIViewController {
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
-            
         }
     }
 }
@@ -123,9 +122,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        let moveCell = titles[sourceIndexPath.row]
-//        titles.remove(at: sourceIndexPath.row)
-//        titles.insert(moveCell, at: destinationIndexPath.row)
+        vm.moveCategory(from: sourceIndexPath.row, to: destinationIndexPath.row)
     }
 }
 

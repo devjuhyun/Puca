@@ -12,22 +12,27 @@ class CategoryListViewModel {
     var onCategoriesUpdated: (()->Void)?
     private var token: NotificationToken?
 
-    private(set) var categories: Results<Category> {
+    private(set) var categories: List<Category> {
         didSet {
             onCategoriesUpdated?()
         }
     }
         
     init() {
-        categories = DatabaseManager.shared.read(Category.self)
+        categories = DBManager.shared.fetchCategories()
+        
         token = categories.observe { changes in
             self.onCategoriesUpdated?()
         }
     }
     
     func deleteCategory(at index: Int) {
-        DatabaseManager.shared.delete(categories[index])
+        DBManager.shared.delete(categories[index])
     }
     
-    
+    func moveCategory(from sourceIndex: Int, to destinationIndex: Int) {
+        DBManager.shared.update { [weak self] in
+            self?.categories.move(from: sourceIndex, to: destinationIndex)
+        }
+    }
 }

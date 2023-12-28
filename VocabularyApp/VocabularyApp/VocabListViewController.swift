@@ -133,7 +133,7 @@ class VocabListViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        DatabaseManager.shared.getLocationOfDefaultRealm()
+        DBManager.shared.getLocationOfDefaultRealm()
         
         setup()
         layout()
