@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import RealmSwift
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,14 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         window?.rootViewController = UINavigationController(rootViewController: VocabListViewController())
-        
-        let realm = try! Realm()
-        let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0)
-        if categoryList == nil {
-            try! realm.write {
-                realm.add(CategoryList())
-            }
-        }
         
         return true
     }

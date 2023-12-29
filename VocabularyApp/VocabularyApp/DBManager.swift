@@ -12,24 +12,23 @@ final class DBManager {
     static let shared = DBManager()
     private let realm = try! Realm()
     
-    private init() {}
-    
-    func getLocationOfDefaultRealm() {
-        print("Realm is located at:", realm.configuration.fileURL!)
+    private init() {
+        checkCategoryList()
     }
     
-    func create<T: Object>(_ object: T) {
-        do {
-            try realm.write {
-                realm.add(object)
+    func checkCategoryList() {
+        let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0)
+        if categoryList == nil {
+            try! realm.write {
+                let categoryList = CategoryList()
+                categoryList.categories.append(Category(name: "모든 단어"))
+                realm.add(categoryList)
             }
-        } catch {
-            print("Error creating new object: \(error)")
         }
     }
     
-    func read<T: Object>(_ object: T.Type) -> Results<T> {
-        return realm.objects(object)
+    func getLocationOfDefaultRealm() {
+        print("Realm is located at:", realm.configuration.fileURL!)
     }
     
     func update(completion: () -> Void) {
@@ -52,8 +51,8 @@ final class DBManager {
         }
     }
     
-    func fetchCategories() -> List<Category> {
+    func fetchCategoryList() -> CategoryList {
         guard let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0) else { fatalError("Error: no categoryList") }
-        return categoryList.categories
+        return categoryList
     }
 }

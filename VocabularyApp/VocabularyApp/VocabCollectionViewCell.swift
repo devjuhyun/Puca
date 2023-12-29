@@ -62,10 +62,21 @@ class VocabCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    // MARK: - Lifecycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+        layout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }
 
-// MARK: - Helpers
 extension VocabCollectionViewCell {
+    // MARK: - Helpers
     private func setup() {
         let tap = UITapGestureRecognizer()
         addGestureRecognizer(tap)
@@ -97,24 +108,21 @@ extension VocabCollectionViewCell {
         ])
     }
     
-    // 셀 재사용할때 초기화해주는 메소드
+    public func configure(with vocab: Vocabulary) {
+        vocabLabel.text = vocab.word
+        exampleLabel.text = vocab.example
+        meaningLabel.text = vocab.meaning
+        meaningLabel.isHidden = true
+        checkButton.tintColor = vocab.isChecked ? .appColor : UIColor.systemGray2
+    }
+    
+    // MARK: - UICollectionViewCell Methods
     override func prepareForReuse() {
         super.prepareForReuse()
         vocabLabel.text = ""
         exampleLabel.text = ""
         meaningLabel.text = ""
         checkButton.tintColor = .systemGray2
-    }
-    
-    public func configure(with vocab: Vocabulary) {
-        setup()
-        layout()
-        
-        vocabLabel.text = vocab.word
-        exampleLabel.text = vocab.example
-        meaningLabel.text = vocab.meaning
-        meaningLabel.isHidden = true
-        checkButton.tintColor = vocab.isChecked ? .appColor : UIColor.systemGray2
     }
 }
 

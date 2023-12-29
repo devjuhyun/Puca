@@ -20,10 +20,10 @@ class CategoryViewModel {
                 self?.category?.name = name
             }
         } else { // add category
-            let categories = DBManager.shared.fetchCategories()
+            let categoryList = DBManager.shared.fetchCategoryList()
             DBManager.shared.update {
                 let newCategory = Category(name: name)
-                categories.append(newCategory)
+                categoryList.categories.append(newCategory)
             }
         }
     }

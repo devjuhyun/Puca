@@ -43,8 +43,9 @@ class VocabListViewController: UIViewController {
     private lazy var categoryButton: UIButton = {
         let button = CategoryBtn()
         button.addAction(UIAction(handler: { UIAction in
-            let vc = CategoryListViewController()
-            vc.navigationItem.title = "단어장 선택"
+            let vm = CategoryListViewModel()
+            vm.shouldDisplayAllCategories = true
+            let vc = CategoryListViewController(viewModel: vm)
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
         return button

@@ -36,10 +36,21 @@ class VocabTableViewCell: UITableViewCell {
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         return button
     }()
+    
+    // MARK: - Lifecycle
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
+        layout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
-// MARK: - Helpers
 extension VocabTableViewCell {
+    // MARK: - Helpers
     private func setup() {
         backgroundColor = .secondarySystemGroupedBackground
         tintColor = .appColor
@@ -69,22 +80,20 @@ extension VocabTableViewCell {
     }
     
     public func configure(with vocab: Vocabulary) {
-        setup()
-        layout()
-        
         vocabLabel.text = vocab.word
         meaningLabel.text = vocab.meaning
         updateUI(isChecked: vocab.isChecked)
-    }
-    
-    override func willTransition(to state: UITableViewCell.StateMask) {
-        checkButton.isHidden.toggle()
     }
     
     private func updateUI(isChecked: Bool) {
         checkButton.tintColor = isChecked ? .appColor : .systemGray2
         vocabLabel.textColor = isChecked ? .systemGray2 : .label
         meaningLabel.textColor = isChecked ? .systemGray2 : .label
+    }
+    
+    // MARK: - UITableViewCell Methods
+    override func willTransition(to state: UITableViewCell.StateMask) {
+        checkButton.isHidden.toggle()
     }
 }
 

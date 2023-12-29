@@ -10,7 +10,7 @@ import UIKit
 class CategoryListViewController: UIViewController {
     
     // MARK: - Properties
-    private let vm = CategoryListViewModel()
+    private let vm: CategoryListViewModel
     
     // MARK: - UI Components
     private lazy var tableView: UITableView = {
@@ -36,6 +36,15 @@ class CategoryListViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
+    init(viewModel: CategoryListViewModel) {
+        self.vm = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,6 +65,7 @@ extension CategoryListViewController {
         view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = addButton
+        navigationItem.title = "단어장 선택"
     }
     
     private func layout() {
@@ -94,6 +104,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            // TODO: - 삭제 알람 띄우기
             self.vm.deleteCategory(at: indexPath.row)
             
             success(true)
@@ -115,14 +126,27 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         swipeAction.performsFirstActionWithFullSwipe = false
         
         return swipeAction
-    }    
+    }   
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        vm.canEditRowAt(index: indexPath.row)
+    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: - VocabListViewController로 selectedCategory 넘기기
         navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         vm.moveCategory(from: sourceIndexPath.row, to: destinationIndexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        vm.canEditRowAt(index: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, targetIndexPathForMoveFromRowAt sourceIndexPath: IndexPath, toProposedIndexPath proposedDestinationIndexPath: IndexPath) -> IndexPath {
+        vm.getTargetIndexPath(sourceIndexPath: sourceIndexPath, proposedDestinationIndexPath: proposedDestinationIndexPath)
     }
 }
 

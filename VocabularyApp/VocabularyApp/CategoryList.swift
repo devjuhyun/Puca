@@ -10,5 +10,5 @@ import RealmSwift
 
 class CategoryList: Object {
     @Persisted(primaryKey: true) var id: Int = 0
-    @Persisted var categories = List<Category>()
+    @Persisted var categories: List<Category>
 }

@@ -38,8 +38,8 @@ class VocabViewController: UIViewController {
         let button = CategoryBtn()
         button.setTitle("단어장 선택" + " ", for: .normal)
         button.addAction(UIAction(handler: { UIAction in
-            let vc = CategoryListViewController()
-            vc.navigationItem.title = "단어장 선택"
+            let vm = CategoryListViewModel()
+            let vc = CategoryListViewController(viewModel: vm)
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
         return button
@@ -189,7 +189,7 @@ extension VocabViewController: UITextViewDelegate {
 // MARK: - Selectors
 extension VocabViewController {
     @objc private func doneButtonClicked() {
-        AlertService.showToast(in: self, message: "단어장을 선택하세요", color: .systemRed, imageName: "x.circle")
+        AlertService.showToast(in: self, message: "단어장을 선택하세요", color: .systemRed, imageName: "exclamationmark.circle")
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
