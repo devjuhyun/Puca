@@ -51,4 +51,15 @@ struct AlertService {
             toastView.removeFromSuperview()
         })
     }
+    
+    static func deleteAlert(deleteActionHandler: @escaping (UIAlertAction) -> Void) -> UIAlertController {
+        let deleteAlert = UIAlertController(title: "정말 삭제하시겠습니까?", message: "모두 삭제됩니다.", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: deleteActionHandler)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        deleteAlert.addAction(deleteAction)
+        deleteAlert.addAction(cancelAction)
+        
+        return deleteAlert
+    }
 }
