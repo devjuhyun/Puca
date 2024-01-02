@@ -10,27 +10,23 @@ import RealmSwift
 
 class CategoryListViewModel {
     
-    var onCategoriesUpdated: (()->Void)?
     var shouldDisplayAllCategories = false
     private var token: NotificationToken?
     private(set) var categoryList: CategoryList
-    private(set) var categories = [Category]() {
-        didSet {
-            onCategoriesUpdated?()
-        }
-    }
+    private(set) var categories: Observable<[Category]>
         
     init() {
         categoryList = DBManager.shared.fetchCategoryList()
+        categories = Observable([])
         
         token = categoryList.categories.observe { changes in
             let categories = Array(self.categoryList.categories)
-            self.categories = self.shouldDisplayAllCategories ? categories : Array(categories[1...])
+            self.categories.value = self.shouldDisplayAllCategories ? categories : Array(categories[1...])
         }
     }
     
     func deleteCategory(at index: Int) {
-        DBManager.shared.delete(categories[index])
+        DBManager.shared.delete(categories.value[index])
     }
     
     func moveCategory(from sourceIndex: Int, to destinationIndex: Int) {

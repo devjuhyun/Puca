@@ -15,7 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        window?.rootViewController = UINavigationController(rootViewController: VocabListViewController())
+        let category = DBManager.shared.fetchCategoryList().categories.first!
+        let vm = VocabListViewModel(category: category)
+        window?.rootViewController = UINavigationController(rootViewController: VocabListViewController(viewModel: vm))
         
         return true
     }

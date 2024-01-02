@@ -51,7 +51,7 @@ class CategoryListViewController: UIViewController {
         setup()
         layout()
         
-        vm.onCategoriesUpdated = { [weak self] in
+        vm.categories.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -90,13 +90,13 @@ extension CategoryListViewController {
 // MARK: - UITableView Delegate Methods
 extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm.categories.count
+        return vm.categories.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
         
-        let category = vm.categories[indexPath.row]
+        let category = vm.categories.value[indexPath.row]
         cell.configure(with: category)
         
         return cell
@@ -113,7 +113,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         }
         
         let edit = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            let category = self.vm.categories[indexPath.row]
+            let category = self.vm.categories.value[indexPath.row]
             self.pushVC(title: "단어장 수정", category: category)
             success(true)
         }
@@ -136,6 +136,11 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: - VocabListViewController로 selectedCategory 넘기기
+        let selectedCategory = vm.categories.value[indexPath.row]
+        if let vocabListVC = navigationController?.previousViewController as? VocabListViewController {
+            vocabListVC.vm.selectedCategory.value = selectedCategory
+        }
+        
         navigationController?.popViewController(animated: true)
     }
     

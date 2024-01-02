@@ -9,6 +9,8 @@ import UIKit
 
 class VocabListViewController: UIViewController {
     
+    let vm: VocabListViewModel
+    
     // MARK: - UI Components
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -132,9 +134,31 @@ class VocabListViewController: UIViewController {
     ]
             
     // MARK: - Lifecycle
+    init(viewModel: VocabListViewModel) {
+        self.vm = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         DBManager.shared.getLocationOfDefaultRealm()
+        
+        vm.vocabs.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        vm.selectedCategory.bind { [weak self] category in
+            DispatchQueue.main.async {
+                self?.categoryButton.setTitle(category.name + " ", for: .normal)
+                self?.vm.fetchVocabularies()
+            }
+        }
         
         setup()
         layout()
@@ -211,17 +235,13 @@ extension VocabListViewController {
 // MARK: - TableView Delegate Methods
 extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 30
+        return vm.vocabs.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
                 
-        let vocab = Vocabulary()
-        vocab.word = "invest"
-        vocab.example = "the company is to invest $12 million in its new manufacturing site"
-        vocab.meaning = "투자하다"
-        vocab.isChecked = false
+        let vocab = vm.vocabs.value[indexPath.row]
         cell.configure(with: vocab)
         
         return cell

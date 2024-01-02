@@ -18,3 +18,7 @@ extension UINavigationItem {
         backBarButtonItem = button
     }
 }
+
+extension UINavigationController {
+    var previousViewController: UIViewController? { viewControllers.last { $0 != topViewController } }
+}
