@@ -103,12 +103,12 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     }
         
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let alertController = AlertService.deleteAlert { _ in
-            self.vm.deleteCategory(at: indexPath.row)
+        let alertController = AlertService.deleteAlert { [weak self] _ in
+            self?.vm.deleteCategory(at: indexPath.row)
         }
         
         let delete = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            self.present(alertController, animated: true)   
+            self.present(alertController, animated: true)
             success(true)
         }
         

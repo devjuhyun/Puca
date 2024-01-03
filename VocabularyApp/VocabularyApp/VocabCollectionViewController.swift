@@ -107,9 +107,9 @@ extension VocabCollectionViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Selectors
 extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
-        let vc = VocabViewController()
-        vc.navigationItem.title = "단어 수정"
-        navigationController?.pushViewController(vc, animated: true)
+//        let vc = VocabViewController()
+//        vc.navigationItem.title = "단어 수정"
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func deleteButtonClicked() {

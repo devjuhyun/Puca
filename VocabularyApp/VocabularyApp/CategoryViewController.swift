@@ -78,7 +78,8 @@ extension CategoryViewController {
     
     private func saveCategory() {
         if nameTextField.text!.isEmpty {
-            AlertService.showToast(in: self, message: "단어장 이름을 입력하세요.", color: .systemRed, imageName: "exclamationmark.circle")
+            let toast = ToastView(message: "단어장 이름을 입력하세요.", color: .systemRed, imageName: "exclamationmark.circle")
+            AlertService.showToast(in: self, toastView: toast)
         } else {
             vm.updateCategory(name: nameTextField.text!)
             navigationController?.popViewController(animated: true)

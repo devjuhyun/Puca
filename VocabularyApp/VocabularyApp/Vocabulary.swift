@@ -14,4 +14,11 @@ class Vocabulary: Object {
     @Persisted var example: String = ""
     @Persisted var isChecked: Bool = false
     @Persisted var date: Date = Date()
+    
+    convenience init(word: String, meaning: String, example: String) {
+        self.init()
+        self.word = word
+        self.meaning = meaning
+        self.example = example
+    }
 }

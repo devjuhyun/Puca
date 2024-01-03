@@ -34,7 +34,10 @@ class VocabListViewController: UIViewController {
             
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             
-            let vc = VocabViewController()
+            // TODO: - 선택된 단어장이 모든 단어일 경우 nil을 전달하는 코드를 더 깔끔하게 정리하기
+            var selectedCategory = self.vm.selectedCategory.value
+            let vm = VocabViewModel(selectedCategory: selectedCategory)
+            let vc = VocabViewController(viewModel: vm)
             vc.navigationItem.title = "단어 추가"
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
@@ -147,19 +150,6 @@ class VocabListViewController: UIViewController {
         super.viewDidLoad()
         DBManager.shared.getLocationOfDefaultRealm()
         
-        vm.vocabs.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.tableView.reloadData()
-            }
-        }
-        
-        vm.selectedCategory.bind { [weak self] category in
-            DispatchQueue.main.async {
-                self?.categoryButton.setTitle(category.name + " ", for: .normal)
-                self?.vm.fetchVocabularies()
-            }
-        }
-        
         setup()
         layout()
     }
@@ -179,9 +169,25 @@ class VocabListViewController: UIViewController {
 extension VocabListViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
+        setupBindings()
         setupNavBar()
         setupToolBar()
         setupSearchBar()
+    }
+    
+    private func setupBindings() {
+        vm.vocabs.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        vm.selectedCategory.bind { [weak self] category in
+            DispatchQueue.main.async {
+                self?.categoryButton.setTitle(category.name + " ", for: .normal)
+                self?.vm.updateToken()
+            }
+        }
     }
     
     private func setupNavBar() {
