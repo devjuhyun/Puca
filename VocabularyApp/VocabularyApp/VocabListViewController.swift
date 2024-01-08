@@ -30,16 +30,14 @@ class VocabListViewController: UIViewController {
     private lazy var addButton: UIButton = {
         let button = FloatingBtn(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
         button.isHidden = tableView.isEditing
-        button.addAction(UIAction(handler: { UIAction in
-            
+        button.addAction(UIAction(handler: { [weak self] UIAction in
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             
-            // TODO: - 선택된 단어장이 모든 단어일 경우 nil을 전달하는 코드를 더 깔끔하게 정리하기
-            var selectedCategory = self.vm.selectedCategory.value
-            let vm = VocabViewModel(selectedCategory: selectedCategory)
+            let category = self?.vm.passCategory()
+            let vm = VocabViewModel(selectedCategory: category)
             let vc = VocabViewController(viewModel: vm)
             vc.navigationItem.title = "단어 추가"
-            self.navigationController?.pushViewController(vc, animated: true)
+            self?.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
         
         return button
@@ -49,7 +47,7 @@ class VocabListViewController: UIViewController {
         let button = CategoryBtn()
         button.addAction(UIAction(handler: { UIAction in
             let vm = CategoryListViewModel()
-            vm.shouldDisplayAllCategories = true
+            vm.shouldDisplayAll = true
             let vc = CategoryListViewController(viewModel: vm)
             self.navigationController?.pushViewController(vc, animated: true)
         }), for: .touchUpInside)
@@ -176,7 +174,7 @@ extension VocabListViewController {
     }
     
     private func setupBindings() {
-        vm.vocabs.bind { [weak self] _ in
+        vm.vocabularies.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -185,7 +183,8 @@ extension VocabListViewController {
         vm.selectedCategory.bind { [weak self] category in
             DispatchQueue.main.async {
                 self?.categoryButton.setTitle(category.name + " ", for: .normal)
-                self?.vm.updateToken()
+                self?.vm.shouldDisplayAllVocabularies = category.name == "모든 단어"
+                self?.vm.fetchVocabularies()
             }
         }
     }
@@ -241,13 +240,13 @@ extension VocabListViewController {
 // MARK: - TableView Delegate Methods
 extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm.vocabs.value.count
+        return vm.vocabularies.value.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
                 
-        let vocab = vm.vocabs.value[indexPath.row]
+        let vocab = vm.vocabularies.value[indexPath.row]
         cell.configure(with: vocab)
         
         return cell

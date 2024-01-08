@@ -31,6 +31,10 @@ final class DBManager {
         print("Realm is located at:", realm.configuration.fileURL!)
     }
     
+    func read<T: Object>(_ object: T.Type) -> Results<T> {
+        return realm.objects(object)
+    }
+    
     func update(completion: () -> Void) {
         do {
             try realm.write {

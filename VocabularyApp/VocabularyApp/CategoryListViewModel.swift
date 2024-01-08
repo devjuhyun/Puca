@@ -10,7 +10,7 @@ import RealmSwift
 
 class CategoryListViewModel {
     
-    var shouldDisplayAllCategories = false
+    var shouldDisplayAll = false
     private var token: NotificationToken?
     private(set) var categoryList: CategoryList
     private(set) var categories: Observable<[Category]>
@@ -19,10 +19,14 @@ class CategoryListViewModel {
         categoryList = DBManager.shared.fetchCategoryList()
         categories = Observable([])
         
-        token = categoryList.categories.observe { changes in
-            let categories = Array(self.categoryList.categories)
-            self.categories.value = self.shouldDisplayAllCategories ? categories : Array(categories[1...])
+        token = categoryList.categories.observe { [weak self] changes in
+            self?.fetchCategories()
         }
+    }
+    
+    func fetchCategories() {
+        let categoriesInDB = Array(categoryList.categories)
+        categories.value = shouldDisplayAll ? categoriesInDB : Array(categoriesInDB[1...])
     }
     
     func deleteCategory(at index: Int) {
@@ -30,7 +34,7 @@ class CategoryListViewModel {
     }
     
     func moveCategory(from sourceIndex: Int, to destinationIndex: Int) {
-        let n = shouldDisplayAllCategories ? 0 : 1
+        let n = shouldDisplayAll ? 0 : 1
         
         DBManager.shared.update { [weak self] in
             self?.categoryList.categories.move(from: sourceIndex+n, to: destinationIndex+n)
@@ -38,10 +42,10 @@ class CategoryListViewModel {
     }
     
     func canEditRowAt(index: Int) -> Bool {
-        return shouldDisplayAllCategories ? index != 0 : true
+        return shouldDisplayAll ? index != 0 : true
     }
     
     func getTargetIndexPath(sourceIndexPath: IndexPath, proposedDestinationIndexPath: IndexPath) -> IndexPath {
-        return shouldDisplayAllCategories && proposedDestinationIndexPath.row == 0 ? sourceIndexPath : proposedDestinationIndexPath
+        return shouldDisplayAll && proposedDestinationIndexPath.row == 0 ? sourceIndexPath : proposedDestinationIndexPath
     }
 }
