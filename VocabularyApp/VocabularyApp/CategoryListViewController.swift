@@ -135,10 +135,13 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: - VocabListViewController로 selectedCategory 넘기기
         let selectedCategory = vm.categories.value[indexPath.row]
         if let vocabListVC = navigationController?.previousViewController as? VocabListViewController {
             vocabListVC.vm.selectedCategory.value = selectedCategory
+        }
+        
+        if let vocabVC = navigationController?.previousViewController as? VocabViewController {
+            vocabVC.vm.selectedCategory.value = selectedCategory
         }
         
         navigationController?.popViewController(animated: true)

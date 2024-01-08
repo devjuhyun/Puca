@@ -9,7 +9,7 @@ import UIKit
 
 class VocabViewController: UIViewController {    
     
-    private let vm: VocabViewModel
+    let vm: VocabViewModel
 
     // MARK: - UI Components
     private let scrollView: UIScrollView = {
@@ -50,7 +50,7 @@ class VocabViewController: UIViewController {
     private let vocabLabel = CustomLabel(text: "단어")
     private let vocabTextField = CustomTextField(placeholder: "단어를 입력하세요.(필수)")
     private let meaningLabel = CustomLabel(text: "의미")
-    private let meaningTextField = CustomTextField(placeholder: "뜻을 입력하세요.(필수)")
+    private let meaningTextField = CustomTextField(placeholder: "뜻을 입력하세요.(필수)", keyboardLanguage: "ko-KR")
     private let exampleLabel = CustomLabel(text: "예문")
     
     private lazy var textView = {
@@ -176,7 +176,24 @@ extension VocabViewController {
     }
     
     private func updateUI() {
-        
+        vm.checkBlankSpace(vocab: vocabTextField.text!, meaning: meaningTextField.text!, example: textView.text!) { blankSpace, toast in
+            switch blankSpace {
+            case .category:
+                view.endEditing(true)
+            case .vocab:
+                vocabTextField.becomeFirstResponder()
+            case .meaning:
+                meaningTextField.becomeFirstResponder()
+            default:
+                vocabTextField.text = ""
+                meaningTextField.text = ""
+                textView.text = ""
+                vocabTextField.becomeFirstResponder()
+                placeholderLabel.isHidden = false
+            }
+            
+            AlertService.showToast(in: self, toastView: toast)
+        }
     }
 }
 

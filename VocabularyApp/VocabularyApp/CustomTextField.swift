@@ -8,7 +8,11 @@
 import UIKit
 
 class CustomTextField: UITextField {
-    init(placeholder: String) {
+    
+    private let language: String?
+    
+    init(placeholder: String, keyboardLanguage: String? = nil) {
+        self.language = keyboardLanguage
         super.init(frame: .zero)
         self.placeholder = placeholder
         
@@ -19,6 +23,15 @@ class CustomTextField: UITextField {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override var textInputMode: UITextInputMode? {
+        for inputMode in UITextInputMode.activeInputModes {
+            if inputMode.primaryLanguage! == language {
+                return inputMode
+            }
+        }
+        return super.textInputMode
     }
 }
 

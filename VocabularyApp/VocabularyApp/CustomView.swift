@@ -8,7 +8,7 @@
 import UIKit
 
 class ToastView: UIView {
-    init(message: String, color: UIColor, imageName: String) {
+    init(message: String, color: UIColor = .systemRed, imageName: String = "exclamationmark.circle") {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = color
