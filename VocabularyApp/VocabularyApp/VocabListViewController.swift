@@ -248,6 +248,9 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
                 
         let vocab = vm.vocabularies.value[indexPath.row]
         cell.configure(with: vocab)
+        cell.onChecked = { [weak self] in
+            self?.vm.checkVocabulary(vocab)
+        }
         
         return cell
     }

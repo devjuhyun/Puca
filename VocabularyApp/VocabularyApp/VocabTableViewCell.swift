@@ -11,6 +11,7 @@ class VocabTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     static let identifier = "VocabTableViewCell"
+    var onChecked: (()->Void)?
     
     // MARK: - UI Components
     public let vocabLabel: UILabel = {
@@ -33,13 +34,14 @@ class VocabTableViewCell: UITableViewCell {
         let image = UIImage(systemName: "checkmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .black))
         button.setImage(image, for: .normal)
         button.tintColor = .systemGray2
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
         return button
     }()
     
     // MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         setup()
         layout()
     }
@@ -82,30 +84,17 @@ extension VocabTableViewCell {
     public func configure(with vocab: Vocabulary) {
         vocabLabel.text = vocab.word
         meaningLabel.text = vocab.meaning
-        updateUI(isChecked: vocab.isChecked)
-    }
-    
-    private func updateUI(isChecked: Bool) {
-        checkButton.tintColor = isChecked ? .appColor : .systemGray2
-        vocabLabel.textColor = isChecked ? .systemGray2 : .label
-        meaningLabel.textColor = isChecked ? .systemGray2 : .label
-    }
-    
-    // MARK: - UITableViewCell Methods
-    override func willTransition(to state: UITableViewCell.StateMask) {
-        checkButton.isHidden.toggle()
+        
+        checkButton.tintColor = vocab.isChecked ? .appColor : .systemGray2
+        vocabLabel.textColor = vocab.isChecked ? .systemGray2 : .label
+        meaningLabel.textColor = vocab.isChecked ? .systemGray2 : .label
     }
 }
 
 // MARK: - Selectors
 extension VocabTableViewCell {
-    @objc private func buttonTapped() {
+    @objc private func checkButtonTapped() {
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        
-        if checkButton.tintColor == UIColor.systemGray2 {
-            updateUI(isChecked: true)
-        } else {
-            updateUI(isChecked: false)
-        }
+        onChecked?()
     }
 }

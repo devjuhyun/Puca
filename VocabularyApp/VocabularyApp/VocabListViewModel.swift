@@ -32,4 +32,10 @@ class VocabListViewModel {
     func passCategory() -> Category? {
         shouldDisplayAllVocabularies ? nil : selectedCategory.value
     }
+    
+    func checkVocabulary(_ vocab: Vocabulary) {
+        DBManager.shared.update {
+            vocab.isChecked.toggle()
+        }
+    }
 }
