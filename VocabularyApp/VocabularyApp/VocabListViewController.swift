@@ -259,7 +259,9 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
         if tableView.isEditing {
             
         } else {
-            navigationController?.pushViewController(VocabCollectionViewController(), animated: true)
+            let vm = VocabCollectionViewModel(category: vm.passCategory(), index: indexPath.row)
+            let vc = VocabCollectionViewController(viewModel: vm)
+            navigationController?.pushViewController(vc, animated: true)
             let cell = tableView.cellForRow(at: indexPath)
             cell?.isSelected = false
         }

@@ -9,6 +9,8 @@ import UIKit
 
 class VocabCollectionViewController: UIViewController {
     
+    private let vm: VocabCollectionViewModel
+    
     // MARK: - UI Components
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,18 +40,28 @@ class VocabCollectionViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
+    init(viewModel: VocabCollectionViewModel) {
+        self.vm = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        vm.vocabularies.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.collectionView.reloadData()
+            }
+        }
+                
         setup()
         layout()
     }
         
-    // 선택한 단어로 이동
-    override func viewDidAppear(_ animated: Bool) {
-        collectionView.isPagingEnabled = false
-        self.collectionView.scrollToItem(at: IndexPath(row: 2, section: 0), at: .left, animated: false)
-        collectionView.isPagingEnabled = true
-    }
 }
 
 // MARK: - Helpers
@@ -74,7 +86,7 @@ extension VocabCollectionViewController {
 // MARK: - CollectionView Delegate Methods
 extension VocabCollectionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return vm.vocabularies.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -82,16 +94,23 @@ extension VocabCollectionViewController: UICollectionViewDelegate, UICollectionV
             fatalError("Failed to dequeue VocabCollectionViewCell")
         }
         
-        let vocab = Vocabulary()
-        vocab.word = "puma"
-        vocab.example = "Puma is so cute"
-        vocab.meaning = "푸마"
-        vocab.isChecked = true
+        let vocab = vm.vocabularies.value[indexPath.row]
         cell.configure(with: vocab)
+        cell.onChecked = { [weak self] in
+            self?.vm.checkVocabulary(vocab)
+        }
                 
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if !vm.firstLoad {
+            collectionView.isPagingEnabled = false
+            collectionView.scrollToItem(at: IndexPath(row: vm.currentIndex.value, section: 0), at: .left, animated: false)
+            collectionView.isPagingEnabled = true
+            vm.firstLoad = true
+        }
+    }
 }
 
 extension VocabCollectionViewController: UICollectionViewDelegateFlowLayout {
@@ -104,6 +123,20 @@ extension VocabCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - ScrollView Delegate Methods
+extension VocabCollectionViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let xPoint = scrollView.contentOffset.x + scrollView.frame.width / 2
+        let yPoint = scrollView.frame.height / 2
+        let center = CGPoint(x: xPoint, y: yPoint)
+        
+        if let indexPath = collectionView.indexPathForItem(at: center) {
+            vm.currentIndex.value = indexPath.row
+        }
+        print(vm.currentIndex.value)
+    }
+}
+
 // MARK: - Selectors
 extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
@@ -113,6 +146,10 @@ extension VocabCollectionViewController {
     }
     
     @objc private func deleteButtonClicked() {
-        print("delete button clicked!")
+        let alertController = AlertService.deleteAlert { [weak self] _ in
+            self?.vm.deleteVocabulary()
+        }
+        
+        present(alertController, animated: true)
     }
 }

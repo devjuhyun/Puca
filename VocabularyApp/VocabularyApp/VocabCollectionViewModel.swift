@@ -1,23 +1,25 @@
 //
-//  VocabListViewModel.swift
+//  VocabCollectionViewModel.swift
 //  VocabularyApp
 //
-//  Created by Juhyun Yun on 1/2/24.
+//  Created by Juhyun Yun on 1/10/24.
 //
 
 import Foundation
 import RealmSwift
 
-class VocabListViewModel {
+class VocabCollectionViewModel {
     
-    var shouldDisplayAllVocabularies = true
+    var firstLoad = false
+    let currentIndex: Observable<Int>
     private(set) var token: NotificationToken?
-    var selectedCategory: Observable<Category>
+    var selectedCategory: Category?
     private(set) var vocabularies: Observable<[Vocabulary]>
     private let allVocabulariesInDB: Results<Vocabulary>
         
-    init(category: Category) {
-        selectedCategory = Observable(category)
+    init(category: Category?, index: Int) {
+        currentIndex = Observable(index)
+        selectedCategory = category
         vocabularies = Observable([])
         allVocabulariesInDB = DBManager.shared.read(Vocabulary.self)
         token = allVocabulariesInDB.observe { [weak self] changes in
@@ -26,16 +28,16 @@ class VocabListViewModel {
     }
     
     func fetchVocabularies() {
-        vocabularies.value = shouldDisplayAllVocabularies ? Array(allVocabulariesInDB) : Array(selectedCategory.value.vocabularies)
-    }
-    
-    func passCategory() -> Category? {
-        shouldDisplayAllVocabularies ? nil : selectedCategory.value
+        vocabularies.value = selectedCategory == nil ? Array(allVocabulariesInDB) : Array(selectedCategory!.vocabularies)
     }
     
     func checkVocabulary(_ vocab: Vocabulary) {
         DBManager.shared.update {
             vocab.isChecked.toggle()
         }
+    }
+    
+    func deleteVocabulary() {
+        DBManager.shared.delete(vocabularies.value[currentIndex.value])
     }
 }

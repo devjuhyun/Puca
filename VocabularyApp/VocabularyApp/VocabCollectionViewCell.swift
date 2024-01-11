@@ -11,6 +11,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Properties
     static let identifier = "VocabCollectionViewCell"
+    var onChecked: (() -> Void)?
     
     // MARK: - UI Components
     private let card: UIView = {
@@ -23,17 +24,13 @@ class VocabCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    private let checkButton: UIButton = {
+    private lazy var checkButton: UIButton = {
         let button = UIButton(configuration: .plain())
         button.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(systemName: "checkmark", withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .black))
         button.setImage(image, for: .normal)
         button.addAction(UIAction(handler: { UIAction in
-            if button.tintColor == .systemGray2 {
-                button.tintColor = .appColor
-            } else {
-                button.tintColor = .systemGray2
-            }
+            self.onChecked?()
         }), for: .touchUpInside)
         return button
     }()
@@ -47,7 +44,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let vocabLabel: UILabel = {
+    let vocabLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 30)
         return label
@@ -112,17 +109,15 @@ extension VocabCollectionViewCell {
         vocabLabel.text = vocab.word
         exampleLabel.text = vocab.example
         meaningLabel.text = vocab.meaning
-        meaningLabel.isHidden = true
         checkButton.tintColor = vocab.isChecked ? .appColor : UIColor.systemGray2
     }
     
     // MARK: - UICollectionViewCell Methods
     override func prepareForReuse() {
         super.prepareForReuse()
-        vocabLabel.text = ""
-        exampleLabel.text = ""
-        meaningLabel.text = ""
-        checkButton.tintColor = .systemGray2
+        vocabLabel.isHidden = false
+        exampleLabel.isHidden = false
+        meaningLabel.isHidden = true
     }
 }
 

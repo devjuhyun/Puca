@@ -11,7 +11,7 @@ import RealmSwift
 class CategoryListViewModel {
     
     var shouldDisplayAll = false
-    private var token: NotificationToken?
+    private(set) var token: NotificationToken?
     private(set) var categoryList: CategoryList
     private(set) var categories: Observable<[Category]>
         
