@@ -53,7 +53,7 @@ class CategoryBtn: UIButton {
         super.init(frame: frame)
         
         translatesAutoresizingMaskIntoConstraints = false
-        setTitle("모든 단어" + " ", for: .normal)
+        setTitle("모든 단어", for: .normal)
         titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         setTitleColor(.label, for: .normal)
         setImage(UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration( weight: .bold)), for: .normal)
@@ -63,6 +63,10 @@ class CategoryBtn: UIButton {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setTitle(_ title: String?, for state: UIControl.State) {
+        super.setTitle(title! + " ", for: state)
     }
     
     override func layoutSubviews() {

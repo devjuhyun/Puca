@@ -52,9 +52,16 @@ class VocabCollectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        vm.vocabularies.bind { [weak self] _ in
+        vm.vocabularies.bind { [weak self] vocabularies in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
+                self?.navigationItem.title = self?.vm.navTitle
+            }
+        }
+        
+        vm.currentIndex.bind { [weak self] index in
+            DispatchQueue.main.async {
+                self?.navigationItem.title = self?.vm.navTitle
             }
         }
                 
@@ -80,6 +87,16 @@ extension VocabCollectionViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
+    }
+    
+    private func updateCurrentIndex() {
+        let xPoint = collectionView.contentOffset.x + collectionView.frame.width / 2
+        let yPoint = collectionView.frame.height / 2
+        let center = CGPoint(x: xPoint, y: yPoint)
+        
+        if let indexPath = collectionView.indexPathForItem(at: center) {
+            vm.currentIndex.value = indexPath.row
+        }
     }
 }
 
@@ -125,15 +142,8 @@ extension VocabCollectionViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - ScrollView Delegate Methods
 extension VocabCollectionViewController: UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let xPoint = scrollView.contentOffset.x + scrollView.frame.width / 2
-        let yPoint = scrollView.frame.height / 2
-        let center = CGPoint(x: xPoint, y: yPoint)
-        
-        if let indexPath = collectionView.indexPathForItem(at: center) {
-            vm.currentIndex.value = indexPath.row
-        }
-        print(vm.currentIndex.value)
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateCurrentIndex()
     }
 }
 
@@ -147,7 +157,12 @@ extension VocabCollectionViewController {
     
     @objc private func deleteButtonClicked() {
         let alertController = AlertService.deleteAlert { [weak self] _ in
+            // TODO: - find a better solution to pop view controller
+            if self?.vm.vocabularies.value.count == 1 {
+                self?.navigationController?.popViewController(animated: true)
+            }
             self?.vm.deleteVocabulary()
+            self?.updateCurrentIndex()
         }
         
         present(alertController, animated: true)

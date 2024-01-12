@@ -38,7 +38,7 @@ class VocabViewController: UIViewController {
     
     private lazy var categoryButton: UIButton = {
         let button = CategoryBtn()
-        button.setTitle("단어장 선택" + " ", for: .normal)
+        button.setTitle("단어장 선택", for: .normal)
         button.addAction(UIAction(handler: { UIAction in
             let vm = CategoryListViewModel()
             let vc = CategoryListViewController(viewModel: vm)
@@ -98,7 +98,7 @@ class VocabViewController: UIViewController {
         vm.selectedCategory.bind { [weak self] category in
             if let category = category {
                 DispatchQueue.main.async {
-                    self?.categoryButton.setTitle(category.name + " ", for: .normal)
+                    self?.categoryButton.setTitle(category.name, for: .normal)
                 }
             }
         }

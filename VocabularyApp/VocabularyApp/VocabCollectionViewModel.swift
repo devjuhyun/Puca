@@ -16,6 +16,10 @@ class VocabCollectionViewModel {
     var selectedCategory: Category?
     private(set) var vocabularies: Observable<[Vocabulary]>
     private let allVocabulariesInDB: Results<Vocabulary>
+    
+    var navTitle: String {
+        return "\(currentIndex.value+1)/\(vocabularies.value.count)"
+    }
         
     init(category: Category?, index: Int) {
         currentIndex = Observable(index)
@@ -40,4 +44,5 @@ class VocabCollectionViewModel {
     func deleteVocabulary() {
         DBManager.shared.delete(vocabularies.value[currentIndex.value])
     }
+
 }
