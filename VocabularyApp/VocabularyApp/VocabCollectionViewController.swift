@@ -51,7 +51,21 @@ class VocabCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setup()
+        layout()
+    }
         
+}
+
+// MARK: - Helpers
+extension VocabCollectionViewController {
+    private func setup() {
+        navigationItem.rightBarButtonItems = [editButton, deleteButton]
+        navigationItem.setBackBarButtonItem()
+        setupBindings()
+    }
+    
+    private func setupBindings() {
         vm.vocabularies.bind { [weak self] vocabularies in
             DispatchQueue.main.async {
                 self?.collectionView.reloadData()
@@ -64,18 +78,6 @@ class VocabCollectionViewController: UIViewController {
                 self?.navigationItem.title = self?.vm.navTitle
             }
         }
-                
-        setup()
-        layout()
-    }
-        
-}
-
-// MARK: - Helpers
-extension VocabCollectionViewController {
-    private func setup() {
-        navigationItem.rightBarButtonItems = [editButton, deleteButton]
-        navigationItem.setBackBarButtonItem()
     }
     
     private func layout() {
@@ -150,9 +152,10 @@ extension VocabCollectionViewController: UIScrollViewDelegate {
 // MARK: - Selectors
 extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
-//        let vc = VocabViewController()
-//        vc.navigationItem.title = "단어 수정"
-//        navigationController?.pushViewController(vc, animated: true)
+        let vm = VocabViewModel(selectedCategory: vm.selectedCategory, selectedVocab: vm.vocabularies.value[vm.currentIndex.value])
+        let vc = VocabViewController(viewModel: vm)
+        vc.navigationItem.title = "단어 수정"
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func deleteButtonClicked() {

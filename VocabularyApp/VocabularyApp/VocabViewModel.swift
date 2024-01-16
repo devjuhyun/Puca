@@ -17,15 +17,27 @@ enum BlankSpace {
 class VocabViewModel {
     
     let selectedCategory: Observable<Category?>
+    let selectedVocab: Vocabulary?
     
-    init(selectedCategory: Category?) {
+    init(selectedCategory: Category?, selectedVocab: Vocabulary? = nil) {
         self.selectedCategory = Observable(selectedCategory)
+        self.selectedVocab = selectedVocab
     }
     
     private func updateVocab(vocab: String, meaning: String, example: String) {
-        DBManager.shared.update {
-            let vocab = Vocabulary(word: vocab, meaning: meaning, example: example)
-            selectedCategory.value?.vocabularies.append(vocab)
+        let newVocab = Vocabulary(word: vocab, meaning: meaning, example: example)
+        
+        if let selectedVocab = selectedVocab {
+            DBManager.shared.update {
+                newVocab.isChecked = selectedVocab.isChecked
+                newVocab.date = selectedVocab.date
+                selectedCategory.value?.vocabularies.append(newVocab)
+            }
+            DBManager.shared.delete(selectedVocab)
+        } else {
+            DBManager.shared.update {
+                selectedCategory.value?.vocabularies.append(newVocab)
+            }
         }
     }
     

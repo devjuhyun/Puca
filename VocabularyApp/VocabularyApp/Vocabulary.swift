@@ -15,6 +15,8 @@ class Vocabulary: Object {
     @Persisted var isChecked: Bool = false
     @Persisted var date: Date = Date()
     
+    @Persisted(originProperty: "vocabularies") var parentCategory: LinkingObjects<Category>
+    
     convenience init(word: String, meaning: String, example: String) {
         self.init()
         self.word = word

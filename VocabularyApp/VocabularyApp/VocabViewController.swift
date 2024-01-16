@@ -7,10 +7,10 @@
 
 import UIKit
 
-class VocabViewController: UIViewController {    
+class VocabViewController: UIViewController {
     
     let vm: VocabViewModel
-
+    
     // MARK: - UI Components
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -23,7 +23,7 @@ class VocabViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +46,7 @@ class VocabViewController: UIViewController {
         }), for: .touchUpInside)
         return button
     }()
-        
+    
     private let vocabLabel = CustomLabel(text: "단어")
     private let vocabTextField = CustomTextField(placeholder: "단어를 입력하세요.(필수)")
     private let meaningLabel = CustomLabel(text: "의미")
@@ -94,15 +94,6 @@ class VocabViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        vm.selectedCategory.bind { [weak self] category in
-            if let category = category {
-                DispatchQueue.main.async {
-                    self?.categoryButton.setTitle(category.name, for: .normal)
-                }
-            }
-        }
-        
         setup()
         layout()
         addKeyboardObservers()
@@ -120,6 +111,25 @@ extension VocabViewController {
         vocabTextField.delegate = self
         vocabTextField.becomeFirstResponder()
         meaningTextField.delegate = self
+        
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        vm.selectedCategory.bind { [weak self] category in
+            if let category = category {
+                DispatchQueue.main.async {
+                    self?.categoryButton.setTitle(category.name, for: .normal)
+                }
+            }
+        }
+        
+        if vm.selectedVocab != nil {
+            vm.selectedCategory.value = vm.selectedVocab?.parentCategory.first
+            vocabTextField.text = vm.selectedVocab?.word
+            meaningTextField.text = vm.selectedVocab?.meaning
+            textView.text = vm.selectedVocab?.example
+        }
     }
     
     private func layout() {
@@ -131,7 +141,7 @@ extension VocabViewController {
         stackView.addArrangedSubview(meaningTextField)
         stackView.addArrangedSubview(exampleLabel)
         textView.addSubview(placeholderLabel)
-
+        
         contentView.addSubview(stackView)
         contentView.addSubview(textView)
         
@@ -154,7 +164,7 @@ extension VocabViewController {
             stackView.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 5),
             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2),
             contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 2),
-
+            
             textView.topAnchor.constraint(equalTo: stackView.bottomAnchor),
             textView.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 1.5),
             textView.trailingAnchor.constraint(equalTo: stackView.trailingAnchor),
@@ -177,22 +187,30 @@ extension VocabViewController {
     
     private func updateUI() {
         vm.checkBlankSpace(vocab: vocabTextField.text!, meaning: meaningTextField.text!, example: textView.text!) { blankSpace, toast in
-            switch blankSpace {
-            case .category:
-                view.endEditing(true)
-            case .vocab:
-                vocabTextField.becomeFirstResponder()
-            case .meaning:
-                meaningTextField.becomeFirstResponder()
-            default:
-                vocabTextField.text = ""
-                meaningTextField.text = ""
-                textView.text = ""
-                vocabTextField.becomeFirstResponder()
-                placeholderLabel.isHidden = false
-            }
+            handleBlankSpace(blankSpace)
             
-            AlertService.showToast(in: self, toastView: toast)
+            if vm.selectedVocab != nil && blankSpace == nil {
+                navigationController?.popViewController(animated: true)
+            } else {
+                AlertService.showToast(in: self, toastView: toast)
+            }
+        }
+    }
+    
+    private func handleBlankSpace(_ blankSpace: BlankSpace?) {
+        switch blankSpace {
+        case .category:
+            view.endEditing(true)
+        case .vocab:
+            vocabTextField.becomeFirstResponder()
+        case .meaning:
+            meaningTextField.becomeFirstResponder()
+        case nil:
+            vocabTextField.text = ""
+            meaningTextField.text = ""
+            textView.text = ""
+            vocabTextField.becomeFirstResponder()
+            placeholderLabel.isHidden = false
         }
     }
 }
@@ -234,10 +252,8 @@ extension VocabViewController {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-                return
-        }
-
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
         scrollView.contentInset.bottom = keyboardFrame.size.height
         scrollView.verticalScrollIndicatorInsets.bottom = keyboardFrame.size.height
     }
@@ -246,5 +262,4 @@ extension VocabViewController {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
     }
-
 }

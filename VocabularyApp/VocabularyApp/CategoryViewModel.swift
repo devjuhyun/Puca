@@ -15,15 +15,13 @@ class CategoryViewModel {
     }
     
     func updateCategory(name: String) {
-        if category != nil { // edit category
-            DBManager.shared.update { [weak self] in
+        DBManager.shared.update { [weak self] in
+            if self?.category != nil { // edit category
                 self?.category?.name = name
-            }
-        } else { // add category
-            let categoryList = DBManager.shared.fetchCategoryList()
-            DBManager.shared.update {
-                let newCategory = Category(name: name)
-                categoryList.categories.append(newCategory)
+            } else { // add category
+                let categoryList = DBManager.shared.fetchCategoryList()
+                    let newCategory = Category(name: name)
+                    categoryList.categories.append(newCategory)
             }
         }
     }

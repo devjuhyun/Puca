@@ -20,5 +20,7 @@ extension UINavigationItem {
 }
 
 extension UINavigationController {
-    var previousViewController: UIViewController? { viewControllers.last { $0 != topViewController } }
+    var previousViewController: UIViewController? {
+        viewControllers.last { $0 != topViewController }
+    }
 }
