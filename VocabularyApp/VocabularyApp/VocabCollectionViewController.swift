@@ -67,9 +67,14 @@ extension VocabCollectionViewController {
     
     private func setupBindings() {
         vm.vocabularies.bind { [weak self] vocabularies in
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                self?.collectionView.reloadData()
-                self?.navigationItem.title = self?.vm.navTitle
+                self.collectionView.reloadData()
+                self.navigationItem.title = self.vm.navTitle
+                if vocabularies.isEmpty && !self.vm.isFirstLoad {
+                    self.navigationItem.title = "0/0"
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
         
@@ -123,11 +128,11 @@ extension VocabCollectionViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if !vm.firstLoad {
+        if vm.isFirstLoad {
             collectionView.isPagingEnabled = false
             collectionView.scrollToItem(at: IndexPath(row: vm.currentIndex.value, section: 0), at: .left, animated: false)
             collectionView.isPagingEnabled = true
-            vm.firstLoad = true
+            vm.isFirstLoad = false
         }
     }
 }
@@ -160,10 +165,6 @@ extension VocabCollectionViewController {
     
     @objc private func deleteButtonClicked() {
         let alertController = AlertService.deleteAlert { [weak self] _ in
-            // TODO: - find a better solution to pop view controller
-            if self?.vm.vocabularies.value.count == 1 {
-                self?.navigationController?.popViewController(animated: true)
-            }
             self?.vm.deleteVocabulary()
             self?.updateCurrentIndex()
         }

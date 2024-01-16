@@ -10,7 +10,7 @@ import RealmSwift
 
 class VocabCollectionViewModel {
     
-    var firstLoad = false
+    var isFirstLoad = true
     let currentIndex: Observable<Int>
     private(set) var token: NotificationToken?
     var selectedCategory: Category?
