@@ -36,7 +36,7 @@ class VocabCollectionViewModel {
     }
     
     func checkVocabulary(_ vocab: Vocabulary) {
-        DBManager.shared.update {
+        DBManager.shared.update(vocab) { vocab in
             vocab.isChecked.toggle()
         }
     }

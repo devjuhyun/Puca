@@ -35,10 +35,10 @@ final class DBManager {
         return realm.objects(object)
     }
     
-    func update(completion: () -> Void) {
+    func update<T: Object>(_ object: T, completion: @escaping ((T) -> ())) {
         do {
             try realm.write {
-                completion()
+                completion(object)
             }
         } catch {
             print("Error updating object: \(error)")

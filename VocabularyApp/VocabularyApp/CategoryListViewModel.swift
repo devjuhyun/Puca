@@ -36,8 +36,8 @@ class CategoryListViewModel {
     func moveCategory(from sourceIndex: Int, to destinationIndex: Int) {
         let n = shouldDisplayAll ? 0 : 1
         
-        DBManager.shared.update { [weak self] in
-            self?.categoryList.categories.move(from: sourceIndex+n, to: destinationIndex+n)
+        DBManager.shared.update(categoryList) { categoryList in
+            categoryList.categories.move(from: sourceIndex+n, to: destinationIndex+n)
         }
     }
     

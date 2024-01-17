@@ -25,19 +25,17 @@ class VocabViewModel {
     }
     
     private func updateVocab(vocab: String, meaning: String, example: String) {
+        guard let selectedCategory = selectedCategory.value else { return }
         let newVocab = Vocabulary(word: vocab, meaning: meaning, example: example)
         
         if let selectedVocab = selectedVocab {
-            DBManager.shared.update {
-                newVocab.isChecked = selectedVocab.isChecked
-                newVocab.date = selectedVocab.date
-                selectedCategory.value?.vocabularies.append(newVocab)
-            }
+            newVocab.isChecked = selectedVocab.isChecked
+            newVocab.date = selectedVocab.date
             DBManager.shared.delete(selectedVocab)
-        } else {
-            DBManager.shared.update {
-                selectedCategory.value?.vocabularies.append(newVocab)
-            }
+        }
+        
+        DBManager.shared.update(selectedCategory) { selectedCategory in
+            selectedCategory.vocabularies.append(newVocab)
         }
     }
     
