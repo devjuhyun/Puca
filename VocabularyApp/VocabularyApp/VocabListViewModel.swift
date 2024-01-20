@@ -7,9 +7,11 @@
 
 import Foundation
 import RealmSwift
+import UIKit
 
 class VocabListViewModel {
     
+    var onCategoryUpdated: (()->Void)?
     private(set) var vocabToken: NotificationToken?
     private(set) var categoryToken: NotificationToken?
     var selectedCategory: Observable<Category>
@@ -33,8 +35,9 @@ class VocabListViewModel {
     }
     
     private func updateCategoryToken() { // 카테고리의 속성이 변경될 때
-        categoryToken = selectedCategory.value.observe { [weak self] _ in
+        categoryToken = selectedCategory.value.observe { [weak self] changes in
             self?.fetchVocabularies()
+            self?.onCategoryUpdated?()
         }
     }
     
@@ -84,6 +87,13 @@ class VocabListViewModel {
     func checkVocabulary(_ vocab: Vocabulary) {
         DBManager.shared.update(vocab) { vocab in
             vocab.isChecked.toggle()
+        }
+    }
+    
+    func updateCategory(sortOption: SortOption? = nil, displayOption: DisplayOption? = nil) {
+        DBManager.shared.update(selectedCategory.value) { category in
+            category.sortOption = sortOption ?? category.sortOption
+            category.displayOption = displayOption ?? category.displayOption
         }
     }
 }

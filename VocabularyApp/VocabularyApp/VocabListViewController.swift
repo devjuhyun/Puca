@@ -83,22 +83,22 @@ class VocabListViewController: UIViewController {
         
         let items = [
             UIMenu(title: "단어 정렬", subtitle: "최신순", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
-                UIAction(title: "최신순", handler: { UIAction in
-                    
+                UIAction(title: "최신순", handler: { [weak self] _ in
+                    self?.vm.updateCategory(sortOption: .newestFirst)
                 }),
-                UIAction(title: "오래된순", handler: { UIAction in
-                    
+                UIAction(title: "오래된순", handler: { [weak self] _ in
+                    self?.vm.updateCategory(sortOption: .oldestFirst)
                 })
             ]),
             UIMenu(title: "단어 보기", subtitle: "모든 단어", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
-                UIAction(title: "모든 단어", state: .on, handler: { UIAction in
-                    
+                UIAction(title: "모든 단어", state: .on, handler: { [weak self] _ in
+                    self?.vm.updateCategory(displayOption: .all)
                 }),
-                UIAction(title: "체크한 단어", handler: { UIAction in
-                    
+                UIAction(title: "체크한 단어", handler: { [weak self] _ in
+                    self?.vm.updateCategory(displayOption: .checkedWords)
                 }),
-                UIAction(title: "미체크한 단어", handler: { UIAction in
-                    
+                UIAction(title: "미체크한 단어", handler: { [weak self] _ in
+                    self?.vm.updateCategory(displayOption: .uncheckedWords)
                 })
             ]),
             UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { UIAction in
@@ -108,9 +108,6 @@ class VocabListViewController: UIViewController {
         ]
         
         let button = UIBarButtonItem(image: image, menu: UIMenu(children: items))
-        button.title = "완료"
-        button.tintColor = .appColor
-        
         return button
     }()
     
@@ -181,9 +178,17 @@ extension VocabListViewController {
         }
         
         vm.selectedCategory.bind { [weak self] category in
+            // TODO: - edit버튼 초기설정
             DispatchQueue.main.async {
                 self?.categoryButton.setTitle(category.name, for: .normal)
                 self?.vm.updateTokens()
+            }
+        }
+        
+        vm.onCategoryUpdated = { [weak self] in
+            // TODO: - edit버튼 변경
+            if let menu = self?.editButton.menu {
+                
             }
         }
     }
