@@ -183,8 +183,7 @@ extension VocabListViewController {
         vm.selectedCategory.bind { [weak self] category in
             DispatchQueue.main.async {
                 self?.categoryButton.setTitle(category.name, for: .normal)
-                self?.vm.shouldDisplayAllVocabularies = category.name == "모든 단어"
-                self?.vm.fetchVocabularies()
+                self?.vm.updateTokens()
             }
         }
     }
