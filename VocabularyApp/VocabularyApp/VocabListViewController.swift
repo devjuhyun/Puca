@@ -59,21 +59,22 @@ class VocabListViewController: UIViewController {
     private lazy var menuItems = [
         UIMenu(title: "단어 정렬", subtitle: "최신순", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
             UIAction(title: "최신순", handler: { [weak self] _ in
-                self?.vm.updateCategory(sortOption: .newestFirst)
+                self?.vm.updateSortOption(.newestFirst)
             }),
             UIAction(title: "오래된순", handler: { [weak self] _ in
-                self?.vm.updateCategory(sortOption: .oldestFirst)
+                UserDefaults.standard.set("oldestFirst", forKey: "sortOption")
+                self?.vm.updateSortOption(.oldestFirst)
             })
         ]),
         UIMenu(title: "단어 보기", subtitle: "모든 단어", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
             UIAction(title: "모든 단어", state: .on, handler: { [weak self] _ in
-                self?.vm.updateCategory(displayOption: .all)
+                self?.vm.updateDisplayOption(.all)
             }),
             UIAction(title: "체크한 단어", handler: { [weak self] _ in
-                self?.vm.updateCategory(displayOption: .checkedWords)
+                self?.vm.updateDisplayOption(.checkedWords)
             }),
             UIAction(title: "미체크한 단어", handler: { [weak self] _ in
-                self?.vm.updateCategory(displayOption: .uncheckedWords)
+                self?.vm.updateDisplayOption(.uncheckedWords)
             })
         ]),
         UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
@@ -154,14 +155,43 @@ extension VocabListViewController {
         vm.selectedCategory.bind { [weak self] category in
             DispatchQueue.main.async {
                 self?.categoryButton.setTitle(category.name, for: .normal)
-                self?.vm.updateTokens()
-                self?.updateMenuItems(isSelectedCategoryChanged: true)
+                self?.vm.fetchVocabularies()
             }
         }
         
-        vm.onCategoryUpdated = { [weak self] in
-            DispatchQueue.main.async {
-                self?.updateMenuItems()
+        let menuItems = editButton.menu!.children
+        
+        vm.sortOption.bind { [weak self] sortOption in
+            self?.vm.fetchVocabularies()
+            let sortMenu = menuItems[0] as? UIMenu
+            switch sortOption {
+            case .newestFirst:
+                sortMenu?.subtitle = "최신순"
+                let newestFirstAction = sortMenu?.children[0] as? UIAction
+                newestFirstAction?.state = .on
+            case .oldestFirst:
+                sortMenu?.subtitle = "오래된순"
+                let oldestFirstAction = sortMenu?.children[1] as? UIAction
+                oldestFirstAction?.state = .on
+            }
+        }
+        
+        vm.displayOption.bind { [weak self] displayOption in
+            self?.vm.fetchVocabularies()
+            let displayMenu = menuItems[1] as? UIMenu
+            switch displayOption {
+            case .all:
+                displayMenu?.subtitle = "모든 단어"
+                let displayAllAction = displayMenu?.children[0] as? UIAction
+                displayAllAction?.state = .on
+            case .checkedWords:
+                displayMenu?.subtitle = "체크한 단어"
+                let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
+                displayCheckedWordsAction?.state = .on
+            case .uncheckedWords:
+                displayMenu?.subtitle = "미체크한 단어"
+                let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
+                displayUncheckedWordsAction?.state = .on
             }
         }
     }
@@ -211,44 +241,6 @@ extension VocabListViewController {
         navigationItem.searchController?.isActive = false // 검색하는 도중 편집할때 타이틀 안보이는 문제 해결
         navigationItem.searchController = tableView.isEditing ? self.searchController : nil
         navigationItem.title = self.tableView.isEditing ? "0/30" : nil
-    }
-    
-    private func updateMenuItems(isSelectedCategoryChanged: Bool = false) {
-        let menuItems = editButton.menu!.children
-        let sortMenu = menuItems[0] as? UIMenu
-        let displayMenu = menuItems[1] as? UIMenu
-        updateSortMenu(sortMenu: sortMenu, shouldChangeState: isSelectedCategoryChanged)
-        updateDisplayMenu(displayMenu: displayMenu, shouldChangeState: isSelectedCategoryChanged)
-    }
-    
-    private func updateSortMenu(sortMenu: UIMenu?, shouldChangeState: Bool) {
-        switch vm.selectedCategory.value.sortOption {
-        case .newestFirst:
-            sortMenu?.subtitle = "최신순"
-            let newestFirstAction = sortMenu?.children[0] as? UIAction
-            if shouldChangeState { newestFirstAction?.state = .on }
-        case .oldestFirst:
-            sortMenu?.subtitle = "오래된순"
-            let oldestFirstAction = sortMenu?.children[1] as? UIAction
-            if shouldChangeState { oldestFirstAction?.state = .on }
-        }
-    }
-    
-    private func updateDisplayMenu(displayMenu: UIMenu?, shouldChangeState: Bool) {
-        switch vm.selectedCategory.value.displayOption {
-        case .all:
-            displayMenu?.subtitle = "모든 단어"
-            let displayAllAction = displayMenu?.children[0] as? UIAction
-            if shouldChangeState { displayAllAction?.state = .on }
-        case .checkedWords:
-            displayMenu?.subtitle = "체크한 단어"
-            let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
-            if shouldChangeState { displayCheckedWordsAction?.state = .on }
-        case .uncheckedWords:
-            displayMenu?.subtitle = "미체크한 단어"
-            let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
-            if shouldChangeState { displayUncheckedWordsAction?.state = .on }
-        }
     }
 }
 
