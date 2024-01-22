@@ -229,7 +229,7 @@ extension VocabListViewController {
             if shouldChangeState { newestFirstAction?.state = .on }
         case .oldestFirst:
             sortMenu?.subtitle = "오래된순"
-            let oldestFirstAction = sortMenu?.children[0] as? UIAction
+            let oldestFirstAction = sortMenu?.children[1] as? UIAction
             if shouldChangeState { oldestFirstAction?.state = .on }
         }
     }
