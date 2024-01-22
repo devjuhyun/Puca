@@ -331,7 +331,7 @@ extension VocabListViewController {
     }
 }
 
-// MARK: - Search Controller Funtions
+// MARK: - Search Controller Methods
 extension VocabListViewController: UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         if !tableView.isEditing {
