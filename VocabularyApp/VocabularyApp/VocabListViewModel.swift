@@ -22,39 +22,35 @@ enum DisplayOption: String {
 class VocabListViewModel {
     // MARK: - Properties
     private var inSearchMode: Bool = false
-    private(set) var vocabToken: NotificationToken?
-    private(set) var categoryToken: NotificationToken?
+    private(set) var token: NotificationToken?
     var selectedCategory: Observable<Category>
-    private(set) var allVocabularies: Observable<[Vocabulary]>
-    private(set) var filteredVocabularies: Observable<[Vocabulary]>
+    private let allVocabulariesInDB = DBManager.shared.read(Vocabulary.self)
+    private(set) var vocabularies: Observable<[Vocabulary]> = Observable([])
+    private(set) var filteredVocabularies: Observable<[Vocabulary]> = Observable([])
     private(set) var sortOption: Observable<SortOption>
     private(set) var displayOption: Observable<DisplayOption>
-    private let vocabulariesInDB: Results<Vocabulary>
     
-    var vocabularies: [Vocabulary] {
-        return inSearchMode ? filteredVocabularies.value : allVocabularies.value
+    var vocabulariesToDisplay: [Vocabulary] {
+        return inSearchMode ? filteredVocabularies.value : vocabularies.value
     }
     
-    var shouldDisplayAllVocabularies: Bool {
+    var shouldDisplayAllVocabulariesInDB: Bool {
         return selectedCategory.value.name == "모든 단어"
     }
     
     // MARK: - Lifecycle
     init(category: Category, sortOption: SortOption, displayOption: DisplayOption) {
-        selectedCategory = Observable(category)
-        allVocabularies = Observable([])
-        filteredVocabularies = Observable([])
+        self.selectedCategory = Observable(category)
         self.sortOption = Observable(sortOption)
         self.displayOption = Observable(displayOption)
-        vocabulariesInDB = DBManager.shared.read(Vocabulary.self)
-        vocabToken = vocabulariesInDB.observe { [weak self] _ in
+        token = allVocabulariesInDB.observe { [weak self] _ in
             self?.fetchVocabularies()
         }
     }
     
     // MARK: - Work With Vocabulary
     func fetchVocabularies() {
-        allVocabularies.value = shouldDisplayAllVocabularies ? Array(vocabulariesInDB) : Array(selectedCategory.value.vocabularies)
+        vocabularies.value = shouldDisplayAllVocabulariesInDB ? Array(allVocabulariesInDB) : Array(selectedCategory.value.vocabularies)
         sortVocabularies()
         filterVocabularies()
     }
@@ -62,9 +58,9 @@ class VocabListViewModel {
     private func sortVocabularies() {
         switch sortOption.value {
         case .newestFirst:
-            allVocabularies.value.sort { $0.date > $1.date }
+            vocabularies.value.sort { $0.date > $1.date }
         case .oldestFirst:
-            allVocabularies.value.sort { $0.date < $1.date }
+            vocabularies.value.sort { $0.date < $1.date }
         }
     }
     
@@ -72,9 +68,9 @@ class VocabListViewModel {
     private func filterVocabularies() {
         switch displayOption.value {
         case .checkedWords:
-            allVocabularies.value = allVocabularies.value.filter { $0.isChecked }
+            vocabularies.value = vocabularies.value.filter { $0.isChecked }
         case .uncheckedWords:
-            allVocabularies.value = allVocabularies.value.filter { !$0.isChecked }
+            vocabularies.value = vocabularies.value.filter { !$0.isChecked }
         case .all:
             break
         }
@@ -88,7 +84,7 @@ class VocabListViewModel {
     
     // MARK: - Work With Category
     func passCategory() -> Category? {
-        shouldDisplayAllVocabularies ? nil : selectedCategory.value
+        shouldDisplayAllVocabulariesInDB ? nil : selectedCategory.value
     }
     
     // MARK: - Work With UserDefaults
@@ -111,7 +107,7 @@ class VocabListViewModel {
     
     public func updateSearchController(searchBarText: String?) {
         if let searchText = searchBarText?.lowercased() {
-            filteredVocabularies.value = allVocabularies.value.filter { $0.word.lowercased().contains(searchText) }
+            filteredVocabularies.value = vocabularies.value.filter { $0.word.lowercased().contains(searchText) || $0.meaning.contains(searchText) }
         }
     }
 }
