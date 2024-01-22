@@ -30,27 +30,13 @@ class VocabListViewController: UIViewController {
     private lazy var addButton: UIButton = {
         let button = FloatingBtn(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
         button.isHidden = tableView.isEditing
-        button.addAction(UIAction(handler: { [weak self] UIAction in
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-            
-            let category = self?.vm.passCategory()
-            let vm = VocabViewModel(selectedCategory: category)
-            let vc = VocabViewController(viewModel: vm)
-            vc.navigationItem.title = "단어 추가"
-            self?.navigationController?.pushViewController(vc, animated: true)
-        }), for: .touchUpInside)
-        
+        button.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         return button
     }()
     
     private lazy var categoryButton: UIButton = {
         let button = CategoryBtn()
-        button.addAction(UIAction(handler: { UIAction in
-            let vm = CategoryListViewModel()
-            vm.shouldDisplayAll = true
-            let vc = CategoryListViewController(viewModel: vm)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }), for: .touchUpInside)
+        button.addTarget(self, action: #selector(categoryButtonClicked), for: .touchUpInside)
         return button
     }()
     
@@ -66,58 +52,46 @@ class VocabListViewController: UIViewController {
     
     private lazy var searchButton: UIBarButtonItem = {
         let image = UIImage(systemName: "magnifyingglass")?.withTintColor(.label, renderingMode: .alwaysOriginal)
-        let button = UIBarButtonItem(image: image, primaryAction: UIAction(handler: { _ in
-            self.navigationItem.searchController = self.searchController
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
-                self.searchController.searchBar.searchTextField.becomeFirstResponder()
-            }
-            
-        }))
-        
+        let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(searchButtonClicked))
         return button
     }()
     
+    private lazy var menuItems = [
+        UIMenu(title: "단어 정렬", subtitle: "최신순", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
+            UIAction(title: "최신순", handler: { [weak self] _ in
+                self?.vm.updateCategory(sortOption: .newestFirst)
+            }),
+            UIAction(title: "오래된순", handler: { [weak self] _ in
+                self?.vm.updateCategory(sortOption: .oldestFirst)
+            })
+        ]),
+        UIMenu(title: "단어 보기", subtitle: "모든 단어", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
+            UIAction(title: "모든 단어", state: .on, handler: { [weak self] _ in
+                self?.vm.updateCategory(displayOption: .all)
+            }),
+            UIAction(title: "체크한 단어", handler: { [weak self] _ in
+                self?.vm.updateCategory(displayOption: .checkedWords)
+            }),
+            UIAction(title: "미체크한 단어", handler: { [weak self] _ in
+                self?.vm.updateCategory(displayOption: .uncheckedWords)
+            })
+        ]),
+        UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+            self.updateUI()
+        })
+    ]
+    
     private lazy var editButton: UIBarButtonItem = {
         let image = UIImage(systemName: "ellipsis")?.withTintColor(.label, renderingMode: .alwaysOriginal)
-        
-        let items = [
-            UIMenu(title: "단어 정렬", subtitle: "최신순", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
-                UIAction(title: "최신순", handler: { [weak self] _ in
-                    self?.vm.updateCategory(sortOption: .newestFirst)
-                }),
-                UIAction(title: "오래된순", handler: { [weak self] _ in
-                    self?.vm.updateCategory(sortOption: .oldestFirst)
-                })
-            ]),
-            UIMenu(title: "단어 보기", subtitle: "모든 단어", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
-                UIAction(title: "모든 단어", state: .on, handler: { [weak self] _ in
-                    self?.vm.updateCategory(displayOption: .all)
-                }),
-                UIAction(title: "체크한 단어", handler: { [weak self] _ in
-                    self?.vm.updateCategory(displayOption: .checkedWords)
-                }),
-                UIAction(title: "미체크한 단어", handler: { [weak self] _ in
-                    self?.vm.updateCategory(displayOption: .uncheckedWords)
-                })
-            ]),
-            UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { UIAction in
-                self.tableView.setEditing(!self.tableView.isEditing, animated: true)
-                self.updateUI()
-            }),
-        ]
-        
-        let button = UIBarButtonItem(image: image, menu: UIMenu(children: items))
+        let button = UIBarButtonItem(image: image, menu: UIMenu(children: menuItems))
         return button
     }()
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "완료", primaryAction: UIAction(handler: { _ in
-            self.tableView.setEditing(!self.tableView.isEditing, animated: true)
-            self.updateUI()
-        }))
+        let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(doneButtonClicked))
         button.tintColor = .appColor
-        
         return button
     }()
         
@@ -178,17 +152,16 @@ extension VocabListViewController {
         }
         
         vm.selectedCategory.bind { [weak self] category in
-            // TODO: - edit버튼 초기설정
             DispatchQueue.main.async {
                 self?.categoryButton.setTitle(category.name, for: .normal)
                 self?.vm.updateTokens()
+                self?.updateMenuItems(isSelectedCategoryChanged: true)
             }
         }
         
         vm.onCategoryUpdated = { [weak self] in
-            // TODO: - edit버튼 변경
-            if let menu = self?.editButton.menu {
-                
+            DispatchQueue.main.async {
+                self?.updateMenuItems()
             }
         }
     }
@@ -239,6 +212,44 @@ extension VocabListViewController {
         navigationItem.searchController = tableView.isEditing ? self.searchController : nil
         navigationItem.title = self.tableView.isEditing ? "0/30" : nil
     }
+    
+    private func updateMenuItems(isSelectedCategoryChanged: Bool = false) {
+        let menuItems = editButton.menu!.children
+        let sortMenu = menuItems[0] as? UIMenu
+        let displayMenu = menuItems[1] as? UIMenu
+        updateSortMenu(sortMenu: sortMenu, shouldChangeState: isSelectedCategoryChanged)
+        updateDisplayMenu(displayMenu: displayMenu, shouldChangeState: isSelectedCategoryChanged)
+    }
+    
+    private func updateSortMenu(sortMenu: UIMenu?, shouldChangeState: Bool) {
+        switch vm.selectedCategory.value.sortOption {
+        case .newestFirst:
+            sortMenu?.subtitle = "최신순"
+            let newestFirstAction = sortMenu?.children[0] as? UIAction
+            if shouldChangeState { newestFirstAction?.state = .on }
+        case .oldestFirst:
+            sortMenu?.subtitle = "오래된순"
+            let oldestFirstAction = sortMenu?.children[0] as? UIAction
+            if shouldChangeState { oldestFirstAction?.state = .on }
+        }
+    }
+    
+    private func updateDisplayMenu(displayMenu: UIMenu?, shouldChangeState: Bool) {
+        switch vm.selectedCategory.value.displayOption {
+        case .all:
+            displayMenu?.subtitle = "모든 단어"
+            let displayAllAction = displayMenu?.children[0] as? UIAction
+            if shouldChangeState { displayAllAction?.state = .on }
+        case .checkedWords:
+            displayMenu?.subtitle = "체크한 단어"
+            let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
+            if shouldChangeState { displayCheckedWordsAction?.state = .on }
+        case .uncheckedWords:
+            displayMenu?.subtitle = "미체크한 단어"
+            let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
+            if shouldChangeState { displayUncheckedWordsAction?.state = .on }
+        }
+    }
 }
 
 // MARK: - TableView Delegate Methods
@@ -279,6 +290,34 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Selectors
 extension VocabListViewController {
+    @objc private func addButtonClicked() {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        let category = vm.passCategory()
+        let vm = VocabViewModel(selectedCategory: category)
+        let vc = VocabViewController(viewModel: vm)
+        vc.navigationItem.title = "단어 추가"
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func categoryButtonClicked() {
+        let vm = CategoryListViewModel()
+        vm.shouldDisplayAll = true
+        let vc = CategoryListViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func searchButtonClicked() {
+        navigationItem.searchController = searchController
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { [weak self] in
+            self?.searchController.searchBar.searchTextField.becomeFirstResponder()
+        }
+    }
+    
+    @objc private func doneButtonClicked() {
+        tableView.setEditing(!tableView.isEditing, animated: true)
+        updateUI()
+    }
+    
     @objc private func selectAllButtonClicked() {
     }
     
