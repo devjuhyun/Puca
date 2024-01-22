@@ -40,9 +40,10 @@ class VocabListViewController: UIViewController {
         return button
     }()
     
-    private let searchController: UISearchController = {
+    private lazy var searchController: UISearchController = {
         let searchController = UISearchController()
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appColor
         searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
         searchController.searchBar.placeholder = "검색할 단어를 입력하세요."
@@ -146,7 +147,13 @@ extension VocabListViewController {
     }
     
     private func setupBindings() {
-        vm.vocabularies.bind { [weak self] _ in
+        vm.allVocabularies.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
+        
+        vm.filteredVocabularies.bind { [weak self] _ in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
             }
@@ -247,13 +254,13 @@ extension VocabListViewController {
 // MARK: - TableView Delegate Methods
 extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm.vocabularies.value.count
+        return vm.vocabularies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
                 
-        let vocab = vm.vocabularies.value[indexPath.row]
+        let vocab = vm.vocabularies[indexPath.row]
         cell.configure(with: vocab)
         cell.onChecked = { [weak self] in
             self?.vm.checkVocabulary(vocab)
@@ -324,7 +331,12 @@ extension VocabListViewController {
 }
 
 // MARK: - Search Controller Methods
-extension VocabListViewController: UISearchBarDelegate {
+extension VocabListViewController: UISearchBarDelegate, UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        vm.setInSearchMode(searchController)
+        vm.updateSearchController(searchBarText: searchController.searchBar.text)
+    }
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         if !tableView.isEditing {
             self.navigationItem.searchController = nil

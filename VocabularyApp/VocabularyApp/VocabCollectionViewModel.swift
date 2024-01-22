@@ -5,7 +5,6 @@
 //  Created by Juhyun Yun on 1/10/24.
 //
 
-import Foundation
 import RealmSwift
 
 class VocabCollectionViewModel {

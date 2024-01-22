@@ -5,7 +5,6 @@
 //  Created by Juhyun Yun on 1/2/24.
 //
 
-import Foundation
 import UIKit
 
 enum BlankSpace {
