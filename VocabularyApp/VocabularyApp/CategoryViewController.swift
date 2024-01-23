@@ -78,7 +78,7 @@ extension CategoryViewController {
     
     private func saveCategory() {
         if nameTextField.text!.isEmpty {
-            let toast = ToastView(message: "단어장 이름을 입력하세요.")
+            let toast = ToastView(message: "단어장 이름을 입력하세요.", isGreen: false)
             AlertService.showToast(in: self, toastView: toast)
         } else {
             vm.updateCategory(name: nameTextField.text!)

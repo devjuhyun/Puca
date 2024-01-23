@@ -80,7 +80,7 @@ class VocabListViewController: UIViewController {
         ]),
         UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
             guard let self = self else { return }
-            self.tableView.setEditing(!self.tableView.isEditing, animated: true)
+            self.tableView.setEditing(true, animated: true)
             self.updateUI()
         })
     ]
@@ -263,7 +263,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
         let vocab = vm.vocabulariesToDisplay[indexPath.row]
         cell.configure(with: vocab)
         cell.onChecked = { [weak self] in
-            self?.vm.checkVocabulary(vocab)
+            if !tableView.isEditing { self?.vm.checkVocabulary(vocab) }
         }
         
         return cell
@@ -313,11 +313,21 @@ extension VocabListViewController {
     }
     
     @objc private func doneButtonClicked() {
-        tableView.setEditing(!tableView.isEditing, animated: true)
+        tableView.setEditing(false, animated: true)
         updateUI()
     }
     
     @objc private func selectAllButtonClicked() {
+        let numberOfRows = tableView.numberOfRows(inSection: 0)
+        if tableView.indexPathsForSelectedRows?.count == numberOfRows {
+            for row in 0..<numberOfRows {
+                tableView.deselectRow(at: IndexPath(row: row, section: 0), animated: true)
+            }
+        } else {
+            for row in 0..<numberOfRows {
+                tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
+            }
+        }
     }
     
     @objc private func categoryMoveButtonClicked() {
@@ -333,7 +343,7 @@ extension VocabListViewController {
 // MARK: - Search Controller Methods
 extension VocabListViewController: UISearchBarDelegate, UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        vm.setInSearchMode(searchController)
+        vm.setInSearchMode(isSearching: searchController.isActive, searchText: searchController.searchBar.text!)
         vm.updateSearchController(searchBarText: searchController.searchBar.text)
     }
     

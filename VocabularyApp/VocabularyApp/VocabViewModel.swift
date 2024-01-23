@@ -5,8 +5,6 @@
 //  Created by Juhyun Yun on 1/2/24.
 //
 
-import UIKit
-
 enum BlankSpace {
     case category
     case vocab
@@ -38,16 +36,16 @@ class VocabViewModel {
         }
     }
     
-    func checkBlankSpace(vocab: String, meaning: String, example: String, handler: (BlankSpace?, UIView) -> Void) {
+    func checkBlankSpace(vocab: String, meaning: String, example: String, handler: (BlankSpace?, String, Bool) -> Void) {
         if selectedCategory.value == nil {
-            handler(.category, ToastView(message: "단어장을 선택하세요."))
+            handler(.category, "단어장을 선택하세요.", false)
         } else if vocab.isEmpty {
-            handler(.vocab, ToastView(message: "단어를 입력하세요."))
+            handler(.vocab, "단어를 입력하세요.", false)
         } else if meaning.isEmpty {
-            handler(.meaning, ToastView(message: "의미를 입력하세요."))
+            handler(.meaning, "의미를 입력하세요.", false)
         } else {
             updateVocab(vocab: vocab, meaning: meaning, example: example)
-            handler(nil, ToastView(message: "단어 저장 성공", color: .systemGreen, imageName: "checkmark.circle"))
+            handler(nil, "단어 저장 성공", true)
         }
     }
 }

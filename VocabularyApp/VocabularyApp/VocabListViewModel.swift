@@ -5,7 +5,7 @@
 //  Created by Juhyun Yun on 1/2/24.
 //
 
-import UIKit
+import Foundation
 import RealmSwift
 
 enum SortOption: String {
@@ -99,10 +99,8 @@ class VocabListViewModel {
     }
     
     // MARK: - Search Functions
-    public func setInSearchMode(_ searchController: UISearchController) {
-        let isActive = searchController.isActive
-        let searchText = searchController.searchBar.text ?? ""
-        inSearchMode = isActive && !searchText.isEmpty
+    public func setInSearchMode(isSearching: Bool, searchText: String) {
+        inSearchMode = isSearching && !searchText.isEmpty
     }
     
     public func updateSearchController(searchBarText: String?) {

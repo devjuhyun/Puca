@@ -186,13 +186,13 @@ extension VocabViewController {
     }
     
     private func updateUI() {
-        vm.checkBlankSpace(vocab: vocabTextField.text!, meaning: meaningTextField.text!, example: textView.text!) { blankSpace, toast in
+        vm.checkBlankSpace(vocab: vocabTextField.text!, meaning: meaningTextField.text!, example: textView.text!) { blankSpace, message, issucceeded in
             handleBlankSpace(blankSpace)
             
             if vm.selectedVocab != nil && blankSpace == nil {
                 navigationController?.popViewController(animated: true)
             } else {
-                AlertService.showToast(in: self, toastView: toast)
+                AlertService.showToast(in: self, toastView: ToastView(message: message, isGreen: issucceeded))
             }
         }
     }

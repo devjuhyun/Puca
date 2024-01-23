@@ -8,13 +8,14 @@
 import UIKit
 
 class ToastView: UIView {
-    init(message: String, color: UIColor = .systemRed, imageName: String = "exclamationmark.circle") {
+    init(message: String, isGreen: Bool) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = color
+        backgroundColor = isGreen ? .systemGreen : .systemRed
         layer.cornerRadius = 5
         clipsToBounds = true
         
+        let imageName = isGreen ? "checkmark.circle" : "exclamationmark.circle"
         let toastImageView = UIImageView(image: UIImage(systemName: imageName)?.withTintColor(.white, renderingMode: .alwaysOriginal))
         toastImageView.translatesAutoresizingMaskIntoConstraints = false
         let toastLabel = UILabel()
