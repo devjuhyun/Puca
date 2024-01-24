@@ -42,7 +42,7 @@ class VocabListViewController: UIViewController {
     
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController()
-        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appColor
         searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
@@ -88,6 +88,7 @@ class VocabListViewController: UIViewController {
     private lazy var editButton: UIBarButtonItem = {
         let image = UIImage(systemName: "ellipsis")?.withTintColor(.label, renderingMode: .alwaysOriginal)
         let button = UIBarButtonItem(image: image, menu: UIMenu(children: menuItems))
+
         return button
     }()
     
@@ -128,7 +129,7 @@ class VocabListViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.navigationItem.searchController = nil
+        navigationItem.searchController = nil
         if tableView.isEditing {
             tableView.setEditing(!tableView.isEditing, animated: true)
             updateUI()
@@ -143,7 +144,6 @@ extension VocabListViewController {
         setupBindings()
         setupNavBar()
         setupToolBar()
-        setupSearchBar()
     }
     
     private func setupBindings() {
@@ -218,11 +218,6 @@ extension VocabListViewController {
         toolbarItems = toolbarButtons
     }
     
-    private func setupSearchBar() {
-        navigationItem.hidesSearchBarWhenScrolling = false // always show search controller
-        searchController.searchBar.delegate = self
-    }
-    
     private func layout() {
         view.addSubview(tableView)
         view.addSubview(addButton)
@@ -245,8 +240,6 @@ extension VocabListViewController {
         navigationController?.isToolbarHidden.toggle()
         navigationItem.rightBarButtonItems = tableView.isEditing ? [doneButton] : [editButton, searchButton]
         navigationItem.leftBarButtonItems = tableView.isEditing ? nil : [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
-        navigationItem.searchController?.isActive = false // 검색하는 도중 편집할때 타이틀 안보이는 문제 해결
-        navigationItem.searchController = tableView.isEditing ? self.searchController : nil
         navigationItem.title = self.tableView.isEditing ? "0/30" : nil
     }
 }
@@ -348,8 +341,6 @@ extension VocabListViewController: UISearchBarDelegate, UISearchResultsUpdating 
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        if !tableView.isEditing {
-            self.navigationItem.searchController = nil
-        }
+        navigationItem.searchController = nil
     }
 }
