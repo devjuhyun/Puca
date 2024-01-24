@@ -29,6 +29,11 @@ class VocabListViewModel {
     private(set) var filteredVocabularies: Observable<[Vocabulary]> = Observable([])
     private(set) var sortOption: Observable<SortOption>
     private(set) var displayOption: Observable<DisplayOption>
+    private(set) var selectedVocabularies: Observable<[Vocabulary]> = Observable([])
+    
+    var navTitle: String {
+        return "\(selectedVocabularies.value.count)/\(vocabulariesToDisplay.count)"
+    }
     
     var vocabulariesToDisplay: [Vocabulary] {
         return inSearchMode ? filteredVocabularies.value : vocabularies.value
