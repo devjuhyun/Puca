@@ -329,6 +329,8 @@ extension VocabListViewController {
     }
     
     @objc private func deleteButtonClicked() {
+        vm.deleteVocabularies()
+        updateUI()
     }
     
     @objc private func checkAllButtonClicked() {

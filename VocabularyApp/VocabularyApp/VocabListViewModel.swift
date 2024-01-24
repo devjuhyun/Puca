@@ -88,11 +88,16 @@ class VocabListViewModel {
     }
     
     func updateSelectedVocabularies(indexPaths: [IndexPath]?) {
-        if let indices = indexPaths?.indices.map({Int($0)}) {
+        if let indexPaths = indexPaths {
+            let indices = indexPaths.map{$0.row}
             selectedVocabularies.value = indices.map { vocabulariesToDisplay[$0] }
         } else {
             selectedVocabularies.value = []
         }
+    }
+    
+    func deleteVocabularies() {
+        selectedVocabularies.value.forEach { DBManager.shared.delete($0) }
     }
     
     // MARK: - Work With Category
