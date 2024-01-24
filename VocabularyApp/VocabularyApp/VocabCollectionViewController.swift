@@ -164,7 +164,7 @@ extension VocabCollectionViewController {
     }
     
     @objc private func deleteButtonClicked() {
-        let alertController = AlertService.deleteAlert { [weak self] _ in
+        let alertController = AlertService.deleteAlert(deleteOption: .vocabulary) { [weak self] _ in
             self?.vm.deleteVocabulary()
             self?.updateCurrentIndex()
         }

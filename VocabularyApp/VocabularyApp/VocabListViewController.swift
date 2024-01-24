@@ -329,8 +329,11 @@ extension VocabListViewController {
     }
     
     @objc private func deleteButtonClicked() {
-        vm.deleteVocabularies()
-        updateUI()
+        let alertController = AlertService.deleteAlert(deleteOption: .vocabularies) { [weak self] _ in
+            self?.vm.deleteVocabularies()
+            self?.updateUI()
+        }
+        present(alertController, animated: true)
     }
     
     @objc private func checkAllButtonClicked() {
