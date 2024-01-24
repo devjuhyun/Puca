@@ -87,6 +87,14 @@ class VocabListViewModel {
         }
     }
     
+    func updateSelectedVocabularies(indexPaths: [IndexPath]?) {
+        if let indices = indexPaths?.indices.map({Int($0)}) {
+            selectedVocabularies.value = indices.map { vocabulariesToDisplay[$0] }
+        } else {
+            selectedVocabularies.value = []
+        }
+    }
+    
     // MARK: - Work With Category
     func passCategory() -> Category? {
         shouldDisplayAllVocabulariesInDB ? nil : selectedCategory.value

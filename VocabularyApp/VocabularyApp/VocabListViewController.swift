@@ -80,9 +80,7 @@ class VocabListViewController: UIViewController {
             })
         ]),
         UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.tableView.setEditing(true, animated: true)
-            self.updateUI()
+            self?.updateUI()
         })
     ]
     
@@ -192,6 +190,13 @@ extension VocabListViewController {
                 displayUncheckedWordsAction?.state = .on
             }
         }
+        
+        vm.selectedVocabularies.bind { [weak self] _ in
+            guard let self = self else { return }
+            if self.tableView.isEditing {
+                self.navigationItem.title = self.vm.navTitle
+            }
+        }
     }
     
     private func setupNavBar() {
@@ -227,11 +232,13 @@ extension VocabListViewController {
     }
     
     private func updateUI() {
+        tableView.setEditing(!tableView.isEditing, animated: true)
         addButton.isHidden.toggle()
         navigationController?.isToolbarHidden.toggle()
         navigationItem.rightBarButtonItems = tableView.isEditing ? [doneButton] : [editButton, searchButton]
         navigationItem.leftBarButtonItems = tableView.isEditing ? nil : [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
-        navigationItem.title = self.tableView.isEditing ? "0/30" : nil
+        navigationItem.title = tableView.isEditing ? vm.navTitle : nil
+        navigationController?.navigationBar.layoutSubviews()
     }
 }
 
@@ -255,7 +262,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.isEditing {
-            
+            vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
         } else {
             let vm = VocabCollectionViewModel(category: vm.passCategory(), index: indexPath.row)
             let vc = VocabCollectionViewController(viewModel: vm)
@@ -265,10 +272,13 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
+    }
+    
     func tableView(_ tableView: UITableView, shouldBeginMultipleSelectionInteractionAt indexPath: IndexPath) -> Bool {
         return true
     }
-    
 }
 
 // MARK: - Selectors
@@ -297,8 +307,8 @@ extension VocabListViewController {
     }
     
     @objc private func doneButtonClicked() {
-        tableView.setEditing(false, animated: true)
         updateUI()
+        vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
     }
     
     @objc private func selectAllButtonClicked() {
@@ -312,6 +322,7 @@ extension VocabListViewController {
                 tableView.selectRow(at: IndexPath(row: row, section: 0), animated: true, scrollPosition: .none)
             }
         }
+        vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
     }
     
     @objc private func categoryMoveButtonClicked() {
