@@ -23,6 +23,7 @@ class VocabListViewController: UIViewController {
         tableView.backgroundColor = view.backgroundColor
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.allowsSelectionDuringEditing = true
+        tableView.keyboardDismissMode = .onDrag
         tableView.tableHeaderView = UIView()
         return tableView
     }()
@@ -124,16 +125,6 @@ class VocabListViewController: UIViewController {
         
         setup()
         layout()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        navigationItem.searchController = nil
-        if tableView.isEditing {
-            tableView.setEditing(!tableView.isEditing, animated: true)
-            updateUI()
-        }
     }
 }
 

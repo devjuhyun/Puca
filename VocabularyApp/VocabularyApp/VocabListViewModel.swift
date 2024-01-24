@@ -21,7 +21,7 @@ enum DisplayOption: String {
 
 class VocabListViewModel {
     // MARK: - Properties
-    private var inSearchMode: Bool = false
+    var inSearchMode: Bool = false
     private(set) var token: NotificationToken?
     var selectedCategory: Observable<Category>
     private let allVocabulariesInDB = DBManager.shared.read(Vocabulary.self)
