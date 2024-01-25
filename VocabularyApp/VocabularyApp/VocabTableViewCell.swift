@@ -94,7 +94,7 @@ extension VocabTableViewCell {
 // MARK: - Selectors
 extension VocabTableViewCell {
     @objc private func checkButtonTapped() {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        AlertService.playHaptics()
         onChecked?()
     }
 }

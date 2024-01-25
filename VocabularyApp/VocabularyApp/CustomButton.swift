@@ -56,9 +56,9 @@ class CategoryBtn: UIButton {
         setTitle("모든 단어", for: .normal)
         titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         setTitleColor(.label, for: .normal)
-        setImage(UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration( weight: .bold)), for: .normal)
-        adjustsImageWhenHighlighted = false
-
+        let image = UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration(weight: .bold))
+        setImage(image, for: .highlighted)
+        setImage(image, for: .normal)
     }
     
     required init?(coder: NSCoder) {

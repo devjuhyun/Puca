@@ -53,8 +53,9 @@ class VocabListViewController: UIViewController {
     }()
     
     private lazy var searchButton: UIBarButtonItem = {
-        let image = UIImage(systemName: "magnifyingglass")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "magnifyingglass")
         let button = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(searchButtonClicked))
+        button.tintColor = .label
         return button
     }()
     
@@ -85,9 +86,9 @@ class VocabListViewController: UIViewController {
     ]
     
     private lazy var editButton: UIBarButtonItem = {
-        let image = UIImage(systemName: "ellipsis")?.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let image = UIImage(systemName: "ellipsis")
         let button = UIBarButtonItem(image: image, menu: UIMenu(children: menuItems))
-
+        button.tintColor = .label
         return button
     }()
     
@@ -98,13 +99,13 @@ class VocabListViewController: UIViewController {
     }()
         
     private lazy var toolbarButtons: [UIBarButtonItem] = [
-        UIBarButtonItem(image: UIImage(systemName: "checkmark.circle")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(selectAllButtonClicked)),
+        UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(selectAllButtonClicked)),
         .flexibleSpace(),
-        UIBarButtonItem(image: UIImage(systemName: "folder")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(categoryMoveButtonClicked)),
+        UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(categoryMoveButtonClicked)),
         .flexibleSpace(),
-        UIBarButtonItem(image: UIImage(systemName: "trash")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(deleteButtonClicked)),
+        UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteButtonClicked)),
         .flexibleSpace(),
-        UIBarButtonItem(image: UIImage(systemName: "checkmark")?.withTintColor(.label, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(checkAllButtonClicked)),
+        UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .plain, target: self, action: #selector(checkAllButtonClicked)),
     ]
             
     // MARK: - Lifecycle
@@ -193,8 +194,11 @@ extension VocabListViewController {
         
         vm.selectedVocabularies.bind { [weak self] _ in
             guard let self = self else { return }
-            if self.tableView.isEditing {
-                self.navigationItem.title = self.vm.navTitle
+            toolbarButtons[2].isEnabled = !vm.selectedVocabularies.value.isEmpty
+            toolbarButtons[4].isEnabled = !vm.selectedVocabularies.value.isEmpty
+            toolbarButtons[6].isEnabled = !vm.selectedVocabularies.value.isEmpty
+            if tableView.isEditing {
+                navigationItem.title = vm.navTitle
             }
         }
     }
@@ -211,6 +215,7 @@ extension VocabListViewController {
         apperance.backgroundColor = .appColor
         navigationController?.toolbar.standardAppearance = apperance
         navigationController?.toolbar.scrollEdgeAppearance = apperance
+        toolbarButtons.forEach { $0.tintColor = .label }
         toolbarItems = toolbarButtons
     }
     
@@ -285,7 +290,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
 // MARK: - Selectors
 extension VocabListViewController {
     @objc private func addButtonClicked() {
-        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        AlertService.playHaptics()
         let category = vm.passCategory()
         let vm = VocabViewModel(selectedCategory: category)
         let vc = VocabViewController(viewModel: vm)

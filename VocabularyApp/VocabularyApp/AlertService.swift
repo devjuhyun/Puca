@@ -73,4 +73,8 @@ struct AlertService {
         
         return checkAlert
     }
+    
+    static func playHaptics() {
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
 }
