@@ -81,13 +81,13 @@ extension VocabTableViewCell {
         checkButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     }
     
-    public func configure(with vocab: Vocabulary) {
-        vocabLabel.text = vocab.word
-        meaningLabel.text = vocab.meaning
+    public func configure(with vocabulary: Vocabulary) {
+        vocabLabel.text = vocabulary.word
+        meaningLabel.text = vocabulary.meaning
         
-        checkButton.tintColor = vocab.isChecked ? .appColor : .systemGray2
-        vocabLabel.textColor = vocab.isChecked ? .systemGray2 : .label
-        meaningLabel.textColor = vocab.isChecked ? .systemGray2 : .label
+        checkButton.tintColor = vocabulary.isChecked ? .appColor : .systemGray2
+        vocabLabel.textColor = vocabulary.isChecked ? .systemGray2 : .label
+        meaningLabel.textColor = vocabulary.isChecked ? .systemGray2 : .label
     }
 }
 

@@ -36,18 +36,22 @@ struct AlertService {
     }
     
     static func deleteAlert(deleteOption: DeleteOption, deleteActionHandler: @escaping (UIAlertAction) -> Void) -> UIAlertController {
-        var message: String
+        var title: String?
+        var message: String?
         
         switch deleteOption {
         case .category:
-            message = "카테고리와 카테고리에 포함된 단어가 영원히 삭제되고 복구할 수 없어요."
+            title = "정말 삭제할까요?"
+            message = "카테고리에 저장된 모든 단어가 삭제되고 복구할 수 없습니다."
         case .vocabulary:
-            message = ""
+            title = nil
+            message = nil
         case .vocabularies:
-            message = "선택되어 있는 모든 단어가 삭제됩니다."
+            title = "선택한 모든 단어가 삭제됩니다."
+            message = nil
         }
         
-        let deleteAlert = UIAlertController(title: "정말 삭제할까요?", message: message, preferredStyle: .alert)
+        let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: deleteActionHandler)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         
@@ -55,5 +59,18 @@ struct AlertService {
         deleteAlert.addAction(cancelAction)
         
         return deleteAlert
+    }
+    
+    static func checkAlert(checkActionHandler: @escaping (UIAlertAction) -> Void, unCheckActionHandler:  @escaping (UIAlertAction) -> Void) -> UIAlertController {
+        let checkAlert = UIAlertController(title: "체크 옵션을 선택하세요.", message: "선택한 모든 단어에 적용됩니다.", preferredStyle: .actionSheet)
+        let checkAction = UIAlertAction(title: "체크하기", style: .default, handler: checkActionHandler)
+        let unCheckAction = UIAlertAction(title: "체크 해제하기", style: .default, handler: unCheckActionHandler)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        checkAlert.addAction(checkAction)
+        checkAlert.addAction(unCheckAction)
+        checkAlert.addAction(cancelAction)
+        
+        return checkAlert
     }
 }

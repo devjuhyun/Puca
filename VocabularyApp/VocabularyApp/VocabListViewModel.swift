@@ -81,9 +81,17 @@ class VocabListViewModel {
         }
     }
     
-    func checkVocabulary(_ vocab: Vocabulary) {
-        DBManager.shared.update(vocab) { vocab in
-            vocab.isChecked.toggle()
+    func checkVocabulary(_ vocabulary: Vocabulary) {
+        DBManager.shared.update(vocabulary) { vocabulary in
+            vocabulary.isChecked.toggle()
+        }
+    }
+    
+    func checkSelectedVocabularies(isChecking: Bool) {
+        for vocabulary in selectedVocabularies.value {
+            DBManager.shared.update(vocabulary) { vocabulary in
+                vocabulary.isChecked = isChecking
+            }
         }
     }
     

@@ -239,6 +239,7 @@ extension VocabListViewController {
         navigationItem.leftBarButtonItems = tableView.isEditing ? nil : [.fixedSpace(16), UIBarButtonItem(customView: categoryButton)]
         navigationItem.title = tableView.isEditing ? vm.navTitle : nil
         navigationController?.navigationBar.layoutSubviews()
+        vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
     }
 }
 
@@ -251,10 +252,10 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
                 
-        let vocab = vm.vocabulariesToDisplay[indexPath.row]
-        cell.configure(with: vocab)
+        let vocabulary = vm.vocabulariesToDisplay[indexPath.row]
+        cell.configure(with: vocabulary)
         cell.onChecked = { [weak self] in
-            if !tableView.isEditing { self?.vm.checkVocabulary(vocab) }
+            if !tableView.isEditing { self?.vm.checkVocabulary(vocabulary) }
         }
         
         return cell
@@ -308,7 +309,6 @@ extension VocabListViewController {
     
     @objc private func doneButtonClicked() {
         updateUI()
-        vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
     }
     
     @objc private func selectAllButtonClicked() {
@@ -337,6 +337,15 @@ extension VocabListViewController {
     }
     
     @objc private func checkAllButtonClicked() {
+        let alertController = AlertService.checkAlert { [weak self] _ in
+            self?.vm.checkSelectedVocabularies(isChecking: true)
+            self?.updateUI()
+        } unCheckActionHandler: { [weak self] _ in
+            self?.vm.checkSelectedVocabularies(isChecking: false)
+            self?.updateUI()
+        }
+                
+        present(alertController, animated: true)
     }
 }
 
