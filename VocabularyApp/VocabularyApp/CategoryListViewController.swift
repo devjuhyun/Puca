@@ -137,7 +137,6 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = vm.categories.value[indexPath.row]
         if let vocabListVC = navigationController?.previousViewController as? VocabListViewController {
-            // TODO: - 단어 이동할때는 Userdefaults 값을 변경하면 안되게 하기
             if vm.shouldDisplayAll { // change category
                 UserDefaults.standard.set(indexPath.row, forKey: "recentCategoryIndex")
                 vocabListVC.vm.category.value = selectedCategory
