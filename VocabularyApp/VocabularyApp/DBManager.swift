@@ -59,4 +59,21 @@ final class DBManager {
         guard let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0) else { fatalError("Error: no categoryList") }
         return categoryList
     }
+    
+    func move(vocabularies: [Vocabulary], to selectedCategory: Category) {
+        for vocabulary in vocabularies {
+            let newVocabulary = copyVocabulary(vocabulary)
+            DBManager.shared.update(selectedCategory) { selectedCategory in
+                selectedCategory.vocabularies.append(newVocabulary)
+            }
+            delete(vocabulary)
+        }
+    }
+    
+    func copyVocabulary(_ vocabulary: Vocabulary) -> Vocabulary {
+        let newVocabulary = Vocabulary(word: vocabulary.word, meaning: vocabulary.meaning, example: vocabulary.example)
+        newVocabulary.isChecked = vocabulary.isChecked
+        newVocabulary.date = vocabulary.date
+        return newVocabulary
+    }
 }

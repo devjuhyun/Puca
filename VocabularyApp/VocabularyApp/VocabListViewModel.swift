@@ -109,18 +109,8 @@ class VocabListViewModel {
         selectedVocabularies.value.forEach { DBManager.shared.delete($0) }
     }
     
-    // TODO: - 이걸 DBManager로 옮길까?
     func moveVocabularies(to selectedCategory: Category) {
-        for vocabulary in selectedVocabularies.value {
-            let newVocabulary = Vocabulary(word: vocabulary.word, meaning: vocabulary.meaning, example: vocabulary.example)
-            newVocabulary.isChecked = vocabulary.isChecked
-            newVocabulary.date = vocabulary.date
-            DBManager.shared.update(selectedCategory) { selectedCategory in
-                selectedCategory.vocabularies.append(newVocabulary)
-            }
-        }
-        
-        deleteVocabularies()
+        DBManager.shared.move(vocabularies: selectedVocabularies.value, to: selectedCategory)
     }
     
     // MARK: - Work With Category
