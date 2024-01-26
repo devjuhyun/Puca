@@ -23,7 +23,7 @@ class VocabListViewModel {
     // MARK: - Properties
     var inSearchMode: Bool = false
     private(set) var token: NotificationToken?
-    var selectedCategory: Observable<Category>
+    var category: Observable<Category>
     private let allVocabulariesInDB = DBManager.shared.read(Vocabulary.self)
     private(set) var vocabularies: Observable<[Vocabulary]> = Observable([])
     private(set) var filteredVocabularies: Observable<[Vocabulary]> = Observable([])
@@ -39,13 +39,14 @@ class VocabListViewModel {
         return inSearchMode ? filteredVocabularies.value : vocabularies.value
     }
     
+    // TODO: - true면 단어 선택 action disable 시키기(category 바인딩에서)
     var shouldDisplayAllVocabulariesInDB: Bool {
-        return selectedCategory.value.name == "모든 단어"
+        return category.value.name == "모든 단어"
     }
     
     // MARK: - Lifecycle
     init(category: Category, sortOption: SortOption, displayOption: DisplayOption) {
-        self.selectedCategory = Observable(category)
+        self.category = Observable(category)
         self.sortOption = Observable(sortOption)
         self.displayOption = Observable(displayOption)
         token = allVocabulariesInDB.observe { [weak self] _ in
@@ -55,7 +56,7 @@ class VocabListViewModel {
     
     // MARK: - Work With Vocabulary
     func fetchVocabularies() {
-        vocabularies.value = shouldDisplayAllVocabulariesInDB ? Array(allVocabulariesInDB) : Array(selectedCategory.value.vocabularies)
+        vocabularies.value = shouldDisplayAllVocabulariesInDB ? Array(allVocabulariesInDB) : Array(category.value.vocabularies)
         sortVocabularies()
         filterVocabularies()
     }
@@ -108,9 +109,23 @@ class VocabListViewModel {
         selectedVocabularies.value.forEach { DBManager.shared.delete($0) }
     }
     
+    // TODO: - 이걸 DBManager로 옮길까?
+    func moveVocabularies(to selectedCategory: Category) {
+        for vocabulary in selectedVocabularies.value {
+            let newVocabulary = Vocabulary(word: vocabulary.word, meaning: vocabulary.meaning, example: vocabulary.example)
+            newVocabulary.isChecked = vocabulary.isChecked
+            newVocabulary.date = vocabulary.date
+            DBManager.shared.update(selectedCategory) { selectedCategory in
+                selectedCategory.vocabularies.append(newVocabulary)
+            }
+        }
+        
+        deleteVocabularies()
+    }
+    
     // MARK: - Work With Category
     func passCategory() -> Category? {
-        shouldDisplayAllVocabulariesInDB ? nil : selectedCategory.value
+        shouldDisplayAllVocabulariesInDB ? nil : category.value
     }
     
     // MARK: - Work With UserDefaults

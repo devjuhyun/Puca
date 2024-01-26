@@ -101,7 +101,7 @@ class VocabListViewController: UIViewController {
     private lazy var toolbarButtons: [UIBarButtonItem] = [
         UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(selectAllButtonClicked)),
         .flexibleSpace(),
-        UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(categoryMoveButtonClicked)),
+        UIBarButtonItem(image: UIImage(systemName: "folder"), style: .plain, target: self, action: #selector(moveButtonClicked)),
         .flexibleSpace(),
         UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(deleteButtonClicked)),
         .flexibleSpace(),
@@ -149,7 +149,7 @@ extension VocabListViewController {
             }
         }
         
-        vm.selectedCategory.bind { [weak self] category in
+        vm.category.bind { [weak self] category in
             DispatchQueue.main.async {
                 self?.categoryButton.setTitle(category.name, for: .normal)
                 self?.vm.fetchVocabularies()
@@ -236,7 +236,7 @@ extension VocabListViewController {
         ])
     }
     
-    private func updateUI() {
+    func updateUI() {
         tableView.setEditing(!tableView.isEditing, animated: true)
         addButton.isHidden.toggle()
         navigationController?.isToolbarHidden.toggle()
@@ -330,7 +330,10 @@ extension VocabListViewController {
         vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
     }
     
-    @objc private func categoryMoveButtonClicked() {
+    @objc private func moveButtonClicked() {
+        let vm = CategoryListViewModel()
+        let vc = CategoryListViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func deleteButtonClicked() {

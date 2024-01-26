@@ -91,6 +91,7 @@ extension VocabCollectionViewCell {
         
         addSubview(card)
         
+        // TODO: - auto layout
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: card.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: card.centerYAnchor),
