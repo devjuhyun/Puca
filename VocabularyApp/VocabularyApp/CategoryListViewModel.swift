@@ -26,7 +26,8 @@ class CategoryListViewModel {
     
     func fetchCategories() {
         let categoriesInDB = Array(categoryList.categories)
-        categories.value = shouldDisplayAll ? categoriesInDB : Array(categoriesInDB[1...])
+        let categoriesWithOutAll = (1..<categoriesInDB.count).map { categoriesInDB[$0] }
+        categories.value = shouldDisplayAll ? categoriesInDB : categoriesWithOutAll
     }
     
     func deleteCategory(at index: Int) {
