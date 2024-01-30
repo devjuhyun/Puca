@@ -97,7 +97,9 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
         
         let category = vm.categories.value[indexPath.row]
-        cell.configure(with: category)
+        let name = category.name
+        let count = vm.shouldDisplayAll && indexPath.row == 0 ? vm.total : category.vocabularies.count
+        cell.configure(name: name, count: count)
         
         return cell
     }

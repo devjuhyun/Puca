@@ -299,8 +299,7 @@ extension VocabListViewController {
     }
     
     @objc private func categoryButtonClicked() {
-        let vm = CategoryListViewModel()
-        vm.shouldDisplayAll = true
+        let vm = CategoryListViewModel(shouldDisplayAll: true)
         let vc = CategoryListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -331,7 +330,7 @@ extension VocabListViewController {
     }
     
     @objc private func moveButtonClicked() {
-        let vm = CategoryListViewModel()
+        let vm = CategoryListViewModel(shouldDisplayAll: false)
         let vc = CategoryListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }

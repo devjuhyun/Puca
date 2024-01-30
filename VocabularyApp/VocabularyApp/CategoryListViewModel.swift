@@ -10,14 +10,17 @@ import RealmSwift
 
 class CategoryListViewModel {
     
-    var shouldDisplayAll = false
+    let shouldDisplayAll: Bool
     private(set) var token: NotificationToken?
-    private(set) var categoryList: CategoryList
-    private(set) var categories: Observable<[Category]>
+    private let categoryList: CategoryList
+    let categories: Observable<[Category]>
+    let total: Int
         
-    init() {
+    init(shouldDisplayAll: Bool) {
+        self.shouldDisplayAll = shouldDisplayAll
         categoryList = DBManager.shared.fetchCategoryList()
         categories = Observable([])
+        total = DBManager.shared.read(Vocabulary.self).count
         
         token = categoryList.categories.observe { [weak self] changes in
             self?.fetchCategories()
