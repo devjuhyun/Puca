@@ -24,3 +24,9 @@ extension UINavigationController {
         viewControllers.last { $0 != topViewController }
     }
 }
+
+extension Collection {
+    subscript (safe index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}

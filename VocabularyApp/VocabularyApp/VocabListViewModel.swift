@@ -110,7 +110,7 @@ class VocabListViewModel {
     }
     
     func moveVocabularies(to selectedCategory: Category) {
-        DBManager.shared.move(vocabularies: selectedVocabularies.value, to: selectedCategory)
+        DBManager.shared.move(selectedVocabularies.value, to: selectedCategory)
     }
     
     // MARK: - Work With Category

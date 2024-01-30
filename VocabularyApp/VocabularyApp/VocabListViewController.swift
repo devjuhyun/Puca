@@ -249,6 +249,7 @@ extension VocabListViewController {
 }
 
 // MARK: - TableView Delegate Methods
+// TODO: - 컬렉션뷰컨에서 단어가 변경되었을때 여기서 무슨일이 일어나는지 정확히 이해하기
 extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return vm.vocabulariesToDisplay.count
@@ -257,10 +258,11 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
                 
-        let vocabulary = vm.vocabulariesToDisplay[indexPath.row]
-        cell.configure(with: vocabulary)
-        cell.onChecked = { [weak self] in
-            if !tableView.isEditing { self?.vm.checkVocabulary(vocabulary) }
+        if let vocabulary = vm.vocabulariesToDisplay[safe: indexPath.row] {
+            cell.configure(with: vocabulary)
+            cell.onChecked = { [weak self] in
+                if !tableView.isEditing { self?.vm.checkVocabulary(vocabulary) }
+            }
         }
         
         return cell
@@ -270,7 +272,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
         if tableView.isEditing {
             vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
         } else {
-            let vm = VocabCollectionViewModel(category: vm.passCategory(), index: indexPath.row)
+            let vm = VocabCollectionViewModel(category: vm.passCategory(), index: indexPath.row, sortOption: vm.sortOption.value, displayOption: vm.displayOption.value, searchText: vm.inSearchMode ? searchController.searchBar.text : nil)
             let vc = VocabCollectionViewController(viewModel: vm)
             navigationController?.pushViewController(vc, animated: true)
             let cell = tableView.cellForRow(at: indexPath)

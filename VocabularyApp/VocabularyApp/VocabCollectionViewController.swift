@@ -54,6 +54,14 @@ class VocabCollectionViewController: UIViewController {
         setup()
         layout()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        if let vocabListVC = navigationController?.topViewController as? VocabListViewController {
+            // update filtered vocabulries in vocab list view model
+            vocabListVC.vm.updateSearchController(searchBarText: vm.searchText)
+        }
+    }
         
 }
 
@@ -65,6 +73,7 @@ extension VocabCollectionViewController {
         setupBindings()
     }
     
+    // TODO: - 단어 하나일때 수정하면 자동 pop되는거 수정
     private func setupBindings() {
         vm.vocabularies.bind { [weak self] vocabularies in
             guard let self = self else { return }
@@ -157,7 +166,7 @@ extension VocabCollectionViewController: UIScrollViewDelegate {
 // MARK: - Selectors
 extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
-        let vm = VocabViewModel(selectedCategory: vm.selectedCategory, selectedVocab: vm.vocabularies.value[vm.currentIndex.value])
+        let vm = VocabViewModel(selectedCategory: vm.category, selectedVocab: vm.vocabularies.value[vm.currentIndex.value])
         let vc = VocabViewController(viewModel: vm)
         vc.navigationItem.title = "단어 수정"
         navigationController?.pushViewController(vc, animated: true)

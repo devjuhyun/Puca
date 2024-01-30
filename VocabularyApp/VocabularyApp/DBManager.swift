@@ -60,7 +60,7 @@ final class DBManager {
         return categoryList
     }
     
-    func move(vocabularies: [Vocabulary], to selectedCategory: Category) {
+    func move(_ vocabularies: [Vocabulary], to selectedCategory: Category) {
         for vocabulary in vocabularies {
             let newVocabulary = copyVocabulary(vocabulary)
             DBManager.shared.update(selectedCategory) { selectedCategory in
