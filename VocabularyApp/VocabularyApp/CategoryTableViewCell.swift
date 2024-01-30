@@ -7,7 +7,6 @@
 
 import UIKit
 
-// TODO: - CHCR 설정하기
 class CategoryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
@@ -56,15 +55,19 @@ class CategoryTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             nameLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: contentView.leadingAnchor, multiplier: 2),
-            contentView.trailingAnchor.constraint(equalToSystemSpacingAfter: nameLabel.trailingAnchor, multiplier: 2),
+            countLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: nameLabel.trailingAnchor, multiplier: 1),
             
             countLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             
             imgView.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
             imgView.leadingAnchor.constraint(equalToSystemSpacingAfter: countLabel.trailingAnchor, multiplier: 1),
             trailingAnchor.constraint(equalToSystemSpacingAfter: imgView.trailingAnchor, multiplier: 2)
-            
         ])
+        
+        countLabel.setContentHuggingPriority(.required, for: .horizontal)
+        countLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        imgView.setContentHuggingPriority(.required, for: .horizontal)
+        imgView.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
     public func configure(name: String, count: Int) {
