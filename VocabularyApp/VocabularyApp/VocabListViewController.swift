@@ -261,7 +261,10 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
         if let vocabulary = vm.vocabulariesToDisplay[safe: indexPath.row] {
             cell.configure(with: vocabulary)
             cell.onChecked = { [weak self] in
-                if !tableView.isEditing { self?.vm.checkVocabulary(vocabulary) }
+                if !tableView.isEditing {
+                    AlertService.playHaptics()
+                    self?.vm.checkVocabulary(vocabulary)
+                }
             }
         }
         
@@ -301,12 +304,14 @@ extension VocabListViewController {
     }
     
     @objc private func categoryButtonClicked() {
+        AlertService.playHaptics()
         let vm = CategoryListViewModel(shouldDisplayAll: true)
         let vc = CategoryListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func searchButtonClicked() {
+        AlertService.playHaptics()
         navigationItem.searchController = searchController
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { [weak self] in
             self?.searchController.searchBar.searchTextField.becomeFirstResponder()
@@ -314,6 +319,7 @@ extension VocabListViewController {
     }
     
     @objc private func doneButtonClicked() {
+        AlertService.playHaptics()
         updateUI()
     }
     

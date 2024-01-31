@@ -130,6 +130,7 @@ extension VocabCollectionViewController: UICollectionViewDelegate, UICollectionV
         let vocab = vm.vocabularies.value[indexPath.row]
         cell.configure(with: vocab)
         cell.onChecked = { [weak self] in
+            AlertService.playHaptics()
             self?.vm.checkVocabulary(vocab)
         }
                 
@@ -166,6 +167,7 @@ extension VocabCollectionViewController: UIScrollViewDelegate {
 // MARK: - Selectors
 extension VocabCollectionViewController {
     @objc private func editButtonClicked() {
+        AlertService.playHaptics()
         let vm = VocabViewModel(selectedCategory: vm.category, selectedVocab: vm.vocabularies.value[vm.currentIndex.value])
         let vc = VocabViewController(viewModel: vm)
         vc.navigationItem.title = "단어 수정"
@@ -173,6 +175,7 @@ extension VocabCollectionViewController {
     }
     
     @objc private func deleteButtonClicked() {
+        AlertService.playHaptics()
         let alertController = AlertService.deleteAlert(deleteOption: .vocabulary) { [weak self] _ in
             self?.vm.deleteVocabulary()
             self?.updateCurrentIndex()

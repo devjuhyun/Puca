@@ -189,6 +189,7 @@ extension CategoryListViewController: UITableViewDragDelegate, UITableViewDropDe
 // MARK: - Selectors
 extension CategoryListViewController {
     @objc private func addButtonClicked() {
+        AlertService.playHaptics()
         pushVC(title: "단어장 추가", category: nil)
     }
 }

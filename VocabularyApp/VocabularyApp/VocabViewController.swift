@@ -40,6 +40,7 @@ class VocabViewController: UIViewController {
         let button = CategoryBtn()
         button.setTitle("단어장 선택", for: .normal)
         button.addAction(UIAction(handler: { UIAction in
+            AlertService.playHaptics()
             let vm = CategoryListViewModel(shouldDisplayAll: false)
             let vc = CategoryListViewController(viewModel: vm)
             self.navigationController?.pushViewController(vc, animated: true)
