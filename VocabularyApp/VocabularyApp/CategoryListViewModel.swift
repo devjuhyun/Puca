@@ -12,16 +12,12 @@ class CategoryListViewModel {
     
     let shouldDisplayAll: Bool
     private(set) var token: NotificationToken?
-    private let categoryList: CategoryList
-    let categories: Observable<[Category]>
-    let total: Int
+    private let categoryList = DBManager.shared.fetchCategoryList()
+    let categories: Observable<[Category]> = Observable([])
+    let total = DBManager.shared.read(Vocabulary.self).count
         
     init(shouldDisplayAll: Bool) {
         self.shouldDisplayAll = shouldDisplayAll
-        categoryList = DBManager.shared.fetchCategoryList()
-        categories = Observable([])
-        total = DBManager.shared.read(Vocabulary.self).count
-        
         token = categoryList.categories.observe { [weak self] changes in
             self?.fetchCategories()
         }
