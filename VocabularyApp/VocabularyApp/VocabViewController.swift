@@ -248,6 +248,7 @@ extension VocabViewController: UITextViewDelegate {
 // MARK: - Selectors
 extension VocabViewController {
     @objc private func doneButtonClicked() {
+        AlertService.playHaptics()
         updateUI()
     }
     

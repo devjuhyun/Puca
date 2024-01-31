@@ -97,6 +97,7 @@ extension CategoryViewController: UITextFieldDelegate {
 // MARK: - Selectors
 extension CategoryViewController {
     @objc private func doneButtonClicked() {
+        AlertService.playHaptics()
         saveCategory()
     }
 }
