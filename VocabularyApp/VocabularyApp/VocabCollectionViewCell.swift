@@ -20,7 +20,6 @@ class VocabCollectionViewCell: UICollectionViewCell {
         view.layer.cornerRadius = 20
         view.layer.borderColor = UIColor.appColor.cgColor
         view.layer.borderWidth = 5
-        //        card.isUserInteractionEnabled = true
         return view
     }()
     
@@ -126,6 +125,7 @@ extension VocabCollectionViewCell {
 extension VocabCollectionViewCell {
     @objc private func flip() {
         UIView.transition(with: card, duration: 0.5, options: .transitionFlipFromBottom) {
+            // can't flip again when it's fliping
             self.isUserInteractionEnabled = false
         } completion: { _ in
             self.isUserInteractionEnabled = true
