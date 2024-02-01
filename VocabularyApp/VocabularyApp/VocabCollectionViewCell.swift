@@ -46,14 +46,26 @@ class VocabCollectionViewCell: UICollectionViewCell {
     let vocabLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 30)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
+        label.numberOfLines = 2
         return label
     }()
     
-    private let exampleLabel = UILabel()
+    private let exampleLabel: UILabel = {
+        let label = UILabel()
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
+        label.numberOfLines = 2
+        return label
+    }()
     
     private let meaningLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 25)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.8
+        label.numberOfLines = 2
         label.isHidden = true
         return label
     }()
@@ -90,9 +102,9 @@ extension VocabCollectionViewCell {
         
         addSubview(card)
         
-        // TODO: - auto layout
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: card.centerXAnchor),
+            stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: card.leadingAnchor, multiplier: 1),
+            card.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 1),
             stackView.centerYAnchor.constraint(equalTo: card.centerYAnchor),
             
             checkButton.topAnchor.constraint(equalToSystemSpacingBelow: card.topAnchor, multiplier: 2),
@@ -101,7 +113,7 @@ extension VocabCollectionViewCell {
             card.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
             trailingAnchor.constraint(equalToSystemSpacingAfter: card.trailingAnchor, multiplier: 3),
             card.centerYAnchor.constraint(equalTo: centerYAnchor),
-            card.heightAnchor.constraint(equalToConstant: 200)
+            card.heightAnchor.constraint(equalToConstant: frame.height/4)
         ])
     }
     
