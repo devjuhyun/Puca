@@ -25,6 +25,7 @@ class VocabListViewController: UIViewController {
         tableView.allowsSelectionDuringEditing = true
         tableView.keyboardDismissMode = .onDrag
         tableView.tableHeaderView = UIView()
+        tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 100))
         return tableView
     }()
     
