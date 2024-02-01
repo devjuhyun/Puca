@@ -137,7 +137,7 @@ extension VocabCollectionViewCell {
 extension VocabCollectionViewCell {
     @objc private func flip() {
         UIView.transition(with: card, duration: 0.5, options: .transitionFlipFromBottom) {
-            // can't flip again when it's fliping
+            // can't flip again while it's fliping
             self.isUserInteractionEnabled = false
         } completion: { _ in
             self.isUserInteractionEnabled = true
