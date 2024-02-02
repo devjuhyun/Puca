@@ -30,3 +30,9 @@ extension Collection {
         return indices.contains(index) ? self[index] : nil
     }
 }
+
+extension String {
+    func localized(comment: String = "") -> String {
+        return NSLocalizedString(self, comment: comment)
+    }
+}
