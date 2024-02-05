@@ -41,7 +41,7 @@ class VocabListViewModel {
     
     // TODO: - true면 단어 선택 action disable 시키기(category 바인딩에서)
     var shouldDisplayAllVocabulariesInDB: Bool {
-        return category.value.name == "모든 단어"
+        return category.value.name == "All"
     }
     
     // MARK: - Lifecycle

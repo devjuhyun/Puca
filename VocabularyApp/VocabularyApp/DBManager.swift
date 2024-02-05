@@ -21,7 +21,7 @@ final class DBManager {
         if categoryList == nil {
             try! realm.write {
                 let categoryList = CategoryList()
-                categoryList.categories.append(Category(name: "모든 단어"))
+                categoryList.categories.append(Category(name: "All"))
                 realm.add(categoryList)
             }
         }

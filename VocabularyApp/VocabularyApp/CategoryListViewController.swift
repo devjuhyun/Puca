@@ -28,7 +28,7 @@ class CategoryListViewController: UIViewController {
     }()
     
     private lazy var addButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "추가", style: .done, target: self, action: #selector(addButtonClicked))
+        let button = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(addButtonClicked))
         button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -65,7 +65,7 @@ extension CategoryListViewController {
         view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = addButton
-        navigationItem.title = "단어장 선택"
+        navigationItem.title = "Select Category"
     }
     
     private func layout() {
@@ -116,7 +116,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         
         let edit = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             let category = self.vm.categories.value[indexPath.row]
-            self.pushVC(title: "단어장 수정", category: category)
+            self.pushVC(title: "Edit Category", category: category)
             success(true)
         }
         
@@ -190,6 +190,6 @@ extension CategoryListViewController: UITableViewDragDelegate, UITableViewDropDe
 extension CategoryListViewController {
     @objc private func addButtonClicked() {
         AlertService.playHaptics()
-        pushVC(title: "단어장 추가", category: nil)
+        pushVC(title: "Add New Category", category: nil)
     }
 }

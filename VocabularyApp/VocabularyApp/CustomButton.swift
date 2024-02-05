@@ -53,7 +53,7 @@ class CategoryBtn: UIButton {
         super.init(frame: frame)
         
         translatesAutoresizingMaskIntoConstraints = false
-        setTitle("모든 단어", for: .normal)
+        setTitle("All", for: .normal)
         titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         setTitleColor(.label, for: .normal)
         let image = UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration(weight: .bold))

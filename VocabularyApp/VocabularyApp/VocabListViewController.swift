@@ -47,8 +47,8 @@ class VocabListViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appColor
-        searchController.searchBar.setValue("취소", forKey: "cancelButtonText")
-        searchController.searchBar.placeholder = "검색할 단어를 입력하세요."
+        searchController.searchBar.setValue("Cancel", forKey: "cancelButtonText")
+        searchController.searchBar.placeholder = "Search words"
         searchController.searchBar.autocapitalizationType = .none
         return searchController
     }()
@@ -61,27 +61,26 @@ class VocabListViewController: UIViewController {
     }()
     
     private lazy var menuItems = [
-        UIMenu(title: "단어 정렬", subtitle: "최신순", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
-            UIAction(title: "최신순", handler: { [weak self] _ in
+        UIMenu(title: "Sort By", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
+            UIAction(title: "Newest First", handler: { [weak self] _ in
                 self?.vm.updateSortOption(.newestFirst)
             }),
-            UIAction(title: "오래된순", handler: { [weak self] _ in
-                UserDefaults.standard.set("oldestFirst", forKey: "sortOption")
+            UIAction(title: "Oldest First", handler: { [weak self] _ in
                 self?.vm.updateSortOption(.oldestFirst)
             })
         ]),
-        UIMenu(title: "단어 보기", subtitle: "모든 단어", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
-            UIAction(title: "모든 단어", state: .on, handler: { [weak self] _ in
+        UIMenu(title: "Display Option", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
+            UIAction(title: "All", state: .on, handler: { [weak self] _ in
                 self?.vm.updateDisplayOption(.all)
             }),
-            UIAction(title: "체크한 단어", handler: { [weak self] _ in
+            UIAction(title: "Checked Words", handler: { [weak self] _ in
                 self?.vm.updateDisplayOption(.checkedWords)
             }),
-            UIAction(title: "미체크한 단어", handler: { [weak self] _ in
+            UIAction(title: "Unchecked Words", handler: { [weak self] _ in
                 self?.vm.updateDisplayOption(.uncheckedWords)
             })
         ]),
-        UIAction(title: "단어 선택", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
+        UIAction(title: "Select Words", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
             self?.updateUI()
         })
     ]
@@ -94,7 +93,7 @@ class VocabListViewController: UIViewController {
     }()
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(doneButtonClicked))
+        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonClicked))
         button.tintColor = .appColor
         return button
     }()
@@ -164,11 +163,11 @@ extension VocabListViewController {
             let sortMenu = menuItems[0] as? UIMenu
             switch sortOption {
             case .newestFirst:
-                sortMenu?.subtitle = "최신순"
+                sortMenu?.subtitle = "Newest First"
                 let newestFirstAction = sortMenu?.children[0] as? UIAction
                 newestFirstAction?.state = .on
             case .oldestFirst:
-                sortMenu?.subtitle = "오래된순"
+                sortMenu?.subtitle = "Oldest First"
                 let oldestFirstAction = sortMenu?.children[1] as? UIAction
                 oldestFirstAction?.state = .on
             }
@@ -179,15 +178,15 @@ extension VocabListViewController {
             let displayMenu = menuItems[1] as? UIMenu
             switch displayOption {
             case .all:
-                displayMenu?.subtitle = "모든 단어"
+                displayMenu?.subtitle = "All"
                 let displayAllAction = displayMenu?.children[0] as? UIAction
                 displayAllAction?.state = .on
             case .checkedWords:
-                displayMenu?.subtitle = "체크한 단어"
+                displayMenu?.subtitle = "Checked Words"
                 let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
                 displayCheckedWordsAction?.state = .on
             case .uncheckedWords:
-                displayMenu?.subtitle = "미체크한 단어"
+                displayMenu?.subtitle = "Unchecked Words"
                 let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
                 displayUncheckedWordsAction?.state = .on
             }
@@ -300,7 +299,7 @@ extension VocabListViewController {
         let category = vm.passCategory()
         let vm = VocabViewModel(selectedCategory: category)
         let vc = VocabViewController(viewModel: vm)
-        vc.navigationItem.title = "단어 추가"
+        vc.navigationItem.title = "Add New Word"
         navigationController?.pushViewController(vc, animated: true)
     }
     

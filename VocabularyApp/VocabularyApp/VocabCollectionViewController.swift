@@ -170,7 +170,7 @@ extension VocabCollectionViewController {
         AlertService.playHaptics()
         let vm = VocabViewModel(selectedCategory: vm.category, selectedVocab: vm.vocabularies.value[vm.currentIndex.value])
         let vc = VocabViewController(viewModel: vm)
-        vc.navigationItem.title = "단어 수정"
+        vc.navigationItem.title = "Edit Word"
         navigationController?.pushViewController(vc, animated: true)
     }
     

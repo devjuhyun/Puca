@@ -15,11 +15,11 @@ class CategoryViewModel {
     }
     
     func updateCategory(name: String) {
-        if let category = category { // update category
+        if let category = category { // update a category
             DBManager.shared.update(category) { category in
                 category.name = name
             }
-        } else { // add category
+        } else { // add new category
             let categoryList = DBManager.shared.fetchCategoryList()
             DBManager.shared.update(categoryList) { categoryList in
                 let newCategory = Category(name: name)

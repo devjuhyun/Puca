@@ -23,11 +23,11 @@ class CategoryViewController: UIViewController {
         return stackView
     }()
     
-    private let nameLabel = CustomLabel(text: "단어장 이름")
-    private let nameTextField = CustomTextField(placeholder: "단어장 이름을 입력하세요.")
+    private let nameLabel = CustomLabel(text: "Name")
+    private let nameTextField = CustomTextField(placeholder: "Category Name")
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(doneButtonClicked))
+        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonClicked))
         button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -78,7 +78,7 @@ extension CategoryViewController {
     
     private func saveCategory() {
         if nameTextField.text!.isEmpty {
-            let toast = ToastView(message: "단어장 이름을 입력하세요.", isGreen: false)
+            let toast = ToastView(message: "Enter a category name.", isGreen: false)
             AlertService.showToast(in: self, toastView: toast)
         } else {
             vm.updateCategory(name: nameTextField.text!)

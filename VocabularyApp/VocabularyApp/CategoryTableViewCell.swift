@@ -18,7 +18,6 @@ class CategoryTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .label
-        label.text = "모든 단어"
         return label
     }()
     
@@ -72,7 +71,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     public func configure(name: String, count: Int) {
         nameLabel.text = name
-        countLabel.text = "\(count)개의 단어"
+        countLabel.text = "\(count) words"
     }
     
     // MARK: - UITableViewCell Methods

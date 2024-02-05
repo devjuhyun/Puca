@@ -41,19 +41,19 @@ struct AlertService {
         
         switch deleteOption {
         case .category:
-            title = "정말 삭제할까요?"
-            message = "카테고리에 저장된 모든 단어가 삭제되고 복구할 수 없습니다."
+            title = "Are you sure you want to delete this category?"
+            message = "All words in this category will be permanently deleted."
         case .vocabulary:
             title = nil
             message = nil
         case .vocabularies:
-            title = "선택한 모든 단어가 삭제됩니다."
+            title = "All words selected will be permanently deleted."
             message = nil
         }
         
         let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: deleteActionHandler)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteActionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         deleteAlert.addAction(deleteAction)
         deleteAlert.addAction(cancelAction)
@@ -62,10 +62,10 @@ struct AlertService {
     }
     
     static func checkAlert(checkActionHandler: @escaping (UIAlertAction) -> Void, unCheckActionHandler:  @escaping (UIAlertAction) -> Void) -> UIAlertController {
-        let checkAlert = UIAlertController(title: "체크 옵션을 선택하세요.", message: "선택한 모든 단어에 적용됩니다.", preferredStyle: .actionSheet)
-        let checkAction = UIAlertAction(title: "체크하기", style: .default, handler: checkActionHandler)
-        let unCheckAction = UIAlertAction(title: "체크 해제하기", style: .default, handler: unCheckActionHandler)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let checkAlert = UIAlertController(title: "Please select one.", message: "It will apply to all words selected.", preferredStyle: .actionSheet)
+        let checkAction = UIAlertAction(title: "Check", style: .default, handler: checkActionHandler)
+        let unCheckAction = UIAlertAction(title: "Uncheck", style: .default, handler: unCheckActionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         checkAlert.addAction(checkAction)
         checkAlert.addAction(unCheckAction)
