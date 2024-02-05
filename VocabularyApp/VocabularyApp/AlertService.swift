@@ -41,19 +41,19 @@ struct AlertService {
         
         switch deleteOption {
         case .category:
-            title = "Are you sure you want to delete this category?"
-            message = "All words in this category will be permanently deleted."
+            title = "Are you sure you want to delete this category?".localized()
+            message = "All words in this category will be permanently deleted.".localized()
         case .vocabulary:
             title = nil
             message = nil
         case .vocabularies:
-            title = "All words selected will be permanently deleted."
+            title = "All words selected will be permanently deleted.".localized()
             message = nil
         }
         
         let deleteAlert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteActionHandler)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let deleteAction = UIAlertAction(title: "Delete".localized(), style: .destructive, handler: deleteActionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel)
         
         deleteAlert.addAction(deleteAction)
         deleteAlert.addAction(cancelAction)
@@ -62,10 +62,10 @@ struct AlertService {
     }
     
     static func checkAlert(checkActionHandler: @escaping (UIAlertAction) -> Void, unCheckActionHandler:  @escaping (UIAlertAction) -> Void) -> UIAlertController {
-        let checkAlert = UIAlertController(title: "Please select one.", message: "It will apply to all words selected.", preferredStyle: .actionSheet)
-        let checkAction = UIAlertAction(title: "Check", style: .default, handler: checkActionHandler)
-        let unCheckAction = UIAlertAction(title: "Uncheck", style: .default, handler: unCheckActionHandler)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let checkAlert = UIAlertController(title: "Please select one.".localized(), message: "It will apply to all words selected.".localized(), preferredStyle: .actionSheet)
+        let checkAction = UIAlertAction(title: "Check".localized(), style: .default, handler: checkActionHandler)
+        let unCheckAction = UIAlertAction(title: "Uncheck".localized(), style: .default, handler: unCheckActionHandler)
+        let cancelAction = UIAlertAction(title: "Cancel".localized(), style: .cancel)
         
         checkAlert.addAction(checkAction)
         checkAlert.addAction(unCheckAction)

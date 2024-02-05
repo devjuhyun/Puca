@@ -5,3 +5,52 @@
   Created by Juhyun Yun on 2/2/24.
   
 */
+
+"Are you sure you want to delete this category?" = "정말 삭제할까요?";
+"All words in this category will be permanently deleted." = "단어장에 저장된 모든 단어가 삭제됩니다.";
+"All words selected will be permanently deleted." = "선택한 모든 단어가 삭제됩니다.";
+
+"Delete" = "삭제";
+"Cancel" = "취소";
+"Add" = "추가";
+"Done" = "완료";
+
+"Please select one." = "체크 옵션을 선택하세요.";
+"Check" = "체크하기";
+"Uncheck" = "체크 해제하기";
+
+"Select Category" = "단어장 선택";
+"Edit Category" = "단어장 수정";
+"Add New Category" = "단어장 추가";
+
+"Name" = "단어장 이름";
+"Category Name" = "단어장 이름";
+"Enter a category name." = "단어장 이름을 입력하세요.";
+
+"Search words" = "단어를 검색하세요";
+"Sort By" = "단어 정렬";
+"Newest First" = "최신순";
+"Oldest First" = "오래된순";
+"Display Option" = "단어 보기";
+"All" = "모든 단어";
+"Checked Words" = "체크한 단어";
+"Unchecked Words" = "미체크한 단어";
+"Select Words" = "단어 선택";
+"Add New Word" = "단어 추가";
+
+"Edit Word" = "단어 수정";
+
+"Category" = "단어장";
+"Word" = "단어";
+"Meaning" = "의미";
+"Example" = "예문";
+
+"%d words" = "%d개의 단어";
+
+"Select a category." = "단어장을 선택하세요.";
+"Please enter a word." = "단어를 입력하세요.";
+"Please enter the meaning of the word." = "단어의 의미를 입력하세요.";
+"You have successfully added a new word." = "단어를 성공적으로 저장했습니다!";
+
+
+

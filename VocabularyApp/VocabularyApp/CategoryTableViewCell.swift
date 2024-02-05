@@ -71,7 +71,7 @@ class CategoryTableViewCell: UITableViewCell {
     
     public func configure(name: String, count: Int) {
         nameLabel.text = name
-        countLabel.text = "\(count) words"
+        countLabel.text = "%d words".localized(with: count)
     }
     
     // MARK: - UITableViewCell Methods

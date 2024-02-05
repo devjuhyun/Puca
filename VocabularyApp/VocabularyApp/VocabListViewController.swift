@@ -47,8 +47,8 @@ class VocabListViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appColor
-        searchController.searchBar.setValue("Cancel", forKey: "cancelButtonText")
-        searchController.searchBar.placeholder = "Search words"
+        searchController.searchBar.setValue("Cancel".localized(), forKey: "cancelButtonText")
+        searchController.searchBar.placeholder = "Search words".localized()
         searchController.searchBar.autocapitalizationType = .none
         return searchController
     }()
@@ -61,26 +61,26 @@ class VocabListViewController: UIViewController {
     }()
     
     private lazy var menuItems = [
-        UIMenu(title: "Sort By", image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
-            UIAction(title: "Newest First", handler: { [weak self] _ in
+        UIMenu(title: "Sort By".localized(), image: UIImage(systemName: "arrow.up.arrow.down"), options: .singleSelection, children: [
+            UIAction(title: "Newest First".localized(), handler: { [weak self] _ in
                 self?.vm.updateSortOption(.newestFirst)
             }),
-            UIAction(title: "Oldest First", handler: { [weak self] _ in
+            UIAction(title: "Oldest First".localized(), handler: { [weak self] _ in
                 self?.vm.updateSortOption(.oldestFirst)
             })
         ]),
-        UIMenu(title: "Display Option", image: UIImage(systemName: "eye"), options: .singleSelection, children: [
-            UIAction(title: "All", state: .on, handler: { [weak self] _ in
+        UIMenu(title: "Display Option".localized(), image: UIImage(systemName: "eye"), options: .singleSelection, children: [
+            UIAction(title: "All".localized(), state: .on, handler: { [weak self] _ in
                 self?.vm.updateDisplayOption(.all)
             }),
-            UIAction(title: "Checked Words", handler: { [weak self] _ in
+            UIAction(title: "Checked Words".localized(), handler: { [weak self] _ in
                 self?.vm.updateDisplayOption(.checkedWords)
             }),
-            UIAction(title: "Unchecked Words", handler: { [weak self] _ in
+            UIAction(title: "Unchecked Words".localized(), handler: { [weak self] _ in
                 self?.vm.updateDisplayOption(.uncheckedWords)
             })
         ]),
-        UIAction(title: "Select Words", image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
+        UIAction(title: "Select Words".localized(), image: UIImage(systemName: "checkmark.circle"), handler: { [weak self] _ in
             self?.updateUI()
         })
     ]
@@ -93,7 +93,7 @@ class VocabListViewController: UIViewController {
     }()
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneButtonClicked))
+        let button = UIBarButtonItem(title: "Done".localized(), style: .plain, target: self, action: #selector(doneButtonClicked))
         button.tintColor = .appColor
         return button
     }()
@@ -151,8 +151,10 @@ extension VocabListViewController {
         
         vm.category.bind { [weak self] category in
             DispatchQueue.main.async {
-                self?.categoryButton.setTitle(category.name, for: .normal)
-                self?.vm.fetchVocabularies()
+                guard let self = self else { return }
+                let title = self.vm.shouldDisplayAllVocabulariesInDB ? category.name.localized() : category.name
+                self.categoryButton.setTitle(title, for: .normal)
+                self.vm.fetchVocabularies()
             }
         }
         
@@ -163,11 +165,11 @@ extension VocabListViewController {
             let sortMenu = menuItems[0] as? UIMenu
             switch sortOption {
             case .newestFirst:
-                sortMenu?.subtitle = "Newest First"
+                sortMenu?.subtitle = "Newest First".localized()
                 let newestFirstAction = sortMenu?.children[0] as? UIAction
                 newestFirstAction?.state = .on
             case .oldestFirst:
-                sortMenu?.subtitle = "Oldest First"
+                sortMenu?.subtitle = "Oldest First".localized()
                 let oldestFirstAction = sortMenu?.children[1] as? UIAction
                 oldestFirstAction?.state = .on
             }
@@ -178,15 +180,15 @@ extension VocabListViewController {
             let displayMenu = menuItems[1] as? UIMenu
             switch displayOption {
             case .all:
-                displayMenu?.subtitle = "All"
+                displayMenu?.subtitle = "All".localized()
                 let displayAllAction = displayMenu?.children[0] as? UIAction
                 displayAllAction?.state = .on
             case .checkedWords:
-                displayMenu?.subtitle = "Checked Words"
+                displayMenu?.subtitle = "Checked Words".localized()
                 let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
                 displayCheckedWordsAction?.state = .on
             case .uncheckedWords:
-                displayMenu?.subtitle = "Unchecked Words"
+                displayMenu?.subtitle = "Unchecked Words".localized()
                 let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
                 displayUncheckedWordsAction?.state = .on
             }
@@ -299,7 +301,7 @@ extension VocabListViewController {
         let category = vm.passCategory()
         let vm = VocabViewModel(selectedCategory: category)
         let vc = VocabViewController(viewModel: vm)
-        vc.navigationItem.title = "Add New Word"
+        vc.navigationItem.title = "Add New Word".localized()
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -28,7 +28,7 @@ class CategoryListViewController: UIViewController {
     }()
     
     private lazy var addButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Add", style: .done, target: self, action: #selector(addButtonClicked))
+        let button = UIBarButtonItem(title: "Add".localized(), style: .done, target: self, action: #selector(addButtonClicked))
         button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -65,7 +65,7 @@ extension CategoryListViewController {
         view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = addButton
-        navigationItem.title = "Select Category"
+        navigationItem.title = "Select Category".localized()
     }
     
     private func layout() {
@@ -97,7 +97,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.identifier, for: indexPath) as! CategoryTableViewCell
         
         let category = vm.categories.value[indexPath.row]
-        let name = category.name
+        let name = vm.shouldDisplayAll && indexPath.row == 0 ? category.name.localized() : category.name
         let count = vm.shouldDisplayAll && indexPath.row == 0 ? vm.total : category.vocabularies.count
         cell.configure(name: name, count: count)
         
@@ -116,7 +116,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         
         let edit = UIContextualAction(style: .normal, title: nil) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             let category = self.vm.categories.value[indexPath.row]
-            self.pushVC(title: "Edit Category", category: category)
+            self.pushVC(title: "Edit Category".localized(), category: category)
             success(true)
         }
         
@@ -190,6 +190,6 @@ extension CategoryListViewController: UITableViewDragDelegate, UITableViewDropDe
 extension CategoryListViewController {
     @objc private func addButtonClicked() {
         AlertService.playHaptics()
-        pushVC(title: "Add New Category", category: nil)
+        pushVC(title: "Add New Category".localized(), category: nil)
     }
 }

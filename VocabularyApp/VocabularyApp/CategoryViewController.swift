@@ -23,11 +23,11 @@ class CategoryViewController: UIViewController {
         return stackView
     }()
     
-    private let nameLabel = CustomLabel(text: "Name")
-    private let nameTextField = CustomTextField(placeholder: "Category Name")
+    private let nameLabel = CustomLabel(text: "Name".localized())
+    private let nameTextField = CustomTextField(placeholder: "Category Name".localized())
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonClicked))
+        let button = UIBarButtonItem(title: "Done".localized(), style: .done, target: self, action: #selector(doneButtonClicked))
         button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         
@@ -78,7 +78,7 @@ extension CategoryViewController {
     
     private func saveCategory() {
         if nameTextField.text!.isEmpty {
-            let toast = ToastView(message: "Enter a category name.", isGreen: false)
+            let toast = ToastView(message: "Enter a category name.".localized(), isGreen: false)
             AlertService.showToast(in: self, toastView: toast)
         } else {
             vm.updateCategory(name: nameTextField.text!)

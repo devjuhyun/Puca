@@ -38,14 +38,14 @@ class VocabViewModel {
     
     func checkBlankSpace(vocab: String, meaning: String, example: String, handler: (BlankSpace?, String, Bool) -> Void) {
         if selectedCategory.value == nil {
-            handler(.category, "Select a category.", false)
+            handler(.category, "Select a category.".localized(), false)
         } else if vocab.isEmpty {
-            handler(.vocab, "Please enter a word.", false)
+            handler(.vocab, "Please enter a word.".localized(), false)
         } else if meaning.isEmpty {
-            handler(.meaning, "Please enter the meaning of the word.", false)
+            handler(.meaning, "Please enter the meaning of the word.".localized(), false)
         } else {
             updateVocab(vocab: vocab, meaning: meaning, example: example)
-            handler(nil, "You have successfully added a new word.", true)
+            handler(nil, "You have successfully added a new word.".localized(), true)
         }
     }
 }

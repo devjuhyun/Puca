@@ -34,11 +34,10 @@ class VocabViewController: UIViewController {
         return stackView
     }()
     
-    private let categoryLabel = CustomLabel(text: "Category")
+    private let categoryLabel = CustomLabel(text: "Category".localized())
     
     private lazy var categoryButton: UIButton = {
         let button = CategoryBtn()
-        button.setTitle("Select Category", for: .normal)
         button.addAction(UIAction(handler: { UIAction in
             AlertService.playHaptics()
             let vm = CategoryListViewModel(shouldDisplayAll: false)
@@ -48,11 +47,11 @@ class VocabViewController: UIViewController {
         return button
     }()
     
-    private let vocabLabel = CustomLabel(text: "Word")
-    private let vocabTextField = CustomTextField(placeholder: "Word")
-    private let meaningLabel = CustomLabel(text: "Meaning")
-    private let meaningTextField = CustomTextField(placeholder: "Meaning", keyboardLanguage: "ko-KR")
-    private let exampleLabel = CustomLabel(text: "Example")
+    private let vocabLabel = CustomLabel(text: "Word".localized())
+    private let vocabTextField = CustomTextField(placeholder: "Word".localized())
+    private let meaningLabel = CustomLabel(text: "Meaning".localized())
+    private let meaningTextField = CustomTextField(placeholder: "Meaning".localized(), keyboardLanguage: "ko-KR")
+    private let exampleLabel = CustomLabel(text: "Example".localized())
     
     private lazy var textView = {
         let textView = UITextView()
@@ -66,7 +65,7 @@ class VocabViewController: UIViewController {
     
     private lazy var placeholderLabel = {
         let label = UILabel()
-        label.text = "Example"
+        label.text = "Example".localized()
         label.font = textView.font
         label.sizeToFit()
         label.frame.origin = CGPoint(x: 5, y: (textView.font?.pointSize)! / 2)
@@ -76,7 +75,7 @@ class VocabViewController: UIViewController {
     }()
     
     private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonClicked))
+        let button = UIBarButtonItem(title: "Done".localized(), style: .done, target: self, action: #selector(doneButtonClicked))
         button.tintColor = .appColor
         button.setTitleTextAttributes([.font:UIFont.boldSystemFont(ofSize: 17)], for: .normal)
         

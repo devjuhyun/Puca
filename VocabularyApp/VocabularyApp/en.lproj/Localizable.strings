@@ -5,3 +5,49 @@
   Created by Juhyun Yun on 2/2/24.
   
 */
+
+"Are you sure you want to delete this category?" = "Are you sure you want to delete this category?";
+"All words in this category will be permanently deleted." = "All words in this category will be permanently deleted.";
+"All words selected will be permanently deleted." = "All words selected will be permanently deleted.";
+
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+"Add" = "Add";
+"Done" = "Done";
+
+"Please select one." = "Please select one.";
+"Check" = "Check";
+"Uncheck" = "Uncheck";
+
+"Select Category" = "Select Category";
+"Edit Category" = "Edit Category";
+"Add New Category" = "Add New Category";
+
+"Name" = "Name";
+"Category Name" = "Category Name";
+"Enter a category name." = "Enter a category name.";
+
+"Search words" = "Search words";
+"Sort By" = "Sort By";
+"Newest First" = "Newest First";
+"Oldest First" = "Oldest First";
+"Display Option" = "Display Option";
+"All" = "All";
+"Checked Words" = "Checked Words";
+"Unchecked Words" = "Unchecked Words";
+"Select Words" = "Select Words";
+"Add New Word" = "Add New Word";
+
+"Edit Word" = "Edit Word";
+
+"Category" = "Category";
+"Word" = "Word";
+"Meaning" = "Meaning";
+"Example" = "Example";
+
+"%d words" = "%d words";
+
+"Select a category." = "Select a category.";
+"Please enter a word." = "Please enter a word.";
+"Please enter the meaning of the word." = "Please enter the meaning of the word.";
+"You have successfully added a new word." = "You have successfully added a new word.";
