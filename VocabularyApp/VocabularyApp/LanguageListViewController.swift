@@ -27,7 +27,7 @@ class LanguageListViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appColor
-        searchController.searchBar.placeholder = "Search words".localized()
+        searchController.searchBar.placeholder = "Search languages".localized()
         searchController.searchBar.autocapitalizationType = .none
         searchController.hidesNavigationBarDuringPresentation = false
         return searchController
