@@ -47,7 +47,6 @@ class VocabListViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.searchBar.tintColor = .appColor
-        searchController.searchBar.setValue("Cancel".localized(), forKey: "cancelButtonText")
         searchController.searchBar.placeholder = "Search words".localized()
         searchController.searchBar.autocapitalizationType = .none
         return searchController

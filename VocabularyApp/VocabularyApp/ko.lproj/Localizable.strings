@@ -27,7 +27,7 @@
 "Category Name" = "단어장 이름";
 "Enter a category name." = "단어장 이름을 입력하세요.";
 
-"Search words" = "단어를 검색하세요";
+"Search words" = "단어를 검색하세요.";
 "Sort By" = "단어 정렬";
 "Newest First" = "최신순";
 "Oldest First" = "오래된순";
@@ -52,5 +52,4 @@
 "Please enter the meaning of the word." = "단어의 의미를 입력하세요.";
 "You have successfully added a new word." = "단어를 성공적으로 저장했습니다!";
 
-
-
+"Select Language" = "언어 선택";

@@ -19,6 +19,9 @@
 		6B35464A2B4E6A0E006152BA /* VocabCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3546492B4E6A0E006152BA /* VocabCollectionViewModel.swift */; };
 		6B3ECB822ABEC7060011C75D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3ECB812ABEC7060011C75D /* Category.swift */; };
 		6B414F8A2B6C97B800E55EE0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6B414F8C2B6C97B800E55EE0 /* Localizable.strings */; };
+		6B414F8F2B70F8E600E55EE0 /* LanguageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B414F8E2B70F8E600E55EE0 /* LanguageListViewController.swift */; };
+		6B414F912B70F98100E55EE0 /* LanguageListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B414F902B70F98100E55EE0 /* LanguageListViewCell.swift */; };
+		6B414F932B71E77A00E55EE0 /* LanguageListVIewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B414F922B71E77A00E55EE0 /* LanguageListVIewModel.swift */; };
 		6B4532A52ADD3F3E0080A278 /* VocabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */; };
 		6B66447C2ABC02410064D8DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447B2ABC02410064D8DE /* Realm */; };
 		6B66447E2ABC02410064D8DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447D2ABC02410064D8DE /* RealmSwift */; };
@@ -53,6 +56,9 @@
 		6B3ECB812ABEC7060011C75D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		6B414F8B2B6C97B800E55EE0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6B414F8D2B6C981A00E55EE0 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6B414F8E2B70F8E600E55EE0 /* LanguageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewController.swift; sourceTree = "<group>"; };
+		6B414F902B70F98100E55EE0 /* LanguageListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewCell.swift; sourceTree = "<group>"; };
+		6B414F922B71E77A00E55EE0 /* LanguageListVIewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListVIewModel.swift; sourceTree = "<group>"; };
 		6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabCollectionViewCell.swift; sourceTree = "<group>"; };
 		6B66447F2ABC028F0064D8DE /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
 		6B904CCC2AAAB1F3002A8D37 /* VocabTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabTableViewCell.swift; sourceTree = "<group>"; };
@@ -119,6 +125,7 @@
 			children = (
 				6B3546372B3D6A40006152BA /* CategoryListViewModel.swift */,
 				6B3546312B358571006152BA /* CategoryViewModel.swift */,
+				6B414F922B71E77A00E55EE0 /* LanguageListVIewModel.swift */,
 				6B35463F2B43D4F8006152BA /* VocabListViewModel.swift */,
 				6B3546492B4E6A0E006152BA /* VocabCollectionViewModel.swift */,
 				6B3546432B43FF5B006152BA /* VocabViewModel.swift */,
@@ -138,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				6BD6AE832AE8E8230009CB57 /* CategoryTableViewCell.swift */,
+				6B414F902B70F98100E55EE0 /* LanguageListViewCell.swift */,
 				6B904CCC2AAAB1F3002A8D37 /* VocabTableViewCell.swift */,
 				6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */,
 			);
@@ -170,6 +178,7 @@
 			children = (
 				6BD6AE812AE8E7300009CB57 /* CategoryListViewController.swift */,
 				6BD6AE892AEF491B0009CB57 /* CategoryViewController.swift */,
+				6B414F8E2B70F8E600E55EE0 /* LanguageListViewController.swift */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -315,6 +324,7 @@
 			files = (
 				6B3546422B43EDC2006152BA /* Observable.swift in Sources */,
 				6BCFC99F2AA99CFF005F0E53 /* VocabListViewController.swift in Sources */,
+				6B414F8F2B70F8E600E55EE0 /* LanguageListViewController.swift in Sources */,
 				6BB793DD2AD7EA600050DB8D /* VocabCollectionViewController.swift in Sources */,
 				6B025DBF2AFF6ED40001F889 /* Extensions.swift in Sources */,
 				6B6644802ABC028F0064D8DE /* Vocabulary.swift in Sources */,
@@ -326,9 +336,11 @@
 				6B3546362B3BE4D3006152BA /* CategoryList.swift in Sources */,
 				6BA4C6532B34195700DD549F /* AlertService.swift in Sources */,
 				6BD6AE7C2AE665170009CB57 /* CustomLabel.swift in Sources */,
+				6B414F932B71E77A00E55EE0 /* LanguageListVIewModel.swift in Sources */,
 				6B3546322B358571006152BA /* CategoryViewModel.swift in Sources */,
 				6BEB5AAC2AB7DBC60013575B /* VocabViewController.swift in Sources */,
 				6B3546442B43FF5B006152BA /* VocabViewModel.swift in Sources */,
+				6B414F912B70F98100E55EE0 /* LanguageListViewCell.swift in Sources */,
 				6B35464A2B4E6A0E006152BA /* VocabCollectionViewModel.swift in Sources */,
 				6B4532A52ADD3F3E0080A278 /* VocabCollectionViewCell.swift in Sources */,
 				6BD6AE822AE8E7300009CB57 /* CategoryListViewController.swift in Sources */,
