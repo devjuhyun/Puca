@@ -16,7 +16,7 @@ final class DBManager {
         checkCategoryList()
     }
     
-    func checkCategoryList() {
+    private func checkCategoryList() {
         let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0)
         if categoryList == nil {
             try! realm.write {
@@ -70,7 +70,7 @@ final class DBManager {
         }
     }
     
-    func copyVocabulary(_ vocabulary: Vocabulary) -> Vocabulary {
+    private func copyVocabulary(_ vocabulary: Vocabulary) -> Vocabulary {
         let newVocabulary = Vocabulary(word: vocabulary.word, meaning: vocabulary.meaning, example: vocabulary.example)
         newVocabulary.isChecked = vocabulary.isChecked
         newVocabulary.date = vocabulary.date

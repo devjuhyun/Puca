@@ -9,46 +9,49 @@ import UIKit
 
 class LanguageListViewController: UIViewController {
     
-    // MARK: - Properties
-    private let vm = LanguageListVIewModel()
+    private let vm: LanguageListViewModel
     
     // MARK: - UI Components
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(LanguageListViewCell.self, forCellReuseIdentifier: LanguageListViewCell.identifier)
         tableView.backgroundColor = view.backgroundColor
         return tableView
     }()
     
-    private lazy var searchController: UISearchController = {
-        let searchController = UISearchController()
-        searchController.searchBar.delegate = self
-        searchController.searchResultsUpdater = self
-        searchController.searchBar.tintColor = .appColor
-        searchController.searchBar.placeholder = "Search languages".localized()
-        searchController.searchBar.autocapitalizationType = .none
-        searchController.hidesNavigationBarDuringPresentation = false
-        return searchController
+    private lazy var refreshButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(refreshButtonClicked))
+        button.tintColor = .label
+        return button
     }()
-    
+        
     // MARK: - Lifecycle
+    init() {
+        let identifiers = UITextInputMode.activeInputModes.map { $0.primaryLanguage }.compactMap{ $0 }.filter { $0 != "emoji" }
+        self.vm = LanguageListViewModel(identifiers: identifiers)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
         layout()
-        
-        print(UITextInputMode.activeInputModes)
     }
 }
 
 extension LanguageListViewController {
+    // MARK: - Helpers
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.title = "Select Language".localized()
-        navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.setRightBarButtonItems([refreshButton], animated: true)
     }
     
     private func layout() {
@@ -63,24 +66,36 @@ extension LanguageListViewController {
     }
 }
 
-extension LanguageListViewController: UITableViewDataSource {
+// MARK: - UITableView Delegate Methods
+extension LanguageListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return vm.languagesToDisplay.count
+        return vm.identifiers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LanguageListViewCell.identifier, for: indexPath) as! LanguageListViewCell
         
-        cell.textLabel?.text = vm.languagesToDisplay[indexPath.row]
+        cell.textLabel?.text = vm.getLanguage(at: indexPath)
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath)
+        print("DEBUG PRINT:", vm.identifiers[indexPath.row], "selected")
+        cell?.isSelected = false
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return vm.titleForFooter
+    }
 }
 
-extension LanguageListViewController: UISearchBarDelegate, UISearchResultsUpdating {
-    func updateSearchResults(for searchController: UISearchController) {
-        vm.setInSearchMode(isSearching: searchController.isActive, searchText: searchController.searchBar.text!)
-        vm.updateSearchController(searchBarText: searchController.searchBar.text)
+// MARK: - Selectors
+extension LanguageListViewController {
+    @objc private func refreshButtonClicked() {
+        let identifiers = UITextInputMode.activeInputModes.map { $0.primaryLanguage }.compactMap{ $0 }.filter { $0 != "emoji" }
+        vm.identifiers = identifiers
         tableView.reloadData()
     }
 }

@@ -50,7 +50,7 @@ class VocabViewController: UIViewController {
     private let vocabLabel = CustomLabel(text: "Word".localized())
     private let vocabTextField = CustomTextField(placeholder: "Word".localized())
     private let meaningLabel = CustomLabel(text: "Meaning".localized())
-    private let meaningTextField = CustomTextField(placeholder: "Meaning".localized(), keyboardLanguage: "ko-KR")
+    private let meaningTextField = CustomTextField(placeholder: "Meaning".localized())
     private let exampleLabel = CustomLabel(text: "Example".localized())
     
     private lazy var textView = {
