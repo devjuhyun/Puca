@@ -81,9 +81,7 @@ extension LanguageListViewController: UITableViewDataSource, UITableViewDelegate
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
-        print("DEBUG PRINT:", vm.identifiers[indexPath.row], "selected")
-        cell?.isSelected = false
+        navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {

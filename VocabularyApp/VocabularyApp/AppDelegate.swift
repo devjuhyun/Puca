@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let vm = VocabListViewModel(category: category, sortOption: sortOption, displayOption: displayOption)
 //        window?.rootViewController = UINavigationController(rootViewController: VocabListViewController(viewModel: vm))
         
-        window?.rootViewController = UINavigationController(rootViewController: LanguageListViewController())
+        window?.rootViewController = UINavigationController(rootViewController: CategoryViewController(viewModel: CategoryViewModel()))
         
         return true
     }

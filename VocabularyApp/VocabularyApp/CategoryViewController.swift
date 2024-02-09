@@ -25,6 +25,23 @@ class CategoryViewController: UIViewController {
     
     private let nameLabel = CustomLabel(text: "Name".localized())
     private let nameTextField = CustomTextField(placeholder: "Category Name".localized())
+    private let languageLabel = CustomLabel(text: "Language You Are Learning".localized())
+    
+    private lazy var languageButton: UIButton = {
+        let button = CustomButton()
+        button.setTitle("Select Language".localized(), for: .normal)
+        button.addTarget(self, action: #selector(languageButtonClicked), for: .touchUpInside)
+        return button
+    }()
+    
+    private let nativeLanguageLabel = CustomLabel(text: "Native Language".localized())
+    
+    private lazy var nativeLanguageButton: UIButton = {
+        let button = CustomButton()
+        button.setTitle("Select Language".localized(), for: .normal)
+        button.addTarget(self, action: #selector(nativeLanguageButtonClicked), for: .touchUpInside)
+        return button
+    }()
     
     private lazy var doneButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Done".localized(), style: .done, target: self, action: #selector(doneButtonClicked))
@@ -57,6 +74,7 @@ extension CategoryViewController {
     private func setup() {
         view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.rightBarButtonItem = doneButton
+        navigationItem.setBackBarButtonItem()
         nameTextField.becomeFirstResponder()
         nameTextField.delegate = self
         nameTextField.text = vm.category?.name
@@ -65,6 +83,10 @@ extension CategoryViewController {
     private func layout() {
         stackView.addArrangedSubview(nameLabel)
         stackView.addArrangedSubview(nameTextField)
+        stackView.addArrangedSubview(languageLabel)
+        stackView.addArrangedSubview(languageButton)
+        stackView.addArrangedSubview(nativeLanguageLabel)
+        stackView.addArrangedSubview(nativeLanguageButton)
         
         view.addSubview(stackView)
         
@@ -99,5 +121,17 @@ extension CategoryViewController {
     @objc private func doneButtonClicked() {
         AlertService.playHaptics()
         saveCategory()
+    }
+    
+    @objc private func languageButtonClicked() {
+        AlertService.playHaptics()
+        let vc = LanguageListViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func nativeLanguageButtonClicked() {
+        AlertService.playHaptics()
+        let vc = LanguageListViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
