@@ -37,7 +37,8 @@ class VocabViewController: UIViewController {
     private let categoryLabel = CustomLabel(text: "Category".localized())
     
     private lazy var categoryButton: UIButton = {
-        let button = CategoryBtn()
+        let button = CustomButton()
+        button.setTitle("Select Category".localized(), for: .normal)
         button.addAction(UIAction(handler: { UIAction in
             AlertService.playHaptics()
             let vm = CategoryListViewModel(shouldDisplayAll: false)

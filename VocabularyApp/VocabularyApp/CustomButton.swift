@@ -48,12 +48,11 @@ class FloatingBtn: UIButton {
     }
 }
 
-class CategoryBtn: UIButton {
+class CustomButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         translatesAutoresizingMaskIntoConstraints = false
-        setTitle("Select Category".localized(), for: .normal)
         titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         setTitleColor(.label, for: .normal)
         let image = UIImage(systemName: "chevron.right")?.withTintColor(.label, renderingMode: .alwaysOriginal).withConfiguration(UIImage.SymbolConfiguration(weight: .bold))

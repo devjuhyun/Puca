@@ -37,7 +37,7 @@ class VocabListViewController: UIViewController {
     }()
     
     private lazy var categoryButton: UIButton = {
-        let button = CategoryBtn()
+        let button = CustomButton()
         button.addTarget(self, action: #selector(categoryButtonClicked), for: .touchUpInside)
         return button
     }()
