@@ -10,7 +10,7 @@ import Foundation
 class LanguageListViewModel {
     
     var identifiers: [String]
-    let titleForFooter = "You can add new language on Settings. (General > Keyboard > Keyboards > Add New Keyboard)".localized()
+    let titleForFooter = "Add new language on Settings. (General > Keyboard > Keyboards > Add New Keyboard)".localized()
     
     init(identifiers: [String]) {
         self.identifiers = identifiers
