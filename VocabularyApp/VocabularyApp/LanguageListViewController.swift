@@ -29,9 +29,8 @@ class LanguageListViewController: UIViewController {
     }()
         
     // MARK: - Lifecycle
-    init() {
-        let identifiers = UITextInputMode.activeInputModes.map { $0.primaryLanguage }.compactMap{ $0 }.filter { $0 != "emoji" }
-        self.vm = LanguageListViewModel(identifiers: identifiers)
+    init(viewModel: LanguageListViewModel) {
+        vm = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -92,8 +91,7 @@ extension LanguageListViewController: UITableViewDataSource, UITableViewDelegate
 // MARK: - Selectors
 extension LanguageListViewController {
     @objc private func refreshButtonClicked() {
-        let identifiers = UITextInputMode.activeInputModes.map { $0.primaryLanguage }.compactMap{ $0 }.filter { $0 != "emoji" }
-        vm.identifiers = identifiers
+        vm.updateIdentifiers()
         tableView.reloadData()
     }
 }

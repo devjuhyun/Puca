@@ -12,13 +12,16 @@ class LanguageListViewModel {
     var identifiers: [String]
     let titleForFooter = "Add new language on Settings. (General > Keyboard > Keyboards > Add New Keyboard)".localized()
     
-    init(identifiers: [String]) {
-        self.identifiers = identifiers
+    init() {
+        self.identifiers = LanguageManager.fetchIdentifiers()
     }
     
     func getLanguage(at indexPath: IndexPath) -> String {
         let identifier = identifiers[indexPath.row]
-        let language = NSLocale.autoupdatingCurrent.localizedString(forIdentifier: identifier)
-        return language ?? "unrecognizable language"
+        return LanguageManager.getLanguage(for: identifier)
+    }
+    
+    func updateIdentifiers() {
+        identifiers = LanguageManager.fetchIdentifiers()
     }
 }

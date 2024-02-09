@@ -125,13 +125,15 @@ extension CategoryViewController {
     
     @objc private func languageButtonClicked() {
         AlertService.playHaptics()
-        let vc = LanguageListViewController()
+        let vm = LanguageListViewModel()
+        let vc = LanguageListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func nativeLanguageButtonClicked() {
         AlertService.playHaptics()
-        let vc = LanguageListViewController()
+        let vm = LanguageListViewModel()
+        let vc = LanguageListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

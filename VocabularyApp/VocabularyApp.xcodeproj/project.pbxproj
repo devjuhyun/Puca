@@ -23,6 +23,7 @@
 		6B414F912B70F98100E55EE0 /* LanguageListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B414F902B70F98100E55EE0 /* LanguageListViewCell.swift */; };
 		6B414F932B71E77A00E55EE0 /* LanguageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B414F922B71E77A00E55EE0 /* LanguageListViewModel.swift */; };
 		6B4532A52ADD3F3E0080A278 /* VocabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */; };
+		6B64EA1E2B761DB40046D756 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B64EA1D2B761DB40046D756 /* LanguageManager.swift */; };
 		6B66447C2ABC02410064D8DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447B2ABC02410064D8DE /* Realm */; };
 		6B66447E2ABC02410064D8DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447D2ABC02410064D8DE /* RealmSwift */; };
 		6B6644802ABC028F0064D8DE /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66447F2ABC028F0064D8DE /* Vocabulary.swift */; };
@@ -60,6 +61,7 @@
 		6B414F902B70F98100E55EE0 /* LanguageListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewCell.swift; sourceTree = "<group>"; };
 		6B414F922B71E77A00E55EE0 /* LanguageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewModel.swift; sourceTree = "<group>"; };
 		6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabCollectionViewCell.swift; sourceTree = "<group>"; };
+		6B64EA1D2B761DB40046D756 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		6B66447F2ABC028F0064D8DE /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
 		6B904CCC2AAAB1F3002A8D37 /* VocabTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabTableViewCell.swift; sourceTree = "<group>"; };
 		6BA4C6522B34195700DD549F /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				6BA4C6592B341C4300DD549F /* DBManager.swift */,
+				6B64EA1D2B761DB40046D756 /* LanguageManager.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B3546422B43EDC2006152BA /* Observable.swift in Sources */,
+				6B64EA1E2B761DB40046D756 /* LanguageManager.swift in Sources */,
 				6BCFC99F2AA99CFF005F0E53 /* VocabListViewController.swift in Sources */,
 				6B414F8F2B70F8E600E55EE0 /* LanguageListViewController.swift in Sources */,
 				6BB793DD2AD7EA600050DB8D /* VocabCollectionViewController.swift in Sources */,
