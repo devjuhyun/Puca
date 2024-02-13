@@ -119,6 +119,9 @@ extension VocabViewController {
     private func setupBindings() {
         vm.selectedCategory.bind { [weak self] category in
             if let category = category {
+                self?.vocabTextField.setKeyboardLanguage(category.language)
+                self?.meaningTextField.setKeyboardLanguage(category.nativeLanguage)
+                
                 DispatchQueue.main.async {
                     self?.categoryButton.setTitle(category.name, for: .normal)
                 }
