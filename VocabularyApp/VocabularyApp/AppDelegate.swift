@@ -20,10 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sortOption = SortOption(rawValue: UserDefaults.standard.object(forKey: "sortOption") as? String ?? "newestFirst") ?? .newestFirst
         let displayOption = DisplayOption(rawValue: UserDefaults.standard.object(forKey: "displayOption") as? String ?? "all") ?? .all
         let vm = VocabListViewModel(category: category, sortOption: sortOption, displayOption: displayOption)
-//        window?.rootViewController = UINavigationController(rootViewController: VocabListViewController(viewModel: vm))
-        
-        window?.rootViewController = UINavigationController(rootViewController: CategoryViewController(viewModel: CategoryViewModel()))
-        
+        window?.rootViewController = UINavigationController(rootViewController: VocabListViewController(viewModel: vm))
+                
         return true
     }
 }

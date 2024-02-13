@@ -10,7 +10,7 @@ import UIKit
 class CategoryViewController: UIViewController {
     
     // MARK: - Properties
-    private let vm: CategoryViewModel
+    let vm: CategoryViewModel
     
     // MARK: - UI Components
     private let stackView: UIStackView = {
@@ -77,7 +77,29 @@ extension CategoryViewController {
         navigationItem.setBackBarButtonItem()
         nameTextField.becomeFirstResponder()
         nameTextField.delegate = self
-        nameTextField.text = vm.category?.name
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        vm.category.bind { [weak self] category in
+            if let category = category {
+                self?.nameTextField.text = category.name
+            }
+        }
+        
+        vm.languageIdentifier.bind { [weak self] identifier in
+            if let identifier = identifier {
+                let language = LanguageManager.getLanguage(for: identifier)
+                self?.languageButton.setTitle(language, for: .normal)
+            }
+        }
+        
+        vm.nativeLanguageIdentifier.bind { [weak self] identifier in
+            if let identifier = identifier {
+                let language = LanguageManager.getLanguage(for: identifier)
+                self?.nativeLanguageButton.setTitle(language, for: .normal)
+            }
+        }
     }
     
     private func layout() {
@@ -125,14 +147,14 @@ extension CategoryViewController {
     
     @objc private func languageButtonClicked() {
         AlertService.playHaptics()
-        let vm = LanguageListViewModel()
+        let vm = LanguageListViewModel(isSelectingLanguage: true)
         let vc = LanguageListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func nativeLanguageButtonClicked() {
         AlertService.playHaptics()
-        let vm = LanguageListViewModel()
+        let vm = LanguageListViewModel(isSelectingLanguage: false)
         let vc = LanguageListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }

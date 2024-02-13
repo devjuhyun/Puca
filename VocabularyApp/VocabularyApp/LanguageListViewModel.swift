@@ -9,11 +9,12 @@ import Foundation
 
 class LanguageListViewModel {
     
-    var identifiers: [String]
+    let isSelectingLanguage: Bool
+    var identifiers = LanguageManager.fetchIdentifiers()
     let titleForFooter = "Add new language on Settings. (General > Keyboard > Keyboards > Add New Keyboard)".localized()
     
-    init() {
-        self.identifiers = LanguageManager.fetchIdentifiers()
+    init(isSelectingLanguage: Bool) {
+        self.isSelectingLanguage = isSelectingLanguage
     }
     
     func getLanguage(at indexPath: IndexPath) -> String {
