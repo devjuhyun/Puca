@@ -15,14 +15,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
                 
-        let recentCategoryIndex = UserDefaults.standard.object(forKey: "recentCategoryIndex") as? Int
-        let category = DBManager.shared.fetchCategoryList().categories[0]
+        let category = getRecentCategory()
         let sortOption = SortOption(rawValue: UserDefaults.standard.object(forKey: "sortOption") as? String ?? "newestFirst") ?? .newestFirst
         let displayOption = DisplayOption(rawValue: UserDefaults.standard.object(forKey: "displayOption") as? String ?? "all") ?? .all
         let vm = VocabListViewModel(category: category, sortOption: sortOption, displayOption: displayOption)
         window?.rootViewController = UINavigationController(rootViewController: VocabListViewController(viewModel: vm))
                 
         return true
+    }
+    
+    private func getRecentCategory() -> Category {
+        let categories = DBManager.shared.fetchCategoryList().categories
+        let recentCategoryIndex = UserDefaults.standard.object(forKey: "recentCategoryIndex") as? Int ?? 0
+        if let category = categories[safe: recentCategoryIndex] {
+            return category
+        }
+        
+        return categories[0]
     }
 }
 
