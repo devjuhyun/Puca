@@ -30,7 +30,8 @@ class CategoryListViewModel {
     }
     
     func deleteCategory(at index: Int) {
-        DBManager.shared.delete(categories.value[index])
+        let category = categories.value[index]
+        DBManager.shared.deleteCategory(category)
     }
     
     func moveCategory(from sourceIndex: Int, to destinationIndex: Int) {

@@ -23,7 +23,7 @@ class VocabListViewModel {
     // MARK: - Properties
     var inSearchMode: Bool = false
     private(set) var token: NotificationToken?
-    var category: Observable<Category>
+    let category: Observable<Category>
     private let allVocabulariesInDB = DBManager.shared.read(Vocabulary.self)
     private(set) var vocabularies: Observable<[Vocabulary]> = Observable([])
     private(set) var filteredVocabularies: Observable<[Vocabulary]> = Observable([])
@@ -116,6 +116,10 @@ class VocabListViewModel {
     // MARK: - Work With Category
     func passCategory() -> Category? {
         shouldDisplayAllVocabulariesInDB ? nil : category.value
+    }
+    
+    func resetCategory() {
+        category.value = DBManager.shared.fetchCategoryList().categories[0]
     }
     
     // MARK: - Work With UserDefaults

@@ -55,6 +55,17 @@ final class DBManager {
         }
     }
     
+    func deleteCategory(_ category: Category) {
+        do {
+            try realm.write {
+                realm.delete(category.vocabularies)
+                realm.delete(category)
+            }
+        } catch {
+            print("Error deleting a category: \(error)")
+        }
+    }
+    
     func fetchCategoryList() -> CategoryList {
         guard let categoryList = realm.object(ofType: CategoryList.self, forPrimaryKey: 0) else { fatalError("Error: no categoryList") }
         return categoryList

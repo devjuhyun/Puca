@@ -11,7 +11,6 @@
 		6B30CD912AFCB8900047AB00 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B30CD902AFCB8900047AB00 /* CustomButton.swift */; };
 		6B3546322B358571006152BA /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3546312B358571006152BA /* CategoryViewModel.swift */; };
 		6B3546362B3BE4D3006152BA /* CategoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3546352B3BE4D3006152BA /* CategoryList.swift */; };
-		6B3546382B3D6A40006152BA /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3546372B3D6A40006152BA /* CategoryListViewModel.swift */; };
 		6B3546402B43D4F8006152BA /* VocabListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B35463F2B43D4F8006152BA /* VocabListViewModel.swift */; };
 		6B3546422B43EDC2006152BA /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3546412B43EDC2006152BA /* Observable.swift */; };
 		6B3546442B43FF5B006152BA /* VocabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3546432B43FF5B006152BA /* VocabViewModel.swift */; };
@@ -24,6 +23,7 @@
 		6B414F932B71E77A00E55EE0 /* LanguageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B414F922B71E77A00E55EE0 /* LanguageListViewModel.swift */; };
 		6B4532A52ADD3F3E0080A278 /* VocabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */; };
 		6B64EA1E2B761DB40046D756 /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B64EA1D2B761DB40046D756 /* LanguageManager.swift */; };
+		6B64EA202B7B59BF0046D756 /* CategoryListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B64EA1F2B7B59BF0046D756 /* CategoryListViewModel.swift */; };
 		6B66447C2ABC02410064D8DE /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447B2ABC02410064D8DE /* Realm */; };
 		6B66447E2ABC02410064D8DE /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 6B66447D2ABC02410064D8DE /* RealmSwift */; };
 		6B6644802ABC028F0064D8DE /* Vocabulary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B66447F2ABC028F0064D8DE /* Vocabulary.swift */; };
@@ -48,7 +48,6 @@
 		6B30CD902AFCB8900047AB00 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		6B3546312B358571006152BA /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		6B3546352B3BE4D3006152BA /* CategoryList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryList.swift; sourceTree = "<group>"; };
-		6B3546372B3D6A40006152BA /* CategoryListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		6B35463F2B43D4F8006152BA /* VocabListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabListViewModel.swift; sourceTree = "<group>"; };
 		6B3546412B43EDC2006152BA /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		6B3546432B43FF5B006152BA /* VocabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabViewModel.swift; sourceTree = "<group>"; };
@@ -62,6 +61,7 @@
 		6B414F922B71E77A00E55EE0 /* LanguageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewModel.swift; sourceTree = "<group>"; };
 		6B4532A42ADD3F3E0080A278 /* VocabCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabCollectionViewCell.swift; sourceTree = "<group>"; };
 		6B64EA1D2B761DB40046D756 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
+		6B64EA1F2B7B59BF0046D756 /* CategoryListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryListViewModel.swift; sourceTree = "<group>"; };
 		6B66447F2ABC028F0064D8DE /* Vocabulary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vocabulary.swift; sourceTree = "<group>"; };
 		6B904CCC2AAAB1F3002A8D37 /* VocabTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabTableViewCell.swift; sourceTree = "<group>"; };
 		6BA4C6522B34195700DD549F /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		6BA4C6502B34192700DD549F /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				6B3546372B3D6A40006152BA /* CategoryListViewModel.swift */,
+				6B64EA1F2B7B59BF0046D756 /* CategoryListViewModel.swift */,
 				6B3546312B358571006152BA /* CategoryViewModel.swift */,
 				6B414F922B71E77A00E55EE0 /* LanguageListViewModel.swift */,
 				6B35463F2B43D4F8006152BA /* VocabListViewModel.swift */,
@@ -332,13 +332,13 @@
 				6BB793DD2AD7EA600050DB8D /* VocabCollectionViewController.swift in Sources */,
 				6B025DBF2AFF6ED40001F889 /* Extensions.swift in Sources */,
 				6B6644802ABC028F0064D8DE /* Vocabulary.swift in Sources */,
-				6B3546382B3D6A40006152BA /* CategoryListViewModel.swift in Sources */,
 				6BA4C65A2B341C4300DD549F /* DBManager.swift in Sources */,
 				6BCFC99B2AA99CFF005F0E53 /* AppDelegate.swift in Sources */,
 				6BD6AE842AE8E8230009CB57 /* CategoryTableViewCell.swift in Sources */,
 				6B3546462B44EDFD006152BA /* CustomView.swift in Sources */,
 				6B3546362B3BE4D3006152BA /* CategoryList.swift in Sources */,
 				6BA4C6532B34195700DD549F /* AlertService.swift in Sources */,
+				6B64EA202B7B59BF0046D756 /* CategoryListViewModel.swift in Sources */,
 				6BD6AE7C2AE665170009CB57 /* CustomLabel.swift in Sources */,
 				6B414F932B71E77A00E55EE0 /* LanguageListViewModel.swift in Sources */,
 				6B3546322B358571006152BA /* CategoryViewModel.swift in Sources */,

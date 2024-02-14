@@ -45,7 +45,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
     
     let vocabLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 30)
+        label.font = .boldSystemFont(ofSize: 26)
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         label.numberOfLines = 2
@@ -62,7 +62,7 @@ class VocabCollectionViewCell: UICollectionViewCell {
     
     private let meaningLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 25)
+        label.font = .boldSystemFont(ofSize: 26)
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.8
         label.numberOfLines = 2
