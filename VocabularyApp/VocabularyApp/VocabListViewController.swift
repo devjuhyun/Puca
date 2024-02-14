@@ -306,7 +306,6 @@ extension VocabListViewController {
     
     @objc private func categoryButtonClicked() {
         AlertService.playHaptics()
-        vm.resetCategory()
         let vm = CategoryListViewModel(shouldDisplayAll: true)
         let vc = CategoryListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)

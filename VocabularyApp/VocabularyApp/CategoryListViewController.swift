@@ -105,7 +105,10 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     }
         
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let vocabListVC = navigationController?.previousViewController as? VocabListViewController
+        
         let alertController = AlertService.deleteAlert(deleteOption: .category) { [weak self] _ in
+            vocabListVC?.vm.resetCategory()
             self?.vm.deleteCategory(at: indexPath.row)
         }
         

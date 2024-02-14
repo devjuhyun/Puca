@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
                 
         let recentCategoryIndex = UserDefaults.standard.object(forKey: "recentCategoryIndex") as? Int
-        let category = DBManager.shared.fetchCategoryList().categories[recentCategoryIndex ?? 0]
+        let category = DBManager.shared.fetchCategoryList().categories[0]
         let sortOption = SortOption(rawValue: UserDefaults.standard.object(forKey: "sortOption") as? String ?? "newestFirst") ?? .newestFirst
         let displayOption = DisplayOption(rawValue: UserDefaults.standard.object(forKey: "displayOption") as? String ?? "all") ?? .all
         let vm = VocabListViewModel(category: category, sortOption: sortOption, displayOption: displayOption)
