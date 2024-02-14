@@ -14,12 +14,13 @@ class CategoryListViewModel {
     private(set) var token: NotificationToken?
     private let categoryList = DBManager.shared.fetchCategoryList()
     let categories: Observable<[Category]> = Observable([])
-    let total = DBManager.shared.read(Vocabulary.self).count
+    var total = DBManager.shared.read(Vocabulary.self).count
         
     init(shouldDisplayAll: Bool) {
         self.shouldDisplayAll = shouldDisplayAll
         token = categoryList.categories.observe { [weak self] changes in
             self?.fetchCategories()
+            self?.total = DBManager.shared.read(Vocabulary.self).count
         }
     }
     
