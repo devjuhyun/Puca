@@ -168,44 +168,50 @@ extension VocabListViewController {
         vm.sortOption.bind { [weak self] sortOption in
             self?.vm.fetchVocabularies()
             let sortMenu = menuItems[0] as? UIMenu
-            switch sortOption {
-            case .newestFirst:
-                sortMenu?.subtitle = "Newest First".localized()
-                let newestFirstAction = sortMenu?.children[0] as? UIAction
-                newestFirstAction?.state = .on
-            case .oldestFirst:
-                sortMenu?.subtitle = "Oldest First".localized()
-                let oldestFirstAction = sortMenu?.children[1] as? UIAction
-                oldestFirstAction?.state = .on
+            DispatchQueue.main.async {
+                switch sortOption {
+                case .newestFirst:
+                    sortMenu?.subtitle = "Newest First".localized()
+                    let newestFirstAction = sortMenu?.children[0] as? UIAction
+                    newestFirstAction?.state = .on
+                case .oldestFirst:
+                    sortMenu?.subtitle = "Oldest First".localized()
+                    let oldestFirstAction = sortMenu?.children[1] as? UIAction
+                    oldestFirstAction?.state = .on
+                }
             }
         }
         
         vm.displayOption.bind { [weak self] displayOption in
             self?.vm.fetchVocabularies()
             let displayMenu = menuItems[1] as? UIMenu
-            switch displayOption {
-            case .all:
-                displayMenu?.subtitle = "All".localized()
-                let displayAllAction = displayMenu?.children[0] as? UIAction
-                displayAllAction?.state = .on
-            case .checkedWords:
-                displayMenu?.subtitle = "Checked Words".localized()
-                let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
-                displayCheckedWordsAction?.state = .on
-            case .uncheckedWords:
-                displayMenu?.subtitle = "Unchecked Words".localized()
-                let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
-                displayUncheckedWordsAction?.state = .on
+            DispatchQueue.main.async {
+                switch displayOption {
+                case .all:
+                    displayMenu?.subtitle = "All".localized()
+                    let displayAllAction = displayMenu?.children[0] as? UIAction
+                    displayAllAction?.state = .on
+                case .checkedWords:
+                    displayMenu?.subtitle = "Checked Words".localized()
+                    let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
+                    displayCheckedWordsAction?.state = .on
+                case .uncheckedWords:
+                    displayMenu?.subtitle = "Unchecked Words".localized()
+                    let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
+                    displayUncheckedWordsAction?.state = .on
+                }
             }
         }
         
         vm.selectedVocabularies.bind { [weak self] _ in
-            guard let self = self else { return }
-            toolbarButtons[2].isEnabled = !vm.selectedVocabularies.value.isEmpty
-            toolbarButtons[4].isEnabled = !vm.selectedVocabularies.value.isEmpty
-            toolbarButtons[6].isEnabled = !vm.selectedVocabularies.value.isEmpty
-            if tableView.isEditing {
-                navigationItem.title = vm.navTitle
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                self.toolbarButtons[2].isEnabled = !self.vm.selectedVocabularies.value.isEmpty
+                self.toolbarButtons[4].isEnabled = !self.vm.selectedVocabularies.value.isEmpty
+                self.toolbarButtons[6].isEnabled = !self.vm.selectedVocabularies.value.isEmpty
+                if self.tableView.isEditing {
+                    self.navigationItem.title = self.vm.navTitle
+                }
             }
         }
     }

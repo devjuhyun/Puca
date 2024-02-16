@@ -58,7 +58,6 @@ class CategoryListViewController: UIViewController {
         }
     }
     
-    // TODO: - Remove Toolbar
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isToolbarHidden = true

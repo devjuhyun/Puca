@@ -83,21 +83,27 @@ extension CategoryViewController {
     private func setupBindings() {
         vm.category.bind { [weak self] category in
             if let category = category {
-                self?.nameTextField.text = category.name
+                DispatchQueue.main.async {
+                    self?.nameTextField.text = category.name
+                }
             }
         }
         
         vm.languageIdentifier.bind { [weak self] identifier in
             if let identifier = identifier {
                 let language = LanguageManager.getLanguage(for: identifier)
-                self?.languageButton.setTitle(language, for: .normal)
+                DispatchQueue.main.async {
+                    self?.languageButton.setTitle(language, for: .normal)
+                }
             }
         }
         
         vm.nativeLanguageIdentifier.bind { [weak self] identifier in
             if let identifier = identifier {
                 let language = LanguageManager.getLanguage(for: identifier)
-                self?.nativeLanguageButton.setTitle(language, for: .normal)
+                DispatchQueue.main.async {
+                    self?.nativeLanguageButton.setTitle(language, for: .normal)
+                }
             }
         }
     }
