@@ -117,6 +117,7 @@ class VocabListViewModel {
     
     func resetCategory() {
         category.value = DBManager.shared.fetchCategoryList().categories[0]
+        shouldDisplayAllVocabulariesInDB = true
     }
     
     // MARK: - Work With UserDefaults
