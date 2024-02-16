@@ -39,7 +39,6 @@ class VocabListViewModel {
         return inSearchMode ? filteredVocabularies.value : vocabularies.value
     }
     
-    // TODO: - true면 단어 선택 action disable 시키기(category 바인딩에서)
     var shouldDisplayAllVocabulariesInDB: Bool {
         return category.value.name == "All"
     }
@@ -70,7 +69,7 @@ class VocabListViewModel {
         }
     }
     
-    // TODO: - 카테고리 바뀔때만 호출되게 하기
+    // TODO: - call this only when category is changed
     private func filterVocabularies() {
         switch displayOption.value {
         case .checkedWords:

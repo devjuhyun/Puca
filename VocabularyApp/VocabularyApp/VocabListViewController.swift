@@ -262,7 +262,6 @@ extension VocabListViewController {
 }
 
 // MARK: - TableView Delegate Methods
-// TODO: - 컬렉션뷰컨에서 단어가 변경되었을때 여기서 무슨일이 일어나는지 정확히 이해하기
 extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return vm.vocabulariesToDisplay.count
@@ -271,6 +270,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: VocabTableViewCell.identifier, for: indexPath) as! VocabTableViewCell
                 
+        // prevent error when vocabularies are changed in VocabCollectionVC
         if let vocabulary = vm.vocabulariesToDisplay[safe: indexPath.row] {
             cell.configure(with: vocabulary)
             cell.onChecked = { [weak self] in

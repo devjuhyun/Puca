@@ -73,7 +73,6 @@ extension VocabCollectionViewController {
         setupBindings()
     }
     
-    // TODO: - 단어 하나일때 수정하면 자동 pop되는거 수정
     private func setupBindings() {
         vm.vocabularies.bind { [weak self] vocabularies in
             guard let self = self else { return }
