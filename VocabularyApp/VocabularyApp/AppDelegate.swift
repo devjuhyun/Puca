@@ -15,23 +15,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
                 
-        let category = getRecentCategory()
-        let sortOption = SortOption(rawValue: UserDefaults.standard.object(forKey: "sortOption") as? String ?? "newestFirst") ?? .newestFirst
-        let displayOption = DisplayOption(rawValue: UserDefaults.standard.object(forKey: "displayOption") as? String ?? "all") ?? .all
-        let vm = VocabListViewModel(category: category, sortOption: sortOption, displayOption: displayOption)
+        let vm = getVocabListViewModel()
         window?.rootViewController = UINavigationController(rootViewController: VocabListViewController(viewModel: vm))
                 
         return true
     }
     
-    private func getRecentCategory() -> Category {
+    private func getVocabListViewModel() -> VocabListViewModel {
         let categories = DBManager.shared.fetchCategoryList().categories
         let recentCategoryIndex = UserDefaults.standard.object(forKey: "recentCategoryIndex") as? Int ?? 0
-        if let category = categories[safe: recentCategoryIndex] {
-            return category
-        }
+        let index = categories[safe: recentCategoryIndex] == nil ? 0 : recentCategoryIndex
+        let sortOption = SortOption(rawValue: UserDefaults.standard.object(forKey: "sortOption") as? String ?? "newestFirst") ?? .newestFirst
+        let displayOption = DisplayOption(rawValue: UserDefaults.standard.object(forKey: "displayOption") as? String ?? "all") ?? .all
         
-        return categories[0]
+        return VocabListViewModel(category: categories[index], sortOption: sortOption, displayOption: displayOption, shouldDisplayAllVocabulariesInDB: index == 0)
     }
 }
 

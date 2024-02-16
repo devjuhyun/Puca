@@ -150,6 +150,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
         if let vocabListVC = navigationController?.previousViewController as? VocabListViewController {
             if vm.shouldDisplayAll { // change category
                 UserDefaults.standard.set(indexPath.row, forKey: "recentCategoryIndex")
+                vocabListVC.vm.shouldDisplayAllVocabulariesInDB = indexPath.row == 0
                 vocabListVC.vm.category.value = selectedCategory
             } else { // move vocabularies
                 vocabListVC.vm.moveVocabularies(to: selectedCategory)

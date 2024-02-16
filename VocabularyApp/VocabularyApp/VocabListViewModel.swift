@@ -29,6 +29,7 @@ class VocabListViewModel {
     private(set) var filteredVocabularies: Observable<[Vocabulary]> = Observable([])
     private(set) var sortOption: Observable<SortOption>
     private(set) var displayOption: Observable<DisplayOption>
+    var shouldDisplayAllVocabulariesInDB: Bool
     private(set) var selectedVocabularies: Observable<[Vocabulary]> = Observable([])
     
     var navTitle: String {
@@ -39,15 +40,12 @@ class VocabListViewModel {
         return inSearchMode ? filteredVocabularies.value : vocabularies.value
     }
     
-    var shouldDisplayAllVocabulariesInDB: Bool {
-        return category.value.name == "All"
-    }
-    
     // MARK: - Lifecycle
-    init(category: Category, sortOption: SortOption, displayOption: DisplayOption) {
+    init(category: Category, sortOption: SortOption, displayOption: DisplayOption, shouldDisplayAllVocabulariesInDB: Bool) {
         self.category = Observable(category)
         self.sortOption = Observable(sortOption)
         self.displayOption = Observable(displayOption)
+        self.shouldDisplayAllVocabulariesInDB = shouldDisplayAllVocabulariesInDB
         token = allVocabulariesInDB.observe { [weak self] _ in
             self?.fetchVocabularies()
         }
