@@ -6,6 +6,7 @@
 //
 
 // TODO: - write test code
+// TODO: - test all devices
 
 import UIKit
 
