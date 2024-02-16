@@ -124,6 +124,12 @@ class VocabListViewController: UIViewController {
         setup()
         layout()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if tableView.isEditing {
+            navigationController?.isToolbarHidden = false
+        }
+    }
 }
 
 // MARK: - Helpers

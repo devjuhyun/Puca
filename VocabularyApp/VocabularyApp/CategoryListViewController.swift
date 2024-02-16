@@ -57,6 +57,13 @@ class CategoryListViewController: UIViewController {
             }
         }
     }
+    
+    // TODO: - Remove Toolbar
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isToolbarHidden = true
+    }
+    
 }
 
 // MARK: - Helpers
@@ -147,6 +154,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
                 vocabListVC.vm.category.value = selectedCategory
             } else { // move vocabularies
                 vocabListVC.vm.moveVocabularies(to: selectedCategory)
+                navigationController?.isToolbarHidden = false
                 vocabListVC.updateUI()
             }
         }
