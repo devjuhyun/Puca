@@ -33,5 +33,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return VocabListViewModel(category: categories[index], sortOption: sortOption, displayOption: displayOption, shouldDisplayAllVocabulariesInDB: index == 0)
     }
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return .portrait
+    }
 }
 
