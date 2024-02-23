@@ -5,7 +5,7 @@
 //  Created by Juhyun Yun on 2023/09/07.
 //
 
-// TODO: - write test code
+// TODO: - block landscape and light mode
 // TODO: - test all devices
 
 import UIKit

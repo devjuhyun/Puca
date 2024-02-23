@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "0D320A33-6F8C-481D-9BCA-3B5AFE32EFF3",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:VocabularyApp.xcodeproj",
+      "identifier" : "6BCFC9962AA99CFF005F0E53",
+      "name" : "VocabularyApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:VocabularyApp.xcodeproj",
+        "identifier" : "6B26A61D2B882EBE00CA9AAC",
+        "name" : "VocabularyAppUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
