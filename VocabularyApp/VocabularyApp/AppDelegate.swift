@@ -5,7 +5,8 @@
 //  Created by Juhyun Yun on 2023/09/07.
 //
 
-// TODO: - block landscape and light mode
+// TODO: - fix a bug that when delete a category adding new word
+// TODO: - add snapkit
 // TODO: - test all devices
 
 import UIKit

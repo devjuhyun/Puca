@@ -27,6 +27,8 @@ class CategoryListViewController: UIViewController {
         return tableView
     }()
     
+    private let emptyView = EmptyView(title: "No Categories", message: "Add new category by clicking the add button at the top right.")
+    
     private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Add".localized(), style: .done, target: self, action: #selector(addButtonClicked))
         button.tintColor = .appColor
@@ -51,9 +53,10 @@ class CategoryListViewController: UIViewController {
         setup()
         layout()
         
-        vm.categories.bind { [weak self] _ in
+        vm.categories.bind { [weak self] categories in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.emptyView.isHidden = !categories.isEmpty
             }
         }
     }
@@ -76,12 +79,17 @@ extension CategoryListViewController {
     
     private func layout() {
         view.addSubview(tableView)
+        view.addSubview(emptyView)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            emptyView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: emptyView.trailingAnchor, multiplier: 2),
+            emptyView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
     
@@ -111,7 +119,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
     }
         
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let vocabListVC = navigationController?.previousViewController as? VocabListViewController
+        let vocabListVC = navigationController?.viewControllers.first as? VocabListViewController
         
         let alertController = AlertService.deleteAlert(deleteOption: .category) { [weak self] _ in
             vocabListVC?.vm.resetCategory()
