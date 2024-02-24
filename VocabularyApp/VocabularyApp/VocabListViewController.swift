@@ -29,6 +29,9 @@ class VocabListViewController: UIViewController {
         return tableView
     }()
     
+    // TODO: - localize title and message
+    private let emptyView = EmptyView(title: "No words to display.", message: "Add new word by clicking the plus button at the bottom right or change the display option by clicking the 3 dots at the top right.")
+    
     private lazy var addButton: UIButton = {
         let button = FloatingBtn(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
         button.isHidden = tableView.isEditing
@@ -142,9 +145,10 @@ extension VocabListViewController {
     }
     
     private func setupBindings() {
-        vm.vocabularies.bind { [weak self] _ in
+        vm.vocabularies.bind { [weak self] vocabularies in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
+                self?.emptyView.isHidden = !vocabularies.isEmpty
             }
         }
         
@@ -234,6 +238,7 @@ extension VocabListViewController {
     
     private func layout() {
         view.addSubview(tableView)
+        view.addSubview(emptyView)
         view.addSubview(addButton)
         
         NSLayoutConstraint.activate([            
@@ -241,6 +246,10 @@ extension VocabListViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            emptyView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 2),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: emptyView.trailingAnchor, multiplier: 2),
+            emptyView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
             addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
