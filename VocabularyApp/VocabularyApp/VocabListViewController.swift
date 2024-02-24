@@ -145,10 +145,13 @@ extension VocabListViewController {
     }
     
     private func setupBindings() {
+        let menuItems = editButton.menu!.children
         vm.vocabularies.bind { [weak self] vocabularies in
             DispatchQueue.main.async {
                 self?.tableView.reloadData()
                 self?.emptyView.isHidden = !vocabularies.isEmpty
+                let selectWordsButton = menuItems[2] as? UIAction
+                selectWordsButton?.attributes = vocabularies.isEmpty ? .disabled : .keepsMenuPresented
             }
         }
         
@@ -166,8 +169,6 @@ extension VocabListViewController {
                 self.vm.fetchVocabularies()
             }
         }
-        
-        let menuItems = editButton.menu!.children
         
         vm.sortOption.bind { [weak self] sortOption in
             self?.vm.fetchVocabularies()
