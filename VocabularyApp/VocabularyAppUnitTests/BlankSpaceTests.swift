@@ -19,40 +19,40 @@ class BlankSpaceTests: XCTestCase {
     }
     
     func testCategoryBlankSpace() throws {
-        vm.checkBlankSpace(vocab: "", meaning: "", example: "") { blankSpace, message, isSucceeded in
-            XCTAssertEqual(blankSpace, .category)
-            XCTAssertEqual(message, "Select a category.".localized())
-            XCTAssertEqual(isSucceeded, false)
-        }
+        let (blankSpace, message, isSucceeded) = vm.checkBlankSpace(word: "", meaning: "", example: "")
+        
+        XCTAssertEqual(blankSpace, .category)
+        XCTAssertEqual(message, "Select a category.".localized())
+        XCTAssertEqual(isSucceeded, false)
     }
     
     func testVocabBlankSpace() throws {
         vm.selectedCategory.value = Category(name: "test")
         
-        vm.checkBlankSpace(vocab: "", meaning: "", example: "") { blankSpace, message, isSucceeded in
-            XCTAssertEqual(blankSpace, .vocab)
-            XCTAssertEqual(message, "Please enter a word.".localized())
-            XCTAssertEqual(isSucceeded, false)
-        }
+        let (blankSpace, message, isSucceeded) = vm.checkBlankSpace(word: "", meaning: "", example: "")
+        
+        XCTAssertEqual(blankSpace, .vocab)
+        XCTAssertEqual(message, "Please enter a word.".localized())
+        XCTAssertEqual(isSucceeded, false)
     }
     
     func testMeaningBlankSpace() throws {
         vm.selectedCategory.value = Category(name: "test")
         
-        vm.checkBlankSpace(vocab: "test", meaning: "", example: "") { blankSpace, message, isSucceeded in
-            XCTAssertEqual(blankSpace, .meaning)
-            XCTAssertEqual(message, "Please enter the meaning of the word.".localized())
-            XCTAssertEqual(isSucceeded, false)
-        }
+        let (blankSpace, message, isSucceeded) = vm.checkBlankSpace(word: "test", meaning: "", example: "")
+        
+        XCTAssertEqual(blankSpace, .meaning)
+        XCTAssertEqual(message, "Please enter the meaning of the word.".localized())
+        XCTAssertEqual(isSucceeded, false)
     }
     
     func testNoBlankSpace() throws {
         vm.selectedCategory.value = Category(name: "test")
         
-        vm.checkBlankSpace(vocab: "test", meaning: "test", example: "") { blankSpace, message, isSucceeded in
-            XCTAssertEqual(blankSpace, nil)
-            XCTAssertEqual(message, "You have successfully added a new word.".localized())
-            XCTAssertEqual(isSucceeded, true)
-        }
+        let (blankSpace, message, isSucceeded) = vm.checkBlankSpace(word: "test", meaning: "test", example: "")
+        
+        XCTAssertEqual(blankSpace, nil)
+        XCTAssertEqual(message, "You have successfully added a new word.".localized())
+        XCTAssertEqual(isSucceeded, true)
     }
 }

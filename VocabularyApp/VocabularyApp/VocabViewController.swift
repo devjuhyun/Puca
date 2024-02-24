@@ -189,19 +189,14 @@ extension VocabViewController {
             object: nil)
     }
     
-    private func updateUI() {
-        vm.checkBlankSpace(vocab: vocabTextField.text!, meaning: meaningTextField.text!, example: textView.text!) { blankSpace, message, issucceeded in
-            handleBlankSpace(blankSpace)
-            
-            if vm.selectedVocab != nil && blankSpace == nil {
-                navigationController?.popViewController(animated: true)
-            } else {
-                AlertService.showToast(in: self, toastView: ToastView(message: message, isGreen: issucceeded))
-            }
-        }
+    private func saveVocabulary() {
+        let (blankSpace, message, isSucceeded) = vm.checkBlankSpace(word: vocabTextField.text!, meaning: meaningTextField.text!, example: textView.text!)
+        
+        updateUI(with: blankSpace)
+        updateUI(message: message, isSucceeded: isSucceeded)
     }
     
-    private func handleBlankSpace(_ blankSpace: BlankSpace?) {
+    private func updateUI(with blankSpace: BlankSpace?) {
         switch blankSpace {
         case .category:
             view.endEditing(true)
@@ -215,6 +210,14 @@ extension VocabViewController {
             textView.text = ""
             vocabTextField.becomeFirstResponder()
             placeholderLabel.isHidden = false
+        }
+    }
+    
+    private func updateUI(message: String, isSucceeded: Bool) {
+        if vm.selectedVocab != nil && isSucceeded {
+            navigationController?.popViewController(animated: true)
+        } else {
+            AlertService.showToast(in: self, toastView: ToastView(message: message, isGreen: isSucceeded))
         }
     }
 }
@@ -240,7 +243,7 @@ extension VocabViewController: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            updateUI()
+            saveVocabulary()
         }
         
         return true
@@ -252,7 +255,7 @@ extension VocabViewController: UITextViewDelegate {
 extension VocabViewController {
     @objc private func doneButtonClicked() {
         AlertService.playHaptics()
-        updateUI()
+        saveVocabulary()
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

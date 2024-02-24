@@ -18,7 +18,7 @@ class CategoryViewModel {
         nativeLanguageIdentifier.value = category?.nativeLanguage
     }
     
-    func updateCategory(name: String) {
+    func saveCategory(name: String) {
         let language = languageIdentifier.value
         let nativeLanguage = nativeLanguageIdentifier.value
         

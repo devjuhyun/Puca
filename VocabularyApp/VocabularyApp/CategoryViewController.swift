@@ -131,7 +131,7 @@ extension CategoryViewController {
             let toast = ToastView(message: "Enter a category name.".localized(), isGreen: false)
             AlertService.showToast(in: self, toastView: toast)
         } else {
-            vm.updateCategory(name: nameTextField.text!)
+            vm.saveCategory(name: nameTextField.text!)
             navigationController?.popViewController(animated: true)
         }
     }

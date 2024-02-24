@@ -21,9 +21,9 @@ class VocabViewModel {
         self.selectedVocab = selectedVocab
     }
     
-    private func updateVocab(vocab: String, meaning: String, example: String) {
+    private func saveVocabulary(word: String, meaning: String, example: String) {
         guard let selectedCategory = selectedCategory.value else { return }
-        let newVocab = Vocabulary(word: vocab, meaning: meaning, example: example)
+        let newVocab = Vocabulary(word: word, meaning: meaning, example: example)
         
         if let selectedVocab = selectedVocab {
             newVocab.isChecked = selectedVocab.isChecked
@@ -36,16 +36,16 @@ class VocabViewModel {
         }
     }
     
-    func checkBlankSpace(vocab: String, meaning: String, example: String, handler: (BlankSpace?, String, Bool) -> Void) {
+    func checkBlankSpace(word: String, meaning: String, example: String) -> (BlankSpace?, String, Bool) {
         if selectedCategory.value == nil {
-            handler(.category, "Select a category.".localized(), false)
-        } else if vocab.isEmpty {
-            handler(.vocab, "Please enter a word.".localized(), false)
+            return (.category, "Select a category.".localized(), false)
+        } else if word.isEmpty {
+            return (.vocab, "Please enter a word.".localized(), false)
         } else if meaning.isEmpty {
-            handler(.meaning, "Please enter the meaning of the word.".localized(), false)
+            return (.meaning, "Please enter the meaning of the word.".localized(), false)
         } else {
-            updateVocab(vocab: vocab, meaning: meaning, example: example)
-            handler(nil, "You have successfully added a new word.".localized(), true)
+            saveVocabulary(word: word, meaning: meaning, example: example)
+            return (nil, "You have successfully added a new word.".localized(), true)
         }
     }
 }
