@@ -170,55 +170,33 @@ extension VocabListViewController {
             }
         }
         
-        vm.sortOption.bind { [weak self] sortOption in
+        vm.sortOption.bind { [weak self] _ in
             self?.vm.fetchVocabularies()
-            let sortMenu = menuItems[0] as? UIMenu
-            DispatchQueue.main.async {
-                switch sortOption {
-                case .newestFirst:
-                    sortMenu?.subtitle = "Newest First".localized()
-                    let newestFirstAction = sortMenu?.children[0] as? UIAction
-                    newestFirstAction?.state = .on
-                case .oldestFirst:
-                    sortMenu?.subtitle = "Oldest First".localized()
-                    let oldestFirstAction = sortMenu?.children[1] as? UIAction
-                    oldestFirstAction?.state = .on
-                }
-            }
+            self?.updateMenu(at: 0)
         }
         
-        vm.displayOption.bind { [weak self] displayOption in
+        vm.displayOption.bind { [weak self] _ in
             self?.vm.fetchVocabularies()
-            let displayMenu = menuItems[1] as? UIMenu
-            DispatchQueue.main.async {
-                switch displayOption {
-                case .all:
-                    displayMenu?.subtitle = "All".localized()
-                    let displayAllAction = displayMenu?.children[0] as? UIAction
-                    displayAllAction?.state = .on
-                case .checkedWords:
-                    displayMenu?.subtitle = "Checked Words".localized()
-                    let displayCheckedWordsAction = displayMenu?.children[1] as? UIAction
-                    displayCheckedWordsAction?.state = .on
-                case .uncheckedWords:
-                    displayMenu?.subtitle = "Unchecked Words".localized()
-                    let displayUncheckedWordsAction = displayMenu?.children[2] as? UIAction
-                    displayUncheckedWordsAction?.state = .on
-                }
-            }
+            self?.updateMenu(at: 1)
         }
         
         vm.selectedVocabularies.bind { [weak self] _ in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                self.toolbarButtons[2].isEnabled = !self.vm.selectedVocabularies.value.isEmpty
-                self.toolbarButtons[4].isEnabled = !self.vm.selectedVocabularies.value.isEmpty
-                self.toolbarButtons[6].isEnabled = !self.vm.selectedVocabularies.value.isEmpty
-                if self.tableView.isEditing {
-                    self.navigationItem.title = self.vm.navTitle
-                }
-            }
+            self?.updateToolbarAndNavigationTitle()
         }
+    }
+    
+    private func updateMenu(at menuIndex: Int) {
+        let (subtitle, actionIndex) = menuIndex == 0 ? vm.getSubtitleAndActionIndexOfSortMenu() : vm.getSubtitleAndActionIndexOfDisplayMenu()
+        let menuItems = editButton.menu!.children
+        let menu = menuItems[menuIndex] as? UIMenu
+        let action = menu?.children[actionIndex] as? UIAction
+        menu?.subtitle = subtitle
+        action?.state = .on
+    }
+    
+    private func updateToolbarAndNavigationTitle() {
+        [2, 4, 6].forEach { toolbarButtons[$0].isEnabled = !vm.selectedVocabularies.value.isEmpty }
+        if tableView.isEditing { navigationItem.title = vm.navTitle }
     }
     
     private func setupNavBar() {

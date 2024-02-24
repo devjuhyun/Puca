@@ -131,6 +131,26 @@ class VocabListViewModel {
         self.displayOption.value = displayOption
     }
     
+    func getSubtitleAndActionIndexOfSortMenu() -> (String, Int) {
+        switch sortOption.value {
+        case .newestFirst:
+            return ("Newest First".localized(), 0)
+        case .oldestFirst:
+            return ("Oldest First".localized(), 1)
+        }
+    }
+    
+    func getSubtitleAndActionIndexOfDisplayMenu() -> (String, Int) {
+        switch displayOption.value {
+        case .all:
+            return ("All".localized(), 0)
+        case .checkedWords:
+            return ("Checked Words".localized(), 1)
+        case .uncheckedWords:
+            return ("Unchecked Words".localized(), 2)
+        }
+    }
+    
     // MARK: - Search Functions
     public func setInSearchMode(isSearching: Bool, searchText: String) {
         inSearchMode = isSearching && !searchText.isEmpty
