@@ -27,7 +27,7 @@ class CategoryListViewController: UIViewController {
         return tableView
     }()
     
-    private let emptyView = EmptyView(title: "No Categories", message: "Add new category by clicking the add button at the top right.")
+    private let emptyView = EmptyView(title: "No categories.".localized(), message: "Add new category by clicking the add button.".localized())
     
     private lazy var addButton: UIBarButtonItem = {
         let button = UIBarButtonItem(title: "Add".localized(), style: .done, target: self, action: #selector(addButtonClicked))

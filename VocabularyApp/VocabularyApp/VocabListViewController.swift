@@ -29,8 +29,7 @@ class VocabListViewController: UIViewController {
         return tableView
     }()
     
-    // TODO: - localize title and message
-    private let emptyView = EmptyView(title: "No words to display.", message: "Add new word by clicking the plus button at the bottom right or change the display option by clicking the 3 dots at the top right.")
+    private let emptyView = EmptyView(title: "No words found.".localized(), message: "Add new word by clicking the plus button or change the display option.".localized())
     
     private lazy var addButton: UIButton = {
         let button = FloatingBtn(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
