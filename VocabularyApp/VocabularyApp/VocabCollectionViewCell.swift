@@ -135,7 +135,7 @@ extension VocabCollectionViewCell {
 
 // MARK: - Selectors
 extension VocabCollectionViewCell {
-    @objc private func flip() {
+    @objc func flip() {
         UIView.transition(with: card, duration: 0.5, options: .transitionFlipFromBottom) {
             // can't flip again while it's fliping
             self.isUserInteractionEnabled = false

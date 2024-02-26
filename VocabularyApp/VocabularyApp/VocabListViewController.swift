@@ -294,7 +294,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Selectors
 extension VocabListViewController {
-    @objc private func addButtonClicked() {
+    @objc func addButtonClicked() {
         AlertService.playHaptics()
         let category = vm.passCategory()
         let vm = VocabViewModel(selectedCategory: category)
@@ -303,14 +303,14 @@ extension VocabListViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func categoryButtonClicked() {
+    @objc func categoryButtonClicked() {
         AlertService.playHaptics()
         let vm = CategoryListViewModel(shouldDisplayAll: true)
         let vc = CategoryListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func searchButtonClicked() {
+    @objc func searchButtonClicked() {
         AlertService.playHaptics()
         navigationItem.searchController = searchController
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) { [weak self] in
@@ -318,12 +318,12 @@ extension VocabListViewController {
         }
     }
     
-    @objc private func doneButtonClicked() {
+    @objc func doneButtonClicked() {
         AlertService.playHaptics()
         updateUI()
     }
     
-    @objc private func selectAllButtonClicked() {
+    @objc func selectAllButtonClicked() {
         let numberOfRows = tableView.numberOfRows(inSection: 0)
         if tableView.indexPathsForSelectedRows?.count == numberOfRows {
             for row in 0..<numberOfRows {
@@ -337,13 +337,13 @@ extension VocabListViewController {
         vm.updateSelectedVocabularies(indexPaths: tableView.indexPathsForSelectedRows)
     }
     
-    @objc private func moveButtonClicked() {
+    @objc func moveButtonClicked() {
         let vm = CategoryListViewModel(shouldDisplayAll: false)
         let vc = CategoryListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func deleteButtonClicked() {
+    @objc func deleteButtonClicked() {
         let alertController = AlertService.deleteAlert(deleteOption: .vocabularies) { [weak self] _ in
             self?.vm.deleteVocabularies()
             self?.updateUI()
@@ -351,7 +351,7 @@ extension VocabListViewController {
         present(alertController, animated: true)
     }
     
-    @objc private func checkAllButtonClicked() {
+    @objc func checkAllButtonClicked() {
         let alertController = AlertService.checkAlert { [weak self] _ in
             self?.vm.checkSelectedVocabularies(isChecking: true)
             self?.updateUI()

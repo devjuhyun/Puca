@@ -253,12 +253,12 @@ extension VocabViewController: UITextViewDelegate {
 
 // MARK: - Selectors
 extension VocabViewController {
-    @objc private func doneButtonClicked() {
+    @objc func doneButtonClicked() {
         AlertService.playHaptics()
         saveVocabulary()
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
@@ -266,7 +266,7 @@ extension VocabViewController {
         scrollView.verticalScrollIndicatorInsets.bottom = keyboardFrame.size.height
     }
     
-    @objc private func keyboardWillHide() {
+    @objc func keyboardWillHide() {
         scrollView.contentInset = .zero
         scrollView.verticalScrollIndicatorInsets = .zero
     }

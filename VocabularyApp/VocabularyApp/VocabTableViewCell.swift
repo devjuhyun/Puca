@@ -98,7 +98,7 @@ extension VocabTableViewCell {
 
 // MARK: - Selectors
 extension VocabTableViewCell {
-    @objc private func checkButtonTapped() {
+    @objc func checkButtonTapped() {
         AlertService.playHaptics()
         onChecked?()
     }

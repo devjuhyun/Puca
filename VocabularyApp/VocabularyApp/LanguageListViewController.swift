@@ -100,7 +100,7 @@ extension LanguageListViewController: UITableViewDataSource, UITableViewDelegate
 
 // MARK: - Selectors
 extension LanguageListViewController {
-    @objc private func refreshButtonClicked() {
+    @objc func refreshButtonClicked() {
         vm.updateIdentifiers()
         tableView.reloadData()
     }

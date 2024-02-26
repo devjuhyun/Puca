@@ -146,19 +146,19 @@ extension CategoryViewController: UITextFieldDelegate {
 
 // MARK: - Selectors
 extension CategoryViewController {
-    @objc private func doneButtonClicked() {
+    @objc func doneButtonClicked() {
         AlertService.playHaptics()
         saveCategory()
     }
     
-    @objc private func languageButtonClicked() {
+    @objc func languageButtonClicked() {
         AlertService.playHaptics()
         let vm = LanguageListViewModel(isSelectingLanguage: true)
         let vc = LanguageListViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func nativeLanguageButtonClicked() {
+    @objc func nativeLanguageButtonClicked() {
         AlertService.playHaptics()
         let vm = LanguageListViewModel(isSelectingLanguage: false)
         let vc = LanguageListViewController(viewModel: vm)

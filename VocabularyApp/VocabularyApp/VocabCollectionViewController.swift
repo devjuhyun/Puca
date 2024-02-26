@@ -165,7 +165,7 @@ extension VocabCollectionViewController: UIScrollViewDelegate {
 
 // MARK: - Selectors
 extension VocabCollectionViewController {
-    @objc private func editButtonClicked() {
+    @objc func editButtonClicked() {
         AlertService.playHaptics()
         let vm = VocabViewModel(selectedCategory: vm.category, selectedVocab: vm.vocabularies.value[vm.currentIndex.value])
         let vc = VocabViewController(viewModel: vm)
@@ -173,7 +173,7 @@ extension VocabCollectionViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func deleteButtonClicked() {
+    @objc func deleteButtonClicked() {
         AlertService.playHaptics()
         let alertController = AlertService.deleteAlert(deleteOption: .vocabulary) { [weak self] _ in
             self?.vm.deleteVocabulary()
