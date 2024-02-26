@@ -19,7 +19,7 @@ class VocabListViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(VocabTableViewCell.self, forCellReuseIdentifier: VocabTableViewCell.identifier)
         tableView.rowHeight = 80
-        tableView.separatorInset = .init(top: .zero, left: 24, bottom: .zero, right: 24)
+        tableView.separatorInset = .init(top: 0, left: 24, bottom: 0, right: 24)
         tableView.backgroundColor = view.backgroundColor
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.allowsSelectionDuringEditing = true
@@ -33,7 +33,6 @@ class VocabListViewController: UIViewController {
     
     private lazy var addButton: UIButton = {
         let button = FloatingBtn(frame: CGRect(x: 0, y: 0, width: 56, height: 56))
-        button.isHidden = tableView.isEditing
         button.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
         return button
     }()
