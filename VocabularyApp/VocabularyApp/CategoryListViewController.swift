@@ -172,6 +172,7 @@ extension CategoryListViewController: UITableViewDelegate, UITableViewDataSource
             vocabVC.vm.selectedCategory.value = selectedCategory
         }
         
+        AlertService.playHaptics()
         navigationController?.popViewController(animated: true)
     }
     
