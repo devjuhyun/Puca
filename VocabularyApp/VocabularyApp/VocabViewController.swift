@@ -56,7 +56,7 @@ class VocabViewController: UIViewController {
     
     private lazy var textView = {
         let textView = UITextView()
-        textView.font = UIFont.boldSystemFont(ofSize: 20)
+        textView.font = UIFont.boldSystemFont(ofSize: 21)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
         textView.delegate = self

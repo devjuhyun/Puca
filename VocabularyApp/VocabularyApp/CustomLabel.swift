@@ -13,7 +13,7 @@ class CustomLabel: UILabel {
         self.text = text
         
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.font = UIFont.boldSystemFont(ofSize: 17)
+        self.font = UIFont.boldSystemFont(ofSize: 19)
         self.textColor = .appColor
     }
     

@@ -16,7 +16,7 @@ class CustomTextField: UITextField {
         self.placeholder = placeholder
         
         translatesAutoresizingMaskIntoConstraints = false
-        font = UIFont.boldSystemFont(ofSize: 20)
+        font = UIFont.boldSystemFont(ofSize: 21)
         autocapitalizationType = .none
     }
     

@@ -6,7 +6,6 @@
 //
 
 // TODO: - add snapkit
-// TODO: - expand textfields in VocabViewController
 
 import UIKit
 
