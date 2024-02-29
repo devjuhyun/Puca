@@ -6,7 +6,7 @@
 //
 
 // TODO: - add snapkit
-// TODO: - test all devices
+// TODO: - expand textfields in VocabViewController
 
 import UIKit
 

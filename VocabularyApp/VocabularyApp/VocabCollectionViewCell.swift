@@ -102,6 +102,8 @@ extension VocabCollectionViewCell {
         
         addSubview(card)
         
+        let heightForCard = frame.height/4 < 200 ? 200 : frame.height/4
+        
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalToSystemSpacingAfter: card.leadingAnchor, multiplier: 1),
             card.trailingAnchor.constraint(equalToSystemSpacingAfter: stackView.trailingAnchor, multiplier: 1),
@@ -113,7 +115,7 @@ extension VocabCollectionViewCell {
             card.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
             trailingAnchor.constraint(equalToSystemSpacingAfter: card.trailingAnchor, multiplier: 3),
             card.centerYAnchor.constraint(equalTo: centerYAnchor),
-            card.heightAnchor.constraint(equalToConstant: frame.height/4)
+            card.heightAnchor.constraint(equalToConstant: heightForCard)
         ])
     }
     
