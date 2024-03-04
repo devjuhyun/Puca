@@ -89,11 +89,6 @@ extension VocabTableViewCell {
         vocabLabel.textColor = vocabulary.isChecked ? .systemGray2 : .label
         meaningLabel.textColor = vocabulary.isChecked ? .systemGray2 : .label
     }
-    
-    // MARK: - UITableViewCell Methods
-    override func prepareForReuse() {
-        isSelected = false
-    }
 }
 
 // MARK: - Selectors

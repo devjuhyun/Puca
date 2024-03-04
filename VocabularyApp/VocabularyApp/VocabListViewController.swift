@@ -277,8 +277,7 @@ extension VocabListViewController: UITableViewDataSource, UITableViewDelegate {
             let vm = VocabCollectionViewModel(category: vm.passCategory(), index: indexPath.row, sortOption: vm.sortOption.value, displayOption: vm.displayOption.value, searchText: vm.inSearchMode ? searchController.searchBar.text : nil)
             let vc = VocabCollectionViewController(viewModel: vm)
             navigationController?.pushViewController(vc, animated: true)
-            let cell = tableView.cellForRow(at: indexPath)
-            cell?.isSelected = false
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
