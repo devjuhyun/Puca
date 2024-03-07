@@ -645,7 +645,7 @@
 				DEVELOPMENT_TEAM = MY6C9CN9TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VocabularyApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Puma;
+				INFOPLIST_KEY_CFBundleDisplayName = Puca;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -674,7 +674,7 @@
 				DEVELOPMENT_TEAM = MY6C9CN9TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VocabularyApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Puma;
+				INFOPLIST_KEY_CFBundleDisplayName = Puca;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
