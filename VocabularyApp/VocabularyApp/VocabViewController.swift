@@ -97,23 +97,19 @@ class VocabViewController: UIViewController {
         super.viewDidLoad()
         setup()
         layout()
-        addKeyboardObservers()
     }
 }
 
 extension VocabViewController {
     // MARK: - Helpers
     private func setup() {
+        view.backgroundColor = .secondarySystemGroupedBackground
         navigationItem.setBackBarButtonItem()
         navigationItem.rightBarButtonItem = doneButton
-        
-        view.backgroundColor = .secondarySystemGroupedBackground
-        
         vocabTextField.delegate = self
-        vocabTextField.becomeFirstResponder()
         meaningTextField.delegate = self
-        
         setupBindings()
+        addKeyboardObservers()
     }
     
     private func setupBindings() {
@@ -122,6 +118,8 @@ extension VocabViewController {
                 if let category = category {
                     self?.vocabTextField.setKeyboardLanguage(category.language)
                     self?.meaningTextField.setKeyboardLanguage(category.nativeLanguage)
+                    self?.vocabTextField.resignFirstResponder()
+                    self?.vocabTextField.becomeFirstResponder()
                     self?.categoryButton.setTitle(category.name, for: .normal)
                 }
             }
