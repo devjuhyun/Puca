@@ -16,6 +16,7 @@
 "Done" = "완료";
 
 "Please select one." = "체크 옵션을 선택하세요.";
+"It will apply to all words selected." = "선택한 모든 단어에 적용됩니다.";
 "Check" = "체크하기";
 "Uncheck" = "체크 해제하기";
 
