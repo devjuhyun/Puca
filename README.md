@@ -1,2 +1,2 @@
-# swiftvocab
+# Puca
 my first app
