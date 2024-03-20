@@ -42,6 +42,7 @@
 		6BD6AE822AE8E7300009CB57 /* CategoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE812AE8E7300009CB57 /* CategoryListViewController.swift */; };
 		6BD6AE842AE8E8230009CB57 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE832AE8E8230009CB57 /* CategoryTableViewCell.swift */; };
 		6BD6AE8A2AEF491B0009CB57 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD6AE892AEF491B0009CB57 /* CategoryViewController.swift */; };
+		6BE9C5692BAAD75600508089 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6BE9C5682BAAD75600508089 /* PrivacyInfo.xcprivacy */; };
 		6BEB5AAC2AB7DBC60013575B /* VocabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BEB5AAB2AB7DBC60013575B /* VocabViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,6 +96,7 @@
 		6BD6AE812AE8E7300009CB57 /* CategoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewController.swift; sourceTree = "<group>"; };
 		6BD6AE832AE8E8230009CB57 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
 		6BD6AE892AEF491B0009CB57 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
+		6BE9C5682BAAD75600508089 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		6BEB5AAB2AB7DBC60013575B /* VocabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -269,6 +271,7 @@
 				6BCFC9A82AA99D00005F0E53 /* Info.plist */,
 				6B26A6302B8DBF6300CA9AAC /* InfoPlist.strings */,
 				6B414F8C2B6C97B800E55EE0 /* Localizable.strings */,
+				6BE9C5682BAAD75600508089 /* PrivacyInfo.xcprivacy */,
 			);
 			name = Files;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 				6BCFC9A72AA99D00005F0E53 /* LaunchScreen.storyboard in Resources */,
 				6B26A62E2B8DBF6300CA9AAC /* InfoPlist.strings in Resources */,
 				6B414F8A2B6C97B800E55EE0 /* Localizable.strings in Resources */,
+				6BE9C5692BAAD75600508089 /* PrivacyInfo.xcprivacy in Resources */,
 				6BCFC9A42AA99D00005F0E53 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -641,7 +645,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = MY6C9CN9TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VocabularyApp/Info.plist;
@@ -655,7 +659,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jhyun.VocabularyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -670,7 +674,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = MY6C9CN9TM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VocabularyApp/Info.plist;
@@ -684,7 +688,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jhyun.VocabularyApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
