@@ -1,3 +1,5 @@
+<img width="875" alt="appscreenshot" src="https://github.com/jujubeyun/RickAndMorty/assets/117050638/9ac34ee7-2323-43c6-8843-92a129cdaef8">
+
 # 사용한 기술
 * UIKit
 * MVVM
@@ -33,12 +35,13 @@ final class DBManager {
     /* ... */
 }
 ```
-* NotificationToken을 사용하여 Realm 객체가 업데이트 될때마다 알림
+* NotificationToken을 사용하여 Realm 객체가 업데이트 될때마다 뷰 모델의 데이터를 업데이트
 ```swift
 private(set) var token: NotificationToken?
 
 token = relamObject.observe { [weak self] changes in
-        	/* ... */
+		self?.fetch()
+		/* ... */
         }
 ```
 
@@ -178,7 +181,7 @@ func updateDisplayOption(_ displayOption: DisplayOption) {
 
 ## 2. Search Controller 이슈
 * 평소에는 Seachbar가 안보이게 하다가 검색 버튼을 눌렀을때만 나타나도록 구현 시도
-* Navigation Item에 Search Controller를 할당하고 Search TextField의 becomeFirstResponder 메서드를 실행했으나 아무일도 일어나지 않았다
+* Navigation Item에 Search Controller를 할당하고 Search TextField의 becomeFirstResponder 메서드를 실행했으나 아무일도 일어나지 않음
 * Navigation Item에 Search Controller가 완전히 레이아웃이 되기 전이기 때문에 생기는 문제라고 생각하여 메인 스레드에 아주 약간의 시간차를 두어 메서드를 실행시켜 해결
 ```swift
 @objc func searchButtonClicked() {
@@ -235,6 +238,10 @@ extension Collection {
     }
 }
 ```
+
+# App Support
+* [한국어](https://trapezoidal-olivine-8ab.notion.site/3b799634cfb94a51bca906a11730cc80)
+* [영어](https://trapezoidal-olivine-8ab.notion.site/Puca-cfffc29c413043f693f4602e5f3cbcf4)
 
 # 업데이트 예정
 * 사용자가 앱을 삭제하거나 기기를 변경해도 저장해놓은 데이터가 유지될 수 있게 MongoDB Atlas를 사용하여 로그인 시스템 구현 예정
