@@ -21,4 +21,5 @@ jobs:
       run: |
         xcodebuild clean test -project VocabularyApp/VocabularyApp.xcodeproj \
         -scheme VocabularyApp \
-        -destination 'platform=iOS Simulator,name=iPhone 13,OS=latest'
+        -destination 'platform=iOS Simulator,name=iPhone 13,OS=latest' \
+        -allowProvisioningUpdates
