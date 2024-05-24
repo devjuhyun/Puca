@@ -16,9 +16,9 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build
       run: |
         xcodebuild clean test -project VocabularyApp/VocabularyApp.xcodeproj \
         -scheme VocabularyApp \
-        -destination 'platform=iOS Simulator,name=iPhone 13,OS=latest'
+        -destination 'platform=iOS Simulator,name=iPhone 14,OS=latest'
